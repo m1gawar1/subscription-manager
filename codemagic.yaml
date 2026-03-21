@@ -28,7 +28,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - your@email.com        # ← ご自身のメールアドレスに変更してください
+          - tim1209136@gmail.com
         notify:
           success: true
           failure: true
@@ -72,7 +72,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - your@email.com        # ← ご自身のメールアドレスに変更してください
+          - tim1209136@gmail.com
         notify:
           success: true
           failure: true
