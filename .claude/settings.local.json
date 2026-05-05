@@ -6,7 +6,9 @@
       "Bash(findstr \":5173\\\\|:5174\")",
       "Bash(start:*)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git clone:*)",
+      "Bash(bash \"C:/Users/Owner/.claude/claude-obsidian/bin/setup-vault.sh\" \"C:/Users/Owner/.claude/claude-obsidian\" 2>&1)"
     ]
   }
 }
