@@ -12,7 +12,8 @@
       "Bash(cp \"C:/Users/Owner/.claude/claude-obsidian/commands/wiki.md\" \"C:/Users/Owner/.claude/commands/wiki.md\")",
       "Bash(cp \"C:/Users/Owner/.claude/claude-obsidian/commands/save.md\" \"C:/Users/Owner/.claude/commands/save.md\")",
       "Bash(cp \"C:/Users/Owner/.claude/claude-obsidian/commands/autoresearch.md\" \"C:/Users/Owner/.claude/commands/autoresearch.md\")",
-      "Bash(cp \"C:/Users/Owner/.claude/claude-obsidian/commands/canvas.md\" \"C:/Users/Owner/.claude/commands/canvas.md\")"
+      "Bash(cp \"C:/Users/Owner/.claude/claude-obsidian/commands/canvas.md\" \"C:/Users/Owner/.claude/commands/canvas.md\")",
+      "Bash(cd:*)"
     ]
   }
 }
