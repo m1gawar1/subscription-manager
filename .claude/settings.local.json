@@ -8,7 +8,11 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(git clone:*)",
-      "Bash(bash \"C:/Users/Owner/.claude/claude-obsidian/bin/setup-vault.sh\" \"C:/Users/Owner/.claude/claude-obsidian\" 2>&1)"
+      "Bash(bash \"C:/Users/Owner/.claude/claude-obsidian/bin/setup-vault.sh\" \"C:/Users/Owner/.claude/claude-obsidian\" 2>&1)",
+      "Bash(cp \"C:/Users/Owner/.claude/claude-obsidian/commands/wiki.md\" \"C:/Users/Owner/.claude/commands/wiki.md\")",
+      "Bash(cp \"C:/Users/Owner/.claude/claude-obsidian/commands/save.md\" \"C:/Users/Owner/.claude/commands/save.md\")",
+      "Bash(cp \"C:/Users/Owner/.claude/claude-obsidian/commands/autoresearch.md\" \"C:/Users/Owner/.claude/commands/autoresearch.md\")",
+      "Bash(cp \"C:/Users/Owner/.claude/claude-obsidian/commands/canvas.md\" \"C:/Users/Owner/.claude/commands/canvas.md\")"
     ]
   }
 }
