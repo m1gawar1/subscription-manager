@@ -36,6 +36,8 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
   const [isReminderEnabled, setIsReminderEnabled] = useState(initialData?.isReminderEnabled !== false);
   const [reminderDays, setReminderDays] = useState(initialData?.reminderDays || [7, 3, 0]);
   const [memo, setMemo] = useState(initialData?.memo || '');
+  const [trialEndDate, setTrialEndDate] = useState(initialData?.trialEndDate || '');
+  const [cancelDeadline, setCancelDeadline] = useState(initialData?.cancelDeadline || '');
 
   const isMonthly = billingCycle === 'monthly';
 
@@ -71,6 +73,8 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
       isReminderEnabled,
       reminderDays,
       memo,
+      trialEndDate,
+      cancelDeadline,
     });
   };
 
@@ -330,6 +334,44 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
               placeholder="example.com（ロゴ表示に使用）"
               style={inputStyle}
             />
+          </div>
+
+          {/* 無料トライアル */}
+          <div>
+            <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '8px' }}>無料トライアル終了日（オプション）</label>
+            <input
+              type="date"
+              value={trialEndDate}
+              onChange={(e) => setTrialEndDate(e.target.value)}
+              style={inputStyle}
+            />
+            {trialEndDate && (() => {
+              const diff = Math.ceil((new Date(trialEndDate) - new Date()) / (1000 * 60 * 60 * 24));
+              return (
+                <div style={{ marginTop: '6px', fontSize: '12px', padding: '8px 12px', borderRadius: '8px', background: diff <= 3 ? 'rgba(255,68,68,0.1)' : 'var(--gold-accent-light)', color: diff <= 3 ? '#FF4444' : 'var(--gold-accent)', fontWeight: '600' }}>
+                  {diff > 0 ? `あと${diff}日で自動課金されます` : diff === 0 ? '今日が最終日です！' : 'トライアルは終了しています'}
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* 解約期限 */}
+          <div>
+            <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '8px' }}>解約期限日（オプション）</label>
+            <input
+              type="date"
+              value={cancelDeadline}
+              onChange={(e) => setCancelDeadline(e.target.value)}
+              style={inputStyle}
+            />
+            {cancelDeadline && (() => {
+              const diff = Math.ceil((new Date(cancelDeadline) - new Date()) / (1000 * 60 * 60 * 24));
+              return (
+                <div style={{ marginTop: '6px', fontSize: '12px', padding: '8px 12px', borderRadius: '8px', background: diff <= 3 ? 'rgba(255,68,68,0.1)' : diff <= 7 ? 'rgba(255,165,0,0.1)' : 'var(--gold-accent-light)', color: diff <= 3 ? '#FF4444' : diff <= 7 ? '#FF8C00' : 'var(--gold-accent)', fontWeight: '600' }}>
+                  {diff > 0 ? `解約期限まであと${diff}日` : diff === 0 ? '今日が解約期限です！' : '解約期限を過ぎています'}
+                </div>
+              );
+            })()}
           </div>
 
           {/* メモ */}

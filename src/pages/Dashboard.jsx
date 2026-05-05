@@ -4,6 +4,7 @@ import { CATEGORIES, getCategoryById } from '../constants/categories';
 import { getLogoUrl } from '../constants/presets';
 import { getBillingCycleById, isBillingMonth } from '../constants/billing';
 import { getConvertedPrice, getMonthlyPrice } from '../utils/currency';
+import SubscriptionDetail from '../components/SubscriptionDetail';
 
 const SORT_OPTIONS = [
   { id: 'default',     label: '登録順' },
@@ -13,13 +14,14 @@ const SORT_OPTIONS = [
   { id: 'date-asc',    label: '更新日が近い順' },
 ];
 
-const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause, exchangeRate, budget }) => {
+const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause, exchangeRate, budget, isPro, maxSlots }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState('all');
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortId, setSortId] = useState('default');
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const [detailSub, setDetailSub] = useState(null);
 
   // カテゴリー・検索・ソートを適用
   const filteredSubscriptions = subscriptions
@@ -65,11 +67,23 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
 
   const currentSortLabel = SORT_OPTIONS.find(o => o.id === sortId)?.label;
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 6) return 'おやすみなさい';
+    if (hour < 12) return 'おはようございます';
+    if (hour < 18) return 'こんにちは';
+    return 'こんばんは';
+  };
+
   return (
     <>
       <div className="dashboard-container">
         {/* Header */}
-        <header style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '32px', height: '42px', position: 'relative' }}>
+        <header className="greeting-header">
+          <div className="greeting-text">
+            <span className="greeting-label">{getGreeting()}</span>
+            <span className="greeting-app-name">サブスク管理</span>
+          </div>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             <div style={{ width: '36px', height: '36px', borderRadius: '18px', border: '1.5px solid var(--gold-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gold-accent)' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -130,18 +144,28 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
         </header>
 
         {/* Summary Card */}
-        <div className="soft-card" style={{ display: 'flex', flexDirection: 'column', padding: '24px', border: '1px solid rgba(195, 157, 85, 0.3)' }}>
+        <div className="soft-card summary-card" style={{ display: 'flex', flexDirection: 'column', padding: '24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div>
               <div className="section-title" style={{ marginBottom: '4px' }}>
                 {activeCategoryId === 'all' ? '月換算の合計支出' : `${getCategoryById(activeCategoryId).name}の支出`}
               </div>
               <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px' }}>一時停止中を除く</div>
-              <div className="gold-text" style={{ fontSize: '32px', fontWeight: '500', letterSpacing: '-0.5px' }}>¥{totalMonthly.toLocaleString()}</div>
+              <div className="gold-text count-animate" key={totalMonthly} style={{ fontSize: '32px', fontWeight: '500', letterSpacing: '-0.5px' }}>¥{totalMonthly.toLocaleString()}</div>
             </div>
             <div style={{ textAlign: 'center' }}>
               <div className="section-title" style={{ marginBottom: '8px', lineHeight: '1.2' }}>契約中の<br/>サービス</div>
               <div className="gold-text" style={{ fontSize: '28px', fontWeight: '500' }}>{activeSubscriptions.length}</div>
+              {!isPro && (
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  {subscriptions.length}/{maxSlots} 枠
+                </div>
+              )}
+              {isPro && (
+                <div style={{ fontSize: '11px', color: 'var(--gold-accent)', marginTop: '4px', fontWeight: '600' }}>
+                  Pro
+                </div>
+              )}
             </div>
           </div>
 
@@ -265,7 +289,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
             const isNonMonthly = sub.billingCycle && sub.billingCycle !== 'monthly';
 
             return (
-              <div key={sub.id} className="soft-card" style={{ margin: 0, padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: sub.isPaused ? 0.5 : 1, transition: 'opacity 0.2s' }}>
+              <div key={sub.id} className="soft-card" onClick={() => !isEditMode && setDetailSub(sub)} style={{ margin: 0, padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: sub.isPaused ? 0.5 : 1, transition: 'opacity 0.2s', cursor: isEditMode ? 'default' : 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                   <div className="icon-box" style={{ width: '52px', height: '52px', borderRadius: '16px', fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'var(--input-bg)', border: '1px solid var(--border-color)', position: 'relative' }}>
                     <span style={{ position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1 }}>{cat.icon}</span>
@@ -284,6 +308,24 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
                     <div style={{ fontSize: '11px', color: 'var(--gold-accent)', marginTop: '2px', fontWeight: '600' }}>
                       {getRenewalLabel(sub)}
                     </div>
+                    {sub.trialEndDate && (() => {
+                      const diff = Math.ceil((new Date(sub.trialEndDate) - new Date()) / (1000 * 60 * 60 * 24));
+                      if (diff < 0) return null;
+                      return (
+                        <div style={{ fontSize: '10px', marginTop: '3px', padding: '2px 8px', borderRadius: '6px', display: 'inline-block', background: diff <= 3 ? 'rgba(255,68,68,0.1)' : 'rgba(255,165,0,0.1)', color: diff <= 3 ? '#FF4444' : '#FF8C00', fontWeight: '700' }}>
+                          {diff === 0 ? 'トライアル最終日！' : `トライアル残り${diff}日`}
+                        </div>
+                      );
+                    })()}
+                    {sub.cancelDeadline && (() => {
+                      const diff = Math.ceil((new Date(sub.cancelDeadline) - new Date()) / (1000 * 60 * 60 * 24));
+                      if (diff < 0) return null;
+                      return (
+                        <div style={{ fontSize: '10px', marginTop: '3px', padding: '2px 8px', borderRadius: '6px', display: 'inline-block', background: diff <= 3 ? 'rgba(255,68,68,0.1)' : diff <= 7 ? 'rgba(255,165,0,0.1)' : 'rgba(100,149,237,0.1)', color: diff <= 3 ? '#FF4444' : diff <= 7 ? '#FF8C00' : '#6495ED', fontWeight: '700' }}>
+                          {diff === 0 ? '今日が解約期限！' : `解約期限まで${diff}日`}
+                        </div>
+                      );
+                    })()}
                     {sub.memo && (
                       <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '3px', fontStyle: 'italic' }}>
                         {sub.memo}
@@ -336,12 +378,38 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
           })}
 
           {filteredSubscriptions.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
-              {searchQuery ? `"${searchQuery}" に一致するサービスはありません` : activeCategoryId === 'all' ? 'サブスクリプションが登録されていません' : `${getCategoryById(activeCategoryId).name}のサブスクリプションはありません`}
+            <div className="empty-state">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <rect x="16" y="14" width="48" height="52" rx="8" stroke="var(--text-muted)" strokeWidth="2" strokeDasharray="4 4" />
+                <rect x="28" y="28" width="24" height="4" rx="2" fill="var(--gold-accent)" opacity="0.4" />
+                <rect x="28" y="36" width="18" height="4" rx="2" fill="var(--gold-accent)" opacity="0.3" />
+                <rect x="28" y="44" width="20" height="4" rx="2" fill="var(--gold-accent)" opacity="0.2" />
+                <circle cx="56" cy="56" r="10" fill="var(--gold-accent)" />
+                <line x1="52" y1="56" x2="60" y2="56" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                <line x1="56" y1="52" x2="56" y2="60" stroke="white" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              <div className="empty-title">
+                {searchQuery ? `"${searchQuery}" に一致するサービスなし` : activeCategoryId === 'all' ? 'まだサブスクが登録されていません' : `${getCategoryById(activeCategoryId).name}のサブスクなし`}
+              </div>
+              <div className="empty-desc">
+                {searchQuery ? '別のキーワードで検索してみてください' : activeCategoryId === 'all' ? '「+」ボタンからサブスクリプションを追加して\n支出を管理しましょう' : '別のカテゴリーを選択してください'}
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* サブスク詳細モーダル */}
+      {detailSub && (
+        <SubscriptionDetail
+          subscription={detailSub}
+          exchangeRate={exchangeRate}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onTogglePause={onTogglePause}
+          onClose={() => setDetailSub(null)}
+        />
+      )}
     </>
   );
 };

@@ -42,6 +42,58 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Tab transition animations */
+@keyframes tabSlideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes tabSlideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.tab-enter {
+  animation: tabFadeIn 0.3s ease-out forwards;
+}
+
+/* Card ripple effect */
+.soft-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.soft-card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(195, 157, 85, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.soft-card:active::after {
+  width: 300px;
+  height: 300px;
+  opacity: 1;
+  transition: width 0.1s ease, height 0.1s ease, opacity 0s;
+}
+
+.soft-card:active {
+  transform: scale(0.98);
+}
+
 .soft-card {
   background: var(--card-bg);
   border-radius: var(--border-radius-lg);
@@ -96,6 +148,8 @@ body {
   align-items: center;
   padding-bottom: 20px; /* Safe area */
   border-top: 1px solid rgba(0,0,0,0.03);
+  backdrop-filter: blur(20px);
+  background: color-mix(in srgb, var(--card-bg) 85%, transparent);
 }
 
 .nav-item {
@@ -103,12 +157,47 @@ body {
   flex-direction: column;
   align-items: center;
   color: var(--text-muted);
-  font-size: 24px;
   cursor: pointer;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.nav-item svg {
+  transition: transform 0.25s ease;
+}
+
+.nav-item.active svg {
+  transform: scale(1.15);
+}
+
+.nav-item .nav-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: color 0.25s ease;
 }
 
 .nav-item.active {
   color: var(--gold-accent);
+}
+
+.nav-item .nav-indicator {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 20px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--gold-accent);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nav-item.active .nav-indicator {
+  transform: translateX(-50%) scaleX(1);
 }
 
 /* App Layout Classes */
@@ -145,4 +234,90 @@ body {
     border: none;
     max-width: 100%;
   }
+}
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.empty-state svg {
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+
+.empty-state .empty-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.empty-state .empty-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Greeting header */
+.greeting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  height: 42px;
+  position: relative;
+}
+
+.greeting-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.greeting-app-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+/* Summary card gradient */
+.summary-card {
+  background: linear-gradient(135deg, var(--card-bg) 0%, color-mix(in srgb, var(--gold-accent) 8%, var(--card-bg)) 100%);
+  border: 1px solid rgba(195, 157, 85, 0.2);
+}
+
+/* Count up animation */
+@keyframes countFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.count-animate {
+  animation: countFadeIn 0.5s ease-out forwards;
+}
+
+/* No scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* Onboarding slide animations */
+@keyframes onboardSlideRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes onboardSlideLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
 }

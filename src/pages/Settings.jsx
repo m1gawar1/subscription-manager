@@ -5,7 +5,7 @@ const sectionStyle = {
   marginBottom: '32px',
 };
 
-const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscriptions, onImport }) => {
+const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscriptions, onImport, isPro, bonusSlots, maxSlots, onUpgradePro, onRestoreFree, onRestorePurchases }) => {
   const [budgetInput, setBudgetInput] = useState(budget > 0 ? budget.toString() : '');
   const [importError, setImportError] = useState('');
   const fileInputRef = useRef(null);
@@ -51,6 +51,81 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
         <h1 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-0.5px', color: 'var(--text-main)' }}>設定</h1>
         <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>アプリの設定を管理</p>
       </header>
+
+      {/* プラン */}
+      <div style={sectionStyle}>
+        <div className="section-title">プラン</div>
+        <div className="soft-card" style={{ margin: '16px 0 0 0', padding: '20px' }}>
+          {isPro ? (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+                <span style={{ fontSize: '24px' }}>👑</span>
+                <div>
+                  <div style={{ fontSize: '16px', fontWeight: '700', color: 'var(--gold-accent)' }}>Pro版</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>登録無制限 / 広告なし</div>
+                </div>
+              </div>
+              <button
+                onClick={onRestoreFree}
+                style={{ fontSize: '12px', color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+              >
+                無料版に戻す（デバッグ用）
+              </button>
+            </>
+          ) : (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+                <span style={{ fontSize: '24px' }}>📦</span>
+                <div>
+                  <div style={{ fontSize: '16px', fontWeight: '700', color: 'var(--text-main)' }}>無料版</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                    {subscriptions.length}/{maxSlots} 枠使用中
+                    {bonusSlots > 0 && <span style={{ color: 'var(--gold-accent)' }}>（+{bonusSlots}枠獲得済み）</span>}
+                  </div>
+                </div>
+              </div>
+              {/* 枠バー */}
+              <div style={{ marginBottom: '16px' }}>
+                <div style={{ width: '100%', height: '8px', background: 'var(--input-bg)', borderRadius: '4px', overflow: 'hidden' }}>
+                  <div style={{
+                    width: `${Math.min((subscriptions.length / maxSlots) * 100, 100)}%`,
+                    height: '100%',
+                    borderRadius: '4px',
+                    backgroundColor: subscriptions.length >= maxSlots ? '#FF4444' : 'var(--gold-accent)',
+                    transition: 'width 0.4s ease',
+                  }} />
+                </div>
+              </div>
+              <button
+                onClick={onUpgradePro}
+                style={{
+                  width: '100%',
+                  padding: '14px',
+                  borderRadius: '14px',
+                  border: 'none',
+                  background: 'var(--gold-accent)',
+                  color: '#FFF',
+                  fontSize: '15px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 15px rgba(195, 157, 85, 0.4)',
+                }}
+              >
+                👑 プロ版にアップグレード
+              </button>
+              <div style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-muted)', textAlign: 'center' }}>
+                登録無制限 / 広告なし / 800〜1,000円（買い切り）
+              </div>
+              <button
+                onClick={onRestorePurchases}
+                style={{ display: 'block', margin: '8px auto 0', fontSize: '12px', color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+              >
+                購入を復元
+              </button>
+            </>
+          )}
+        </div>
+      </div>
 
       {/* 月予算 */}
       <div style={sectionStyle}>
@@ -120,6 +195,27 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
       <div style={sectionStyle}>
         <div className="section-title">デザインテーマ</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px' }}>
+          {/* 自動（システム追従） */}
+          <div
+            className="soft-card"
+            onClick={() => onThemeChange('auto')}
+            style={{ margin: 0, padding: '20px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: currentTheme === 'auto' ? '2px solid var(--gold-accent)' : '1px solid transparent', transition: 'all 0.3s ease' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'linear-gradient(135deg, #F5F6F8 50%, #121212 50%)', border: '2px solid var(--border-color)' }} />
+              <div>
+                <div style={{ fontSize: '16px', fontWeight: '600', color: 'var(--text-main)' }}>自動</div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>端末の設定に追従</div>
+              </div>
+            </div>
+            {currentTheme === 'auto' && (
+              <div className="gold-text">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+            )}
+          </div>
           {Object.entries(THEMES).map(([key, theme]) => (
             <div
               key={key}
