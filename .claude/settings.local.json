@@ -18,7 +18,9 @@
       "Bash(do)",
       "Bash(echo \"=== $f ===\")",
       "Read(//c/Users/Owner/Documents/My Data Sources/Subscription Management/**)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(wsl --status)",
+      "Bash(wsl --list --verbose)"
     ]
   }
 }
