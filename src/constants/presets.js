@@ -20,7 +20,7 @@ export const PRESET_SUBSCRIPTIONS = [
   // 📚 読書・学習
   { id: 'kindle-unlimited', name: 'Kindle Unlimited', price: 980, categoryId: 'reading', domain: 'amazon.co.jp' },
   { id: 'audible', name: 'Audible', price: 1500, categoryId: 'reading', domain: 'audible.co.jp' },
-  { id: 'cmoa', name: 'コミックシーモア', price: 780, categoryId: 'reading', domain: 'cmoa.jp' },
+  { id: 'cmoa', name: 'コミックシーモア', price: 780, categoryId: 'reading' },
   
   // ☁️ クラウド
   { id: 'icloud-plus-50', name: 'iCloud+ 50GB', price: 130, categoryId: 'cloud', domain: 'icloud.com' },
