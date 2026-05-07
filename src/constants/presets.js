@@ -12,7 +12,7 @@ export const PRESET_SUBSCRIPTIONS = [
   { id: 'telasa', name: 'TELASA', price: 618, categoryId: 'video', domain: 'telasa.jp' },
   { id: 'lemino', name: 'Lemino', price: 990, categoryId: 'video', domain: 'lemino.docomo.ne.jp' },
   { id: 'dazn', name: 'DAZN', price: 4200, categoryId: 'video', domain: 'dazn.com' },
-  { id: 'nba-league-pass', name: 'NBA League Pass', price: 2400, categoryId: 'video', domain: 'nba.com' },
+  { id: 'nba-league-pass', name: 'NBA League Pass', price: 3190, categoryId: 'video', domain: 'nba.com' },
   
   // 🎵 音楽
   { id: 'spotify', name: 'Spotify', price: 980, categoryId: 'music', domain: 'spotify.com' },
