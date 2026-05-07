@@ -39,6 +39,7 @@ export const PRESET_SUBSCRIPTIONS = [
   { id: 'icloud-plus-50', name: 'iCloud+ 50GB', price: 130, categoryId: 'cloud', domain: 'icloud.com' },
   { id: 'google-one-100', name: 'Google One 100GB', price: 290, categoryId: 'cloud', domain: 'one.google.com' },
   { id: 'dropbox', name: 'Dropbox Plus', price: 1200, categoryId: 'cloud', domain: 'dropbox.com' },
+  { id: 'onedrive', name: 'OneDrive 100GB', price: 260, categoryId: 'cloud', domain: 'onedrive.live.com' },
   
   // 💼 仕事・クリエイティブ
   { id: 'adobe-cc', name: 'Adobe Creative Cloud', price: 6480, categoryId: 'work', domain: 'adobe.com' },
