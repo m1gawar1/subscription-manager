@@ -25,6 +25,7 @@ export const PRESET_SUBSCRIPTIONS = [
   { id: 'nintendo-switch-online', name: 'Nintendo Switch Online', price: 306, categoryId: 'game', domain: 'nintendo.co.jp' },
   { id: 'playstation-plus', name: 'PlayStation Plus Essential', price: 850, categoryId: 'game', domain: 'playstation.com' },
   { id: 'xbox-game-pass', name: 'Xbox Game Pass Ultimate', price: 2750, categoryId: 'game', domain: 'xbox.com' },
+  { id: 'apple-arcade', name: 'Apple Arcade', price: 700, categoryId: 'game', domain: 'apple.com' },
   
   // 📚 読書・学習
   { id: 'kindle-unlimited', name: 'Kindle Unlimited', price: 980, categoryId: 'reading', domain: 'amazon.co.jp' },
