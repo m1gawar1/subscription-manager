@@ -43,5 +43,5 @@ export const PRESET_SUBSCRIPTIONS = [
 
 export const getLogoUrl = (domain) => {
   if (!domain) return null;
-  return `https://logo.clearbit.com/${domain}`;
+  return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 };

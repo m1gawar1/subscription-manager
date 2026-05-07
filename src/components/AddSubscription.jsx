@@ -125,18 +125,15 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
                   backgroundColor: 'var(--input-bg)',
                   border: name === preset.name ? '2px solid var(--gold-accent)' : '1px solid var(--border-color)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  overflow: 'hidden', transition: 'all 0.2s'
+                  overflow: 'hidden', transition: 'all 0.2s', position: 'relative'
                 }}>
+                  <CategoryIcon id={preset.categoryId} size={24} color={CATEGORIES.find(c => c.id === preset.categoryId)?.color || 'var(--text-muted)'} />
                   <img
                     src={getLogoUrl(preset.domain)}
                     alt={preset.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      if (e.target.nextSibling) e.target.nextSibling.style.display = 'block';
-                    }}
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '14px' }}
+                    onError={(e) => { e.target.style.display = 'none'; }}
                   />
-                  <span style={{ display: 'none', fontSize: '24px' }}>{preset.name.charAt(0)}</span>
                 </div>
                 <span style={{ fontSize: '11px', color: 'var(--text-muted)', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
                   {preset.name}
