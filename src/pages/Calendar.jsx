@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { getCategoryById } from '../constants/categories';
 import { getConvertedPrice } from '../utils/currency';
 import { isBillingMonth } from '../constants/billing';
+import CategoryIcon from '../components/CategoryIcon';
 
 const Calendar = ({ subscriptions, exchangeRate }) => {
   const now = new Date();
@@ -123,7 +124,7 @@ const Calendar = ({ subscriptions, exchangeRate }) => {
               return (
                 <div key={sub.id} className="soft-card" style={{ margin: 0, padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ fontSize: '24px' }}>{cat.icon}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--input-bg)', color: 'var(--text-muted)', flexShrink: 0 }}><CategoryIcon id={cat.id} size={18} /></div>
                     <div>
                       <div style={{ fontSize: '15px', fontWeight: '600', color: 'var(--text-main)' }}>{sub.name}</div>
                       <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{cat.name}</div>

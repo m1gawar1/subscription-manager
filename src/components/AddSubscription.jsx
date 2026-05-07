@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CATEGORIES } from '../constants/categories';
 import { PRESET_SUBSCRIPTIONS, getLogoUrl } from '../constants/presets';
 import { BILLING_CYCLES } from '../constants/billing';
+import CategoryIcon from './CategoryIcon';
 
 const selectStyle = {
   padding: '16px',
@@ -177,7 +178,7 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
                     color: categoryId === cat.id ? 'var(--gold-accent)' : 'var(--text-muted)',
                   }}
                 >
-                  <span>{cat.icon}</span>
+                  <CategoryIcon id={cat.id} size={15} />
                   {cat.name}
                 </button>
               ))}

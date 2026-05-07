@@ -1,6 +1,7 @@
 import React from 'react';
 import { CATEGORIES } from '../constants/categories';
 import { getMonthlyPrice } from '../utils/currency';
+import CategoryIcon from '../components/CategoryIcon';
 
 const Analysis = ({ subscriptions, exchangeRate, monthlyHistory }) => {
   const totalMonthly = subscriptions
@@ -129,7 +130,7 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory }) => {
           {activeCategories.map(cat => (
             <div key={cat.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '18px' }}>{cat.icon}</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'var(--input-bg)', color: 'var(--text-muted)', flexShrink: 0 }}><CategoryIcon id={cat.id} size={16} /></div>
                 <div>
                   <div style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text-main)' }}>{cat.name}</div>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{Math.round((cat.amount / totalMonthly) * 100)}%</div>

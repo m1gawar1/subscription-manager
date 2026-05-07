@@ -3,6 +3,7 @@ import { getCategoryById } from '../constants/categories';
 import { getBillingCycleById } from '../constants/billing';
 import { getConvertedPrice, getMonthlyPrice } from '../utils/currency';
 import { getLogoUrl } from '../constants/presets';
+import CategoryIcon from './CategoryIcon';
 
 const SubscriptionDetail = ({ subscription: sub, exchangeRate, onEdit, onDelete, onTogglePause, onClose }) => {
   const cat = getCategoryById(sub.categoryId);
@@ -68,7 +69,7 @@ const SubscriptionDetail = ({ subscription: sub, exchangeRate, onEdit, onDelete,
               overflow: 'hidden', backgroundColor: 'var(--input-bg)',
               border: '1px solid var(--border-color)', position: 'relative',
             }}>
-              <span style={{ position: 'absolute', zIndex: 1 }}>{cat.icon}</span>
+              <span style={{ position: 'absolute', zIndex: 1, display: 'flex' }}><CategoryIcon id={cat.id} size={24} color="var(--text-muted)" /></span>
               {sub.domain && (
                 <img
                   src={getLogoUrl(sub.domain)}

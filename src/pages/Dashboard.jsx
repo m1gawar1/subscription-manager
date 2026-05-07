@@ -6,6 +6,7 @@ import { getLogoUrl } from '../constants/presets';
 import { getBillingCycleById, isBillingMonth } from '../constants/billing';
 import { getConvertedPrice, getMonthlyPrice } from '../utils/currency';
 import SubscriptionDetail from '../components/SubscriptionDetail';
+import CategoryIcon from '../components/CategoryIcon';
 
 const SORT_OPTIONS = [
   { id: 'default',     label: '登録順' },
@@ -256,7 +257,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
           </button>
           {CATEGORIES.map(cat => (
             <button key={cat.id} onClick={() => setActiveCategoryId(cat.id)} style={{ flexShrink: 0, padding: '8px 16px', borderRadius: '20px', border: 'none', background: activeCategoryId === cat.id ? 'var(--gold-accent)' : 'var(--card-bg)', color: activeCategoryId === cat.id ? '#FFF' : 'var(--text-muted)', fontSize: '13px', fontWeight: '600', cursor: 'pointer', boxShadow: activeCategoryId === cat.id ? '0 4px 12px rgba(195, 157, 85, 0.3)' : 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span>{cat.icon}</span>{cat.name}
+              <CategoryIcon id={cat.id} size={13} />{cat.name}
             </button>
           ))}
         </div>
@@ -326,7 +327,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
               <div key={sub.id} className="soft-card" onClick={() => !isEditMode && setDetailSub(sub)} style={{ margin: 0, padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: sub.isPaused ? 0.5 : 1, transition: 'opacity 0.2s', cursor: isEditMode ? 'default' : 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                   <div className="icon-box" style={{ width: '52px', height: '52px', borderRadius: '16px', fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'var(--input-bg)', border: '1px solid var(--border-color)', position: 'relative' }}>
-                    <span style={{ position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1 }}>{cat.icon}</span>
+                    <span style={{ position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1, color: 'var(--text-muted)' }}><CategoryIcon id={cat.id} size={20} /></span>
                     {sub.domain && (
                       <img src={getLogoUrl(sub.domain)} alt={sub.name} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 2, backgroundColor: 'var(--card-bg)' }} onError={(e) => { e.target.style.display = 'none'; }} />
                     )}
