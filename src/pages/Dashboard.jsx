@@ -14,7 +14,7 @@ const SORT_OPTIONS = [
   { id: 'date-asc',    label: '更新日が近い順' },
 ];
 
-const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause, exchangeRate, budget, isPro, maxSlots }) => {
+const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause, exchangeRate, budget, isPro, maxSlots, onUpgrade }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState('all');
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -142,6 +142,37 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
             </div>
           )}
         </header>
+
+        {/* 上限到達バナー */}
+        {!isPro && subscriptions.length >= maxSlots && (
+          <div
+            onClick={onUpgrade}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '14px 16px',
+              marginBottom: '16px',
+              borderRadius: '16px',
+              background: 'linear-gradient(135deg, var(--gold-accent-light), var(--card-bg))',
+              border: '1.5px solid var(--gold-accent)',
+              cursor: 'pointer',
+            }}
+          >
+            <span style={{ fontSize: '22px', flexShrink: 0 }}>👑</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--gold-accent)' }}>
+                登録枠がいっぱいです
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                プロ版で無制限に管理 → ¥1,000
+              </div>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </div>
+        )}
 
         {/* Summary Card */}
         <div className="soft-card summary-card" style={{ display: 'flex', flexDirection: 'column', padding: '24px' }}>

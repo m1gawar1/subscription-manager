@@ -308,6 +308,7 @@ function App() {
                 budget={budget}
                 isPro={isPro}
                 maxSlots={maxSlots}
+                onUpgrade={handleUpgradePro}
               />
             )}
             {activeTab === 'analysis' && (
