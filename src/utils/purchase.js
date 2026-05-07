@@ -5,7 +5,7 @@ const isNative = Capacitor.isNativePlatform();
 
 // TODO: RevenueCatダッシュボードから取得したAPIキーに置き換えてください
 // https://app.revenuecat.com → プロジェクト → API Keys
-const REVENUECAT_API_KEY_IOS     = 'appl_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // iOS用公開APIキー
+const REVENUECAT_API_KEY_IOS     = 'appl_XfrwFAuuqgISkOVZYcsfuPWQxVh'; // iOS用公開APIキー
 const REVENUECAT_API_KEY_ANDROID = 'goog_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // Android用公開APIキー
 
 const ENTITLEMENT_ID = 'pro';
