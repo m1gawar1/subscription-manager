@@ -49,7 +49,7 @@ export const PRESET_SUBSCRIPTIONS = [
   { id: 'midjourney', name: 'Midjourney', price: 1500, categoryId: 'ai', domain: 'midjourney.com' },
   { id: 'grok', name: 'Grok', price: 2400, categoryId: 'ai', domain: 'x.ai' },
   { id: 'canva', name: 'Canva Pro', price: 1500, categoryId: 'ai', domain: 'canva.com' },
-  { id: 'copilot', name: 'Microsoft Copilot Pro', price: 3200, categoryId: 'ai', domain: 'copilot.microsoft.com' },
+  { id: 'copilot', name: 'Microsoft Copilot Pro', price: 3200, categoryId: 'ai' },
   
   // 🛍️ ショッピング
   { id: 'amazon-prime', name: 'Amazon Prime', price: 600, categoryId: 'shopping', domain: 'amazon.co.jp' }
