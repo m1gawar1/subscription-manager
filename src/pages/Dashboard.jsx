@@ -319,7 +319,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
             return (
               <div key={sub.id} className="soft-card" onClick={() => !isEditMode && setDetailSub(sub)} style={{ margin: 0, padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: sub.isPaused ? 0.5 : 1, transition: 'opacity 0.2s', cursor: isEditMode ? 'default' : 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                  <div className="icon-box" style={{ width: '52px', height: '52px', borderRadius: '16px', fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'var(--input-bg)', border: `1.5px solid ${cat.color}`, position: 'relative' }}>
+                  <div className="icon-box" style={{ width: '52px', height: '52px', borderRadius: '16px', fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'var(--input-bg)', border: '1px solid var(--border-color)', position: 'relative' }}>
                     <span style={{ position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1, color: cat.color }}><CategoryIcon id={cat.id} size={24} /></span>
                     {sub.domain && (
                       <img src={getLogoUrl(sub.domain)} alt={sub.name} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 2, backgroundColor: 'var(--card-bg)' }} onError={(e) => { e.target.style.display = 'none'; }} />
