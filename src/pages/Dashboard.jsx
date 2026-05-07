@@ -84,7 +84,6 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
         <header className="greeting-header">
           <div className="greeting-text">
             <span className="greeting-label">{getGreeting()}</span>
-            <span className="greeting-app-name">サブスク管理</span>
           </div>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             <div

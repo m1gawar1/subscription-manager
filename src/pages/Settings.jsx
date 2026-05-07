@@ -48,11 +48,6 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
 
   return (
     <div className="dashboard-container" style={{ paddingBottom: '100px' }}>
-      <header style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-0.5px', color: 'var(--text-main)' }}>設定</h1>
-        <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>アプリの設定を管理</p>
-      </header>
-
       {/* プラン */}
       <div style={sectionStyle}>
         <div className="section-title">プラン</div>

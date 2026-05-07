@@ -55,7 +55,6 @@ const Calendar = ({ subscriptions, exchangeRate }) => {
             <h1 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-0.5px', color: 'var(--text-main)', margin: 0 }}>
               {viewYear}年{viewMonth + 1}月
             </h1>
-            <p style={{ fontSize: '14px', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>更新スケジュールを確認</p>
           </div>
           <button
             onClick={goToNextMonth}

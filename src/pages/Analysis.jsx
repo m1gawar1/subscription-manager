@@ -43,11 +43,6 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory }) => {
 
   return (
     <div className="dashboard-container" style={{ height: '100%', overflowY: 'auto', paddingBottom: '100px' }}>
-      <header style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-0.5px', color: 'var(--text-main)' }}>支出分析</h1>
-        <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>サブスクリプションの利用状況</p>
-      </header>
-
       {/* Projection Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '32px' }}>
         {[
