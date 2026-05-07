@@ -3,6 +3,7 @@ import { getCategoryById } from '../constants/categories';
 import { getConvertedPrice } from '../utils/currency';
 import { isBillingMonth } from '../constants/billing';
 import CategoryIcon from '../components/CategoryIcon';
+import { getLogoUrl } from '../constants/presets';
 
 const Calendar = ({ subscriptions, exchangeRate }) => {
   const now = new Date();
@@ -87,25 +88,52 @@ const Calendar = ({ subscriptions, exchangeRate }) => {
             const isSelected = day === selectedDay;
             const isToday = isCurrentMonth && day === now.getDate();
 
+            const daySubsc = getSubscForDay(day);
+            const iconsToShow = daySubsc.slice(0, 2);
+            const extraCount = daySubsc.length - iconsToShow.length;
+
             return (
               <div
                 key={day}
                 onClick={() => setSelectedDay(day)}
                 style={{
-                  height: '40px',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                  height: '52px',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start',
+                  paddingTop: '6px',
                   borderRadius: '12px', cursor: 'pointer',
                   backgroundColor: isSelected ? 'var(--gold-accent)' : (isToday ? 'var(--gold-accent-light)' : 'transparent'),
                   color: isSelected ? '#FFF' : (isToday ? 'var(--gold-accent)' : 'var(--text-main)'),
-                  position: 'relative',
                   fontWeight: (isSelected || isToday) ? '700' : '400',
-                  fontSize: '14px',
-                  transition: 'all 0.2s ease'
+                  fontSize: '13px',
+                  transition: 'all 0.2s ease',
+                  gap: '3px',
                 }}
               >
                 {day}
-                {hasSubsc && !isSelected && (
-                  <div style={{ position: 'absolute', bottom: '6px', width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'var(--gold-accent)' }} />
+                {hasSubsc && (
+                  <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
+                    {iconsToShow.map(sub => (
+                      <div key={sub.id} style={{
+                        width: '14px', height: '14px', borderRadius: '4px',
+                        overflow: 'hidden', backgroundColor: isSelected ? 'rgba(255,255,255,0.3)' : 'var(--input-bg)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexShrink: 0, position: 'relative',
+                      }}>
+                        <CategoryIcon id={sub.categoryId} size={8} color={isSelected ? '#FFF' : getCategoryById(sub.categoryId).color} />
+                        {sub.domain && (
+                          <img
+                            src={getLogoUrl(sub.domain)}
+                            alt={sub.name}
+                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', backgroundColor: 'var(--card-bg)' }}
+                            onError={(e) => { e.target.style.display = 'none'; }}
+                          />
+                        )}
+                      </div>
+                    ))}
+                    {extraCount > 0 && (
+                      <div style={{ fontSize: '8px', color: isSelected ? '#FFF' : 'var(--text-muted)', fontWeight: '600' }}>+{extraCount}</div>
+                    )}
+                  </div>
                 )}
               </div>
             );
@@ -123,7 +151,17 @@ const Calendar = ({ subscriptions, exchangeRate }) => {
               return (
                 <div key={sub.id} className="soft-card" style={{ margin: 0, padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--input-bg)', color: 'var(--text-muted)', flexShrink: 0 }}><CategoryIcon id={cat.id} size={18} /></div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '12px', backgroundColor: 'var(--input-bg)', border: '1px solid var(--border-color)', flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
+                      <CategoryIcon id={cat.id} size={18} color={cat.color} />
+                      {sub.domain && (
+                        <img
+                          src={getLogoUrl(sub.domain)}
+                          alt={sub.name}
+                          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', backgroundColor: 'var(--card-bg)' }}
+                          onError={(e) => { e.target.style.display = 'none'; }}
+                        />
+                      )}
+                    </div>
                     <div>
                       <div style={{ fontSize: '15px', fontWeight: '600', color: 'var(--text-main)' }}>{sub.name}</div>
                       <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{cat.name}</div>
