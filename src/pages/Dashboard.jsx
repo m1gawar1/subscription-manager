@@ -82,8 +82,8 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
       <div className="dashboard-container">
         {/* Header */}
         <header className="greeting-header">
-          <div className="greeting-text">
-            <span className="greeting-label">{getGreeting()}</span>
+          <div style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text-muted)' }}>
+            {new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })}
           </div>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             <div
