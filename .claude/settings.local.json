@@ -39,7 +39,8 @@
       "Bash(rtk head:*)",
       "Bash(rtk grep:*)",
       "Bash(rtk sed:*)",
-      "Bash(rtk npm:*)"
+      "Bash(rtk npm:*)",
+      "Bash(rtk cat:*)"
     ]
   }
 }
