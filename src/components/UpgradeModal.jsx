@@ -1,10 +1,11 @@
 import React from 'react';
+import { Crown, Infinity, BanIcon, Unlock, BadgeCheck, X } from 'lucide-react';
 
 const FEATURES = [
-  { icon: '∞', label: 'サブスク登録数 無制限' },
-  { icon: '🚫', label: '広告なし' },
-  { icon: '✏️', label: '全機能アンロック' },
-  { icon: '💾', label: '買い切り・追加費用なし' },
+  { Icon: Infinity, label: 'サブスク登録数 無制限' },
+  { Icon: BanIcon,  label: '広告なし' },
+  { Icon: Unlock,   label: '全機能アンロック' },
+  { Icon: BadgeCheck, label: '買い切り・追加費用なし' },
 ];
 
 const UpgradeModal = ({ onPurchase, onRestore, onClose }) => {
@@ -26,6 +27,7 @@ const UpgradeModal = ({ onPurchase, onRestore, onClose }) => {
         borderRadius: '28px 28px 0 0',
         padding: '32px 24px 48px',
         boxShadow: '0 -8px 40px rgba(0,0,0,0.2)',
+        position: 'relative',
       }}>
         {/* 閉じるボタン */}
         <button
@@ -44,15 +46,25 @@ const UpgradeModal = ({ onPurchase, onRestore, onClose }) => {
             justifyContent: 'center',
             cursor: 'pointer',
             color: 'var(--text-muted)',
-            fontSize: '18px',
           }}
         >
-          ×
+          <X size={16} />
         </button>
 
         {/* ヘッダー */}
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-          <div style={{ fontSize: '40px', marginBottom: '12px' }}>👑</div>
+          <div style={{
+            width: '56px',
+            height: '56px',
+            borderRadius: '16px',
+            background: 'linear-gradient(135deg, var(--gold-accent), #b8860b)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 14px',
+          }}>
+            <Crown size={28} color="#FFF" />
+          </div>
           <div style={{ fontSize: '22px', fontWeight: '800', color: 'var(--gold-accent)', letterSpacing: '-0.5px' }}>
             SubsTracker Pro
           </div>
@@ -63,7 +75,7 @@ const UpgradeModal = ({ onPurchase, onRestore, onClose }) => {
 
         {/* 機能リスト */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '28px' }}>
-          {FEATURES.map((f, i) => (
+          {FEATURES.map(({ Icon, label }, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
               <div style={{
                 width: '36px',
@@ -73,13 +85,13 @@ const UpgradeModal = ({ onPurchase, onRestore, onClose }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '16px',
                 flexShrink: 0,
+                color: 'var(--gold-accent)',
               }}>
-                {f.icon}
+                <Icon size={18} />
               </div>
               <div style={{ fontSize: '15px', fontWeight: '600', color: 'var(--text-main)' }}>
-                {f.label}
+                {label}
               </div>
             </div>
           ))}

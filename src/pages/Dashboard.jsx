@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/globals.css';
+import { Crown } from 'lucide-react';
 import { CATEGORIES, getCategoryById } from '../constants/categories';
 import { getLogoUrl } from '../constants/presets';
 import { getBillingCycleById, isBillingMonth } from '../constants/billing';
@@ -159,7 +160,9 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
               cursor: 'pointer',
             }}
           >
-            <span style={{ fontSize: '22px', flexShrink: 0 }}>👑</span>
+            <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, var(--gold-accent), #b8860b)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Crown size={16} color="#FFF" />
+            </div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--gold-accent)' }}>
                 登録枠がいっぱいです

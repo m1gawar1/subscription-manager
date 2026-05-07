@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Crown, Lock, Play } from 'lucide-react';
 import Dashboard from './pages/Dashboard';
 import AddSubscription from './components/AddSubscription';
 import Onboarding from './components/Onboarding';
@@ -409,8 +410,8 @@ function App() {
               boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
               textAlign: 'center',
             }}>
-              <div style={{ fontSize: '48px', marginBottom: '16px' }}>
-                {bonusSlots >= MAX_BONUS_SLOTS ? '🔒' : '📦'}
+              <div style={{ width: '56px', height: '56px', borderRadius: '16px', backgroundColor: 'var(--input-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: 'var(--text-muted)' }}>
+                {bonusSlots >= MAX_BONUS_SLOTS ? <Lock size={26} /> : <Crown size={26} />}
               </div>
               <h3 style={{ fontSize: '20px', fontWeight: '700', color: 'var(--text-main)', marginBottom: '8px' }}>
                 登録枠がいっぱいです
@@ -441,7 +442,7 @@ function App() {
                     gap: '8px',
                   }}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <Play size={18} />
                   動画を見て +1枠（残り{MAX_BONUS_SLOTS - bonusSlots}回）
                 </button>
               )}
@@ -463,6 +464,7 @@ function App() {
                   boxShadow: '0 4px 15px rgba(195, 157, 85, 0.4)',
                 }}
               >
+                <Crown size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
                 プロ版にアップグレード（無制限）
               </button>
 

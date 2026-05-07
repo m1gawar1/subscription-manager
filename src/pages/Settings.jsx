@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { THEMES } from '../constants/themes';
+import { Crown, Package, Lock } from 'lucide-react';
 
 const sectionStyle = {
   marginBottom: '32px',
@@ -59,7 +60,9 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
           {isPro ? (
             <>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-                <span style={{ fontSize: '24px' }}>👑</span>
+                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, var(--gold-accent), #b8860b)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Crown size={18} color="#FFF" />
+                </div>
                 <div>
                   <div style={{ fontSize: '16px', fontWeight: '700', color: 'var(--gold-accent)' }}>Pro版</div>
                   <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>登録無制限 / 広告なし</div>
@@ -75,7 +78,9 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
           ) : (
             <>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-                <span style={{ fontSize: '24px' }}>📦</span>
+                <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--input-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Package size={18} color="var(--text-muted)" />
+                </div>
                 <div>
                   <div style={{ fontSize: '16px', fontWeight: '700', color: 'var(--text-main)' }}>無料版</div>
                   <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
@@ -111,7 +116,8 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
                   boxShadow: '0 4px 15px rgba(195, 157, 85, 0.4)',
                 }}
               >
-                👑 プロ版にアップグレード
+                <Crown size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
+                プロ版にアップグレード
               </button>
               <div style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-muted)', textAlign: 'center' }}>
                 登録無制限 / 広告なし / ¥1,000（買い切り）
