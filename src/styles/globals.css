@@ -27,7 +27,7 @@ body {
 }
 
 .dashboard-container {
-  padding: 32px 24px 120px 24px; /* Bottom padding for floating navbar */
+  padding: 32px 24px 100px 24px; /* Bottom padding for navbar */
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none; /* Firefox */
@@ -138,26 +138,18 @@ body {
 /* Bottom Navigation */
 .bottom-nav {
   position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;
-  height: 60px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: var(--card-bg);
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  padding: 0 8px;
-  gap: 4px;
-  border-radius: 32px;
-  /* Liquid Glass */
-  background: color-mix(in srgb, var(--card-bg) 60%, transparent);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid color-mix(in srgb, var(--card-bg) 40%, rgba(255,255,255,0.45));
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.10),
-    0 2px 8px rgba(0,0,0,0.06),
-    inset 0 1px 0 rgba(255,255,255,0.35);
-  z-index: 100;
+  padding-bottom: 20px; /* Safe area */
+  border-top: 1px solid rgba(0,0,0,0.03);
+  backdrop-filter: blur(20px);
+  background: color-mix(in srgb, var(--card-bg) 85%, transparent);
 }
 
 .nav-item {
@@ -166,34 +158,46 @@ body {
   align-items: center;
   color: var(--text-muted);
   cursor: pointer;
-  gap: 3px;
-  padding: 8px 18px;
-  border-radius: 24px;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
   position: relative;
 }
 
 .nav-item svg {
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.25s ease;
 }
 
 .nav-item.active svg {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 .nav-item .nav-label {
   font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
   transition: color 0.25s ease;
 }
 
 .nav-item.active {
   color: var(--gold-accent);
-  background: color-mix(in srgb, var(--gold-accent) 12%, rgba(255,255,255,0.18));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.4),
-    0 2px 8px color-mix(in srgb, var(--gold-accent) 20%, transparent);
+}
+
+.nav-item .nav-indicator {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 20px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--gold-accent);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nav-item.active .nav-indicator {
+  transform: translateX(-50%) scaleX(1);
 }
 
 /* App Layout Classes */
