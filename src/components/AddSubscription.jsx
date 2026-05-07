@@ -128,12 +128,14 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
                   overflow: 'hidden', transition: 'all 0.2s', position: 'relative'
                 }}>
                   <CategoryIcon id={preset.categoryId} size={24} color={CATEGORIES.find(c => c.id === preset.categoryId)?.color || 'var(--text-muted)'} />
-                  <img
-                    src={getLogoUrl(preset.domain)}
-                    alt={preset.name}
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '14px', backgroundColor: 'var(--card-bg)' }}
-                    onError={(e) => { e.target.style.display = 'none'; }}
-                  />
+                  {preset.domain && (
+                    <img
+                      src={getLogoUrl(preset.domain)}
+                      alt={preset.name}
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '14px', backgroundColor: 'var(--card-bg)' }}
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                  )}
                 </div>
                 <span style={{ fontSize: '11px', color: 'var(--text-muted)', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
                   {preset.name}
