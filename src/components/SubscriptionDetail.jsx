@@ -69,7 +69,7 @@ const SubscriptionDetail = ({ subscription: sub, exchangeRate, onEdit, onDelete,
               overflow: 'hidden', backgroundColor: 'var(--input-bg)',
               border: '1px solid var(--border-color)', position: 'relative',
             }}>
-              <span style={{ position: 'absolute', zIndex: 1, display: 'flex' }}><CategoryIcon id={cat.id} size={24} color="var(--text-muted)" /></span>
+              <span style={{ position: 'absolute', zIndex: 1, display: 'flex' }}><CategoryIcon id={cat.id} size={24} color={cat.color} /></span>
               {sub.domain && (
                 <img
                   src={getLogoUrl(sub.domain)}
