@@ -18,6 +18,8 @@ export const PRESET_SUBSCRIPTIONS = [
   { id: 'apple-music', name: 'Apple Music', price: 1080, categoryId: 'music', domain: 'apple.com' },
   { id: 'youtube-music', name: 'YouTube Music', price: 1080, categoryId: 'music', domain: 'youtube.com' },
   { id: 'amazon-music', name: 'Amazon Music Unlimited', price: 1080, categoryId: 'music', domain: 'music.amazon.co.jp' },
+  { id: 'line-music', name: 'LINE MUSIC', price: 980, categoryId: 'music', domain: 'music.line.me' },
+  { id: 'awa', name: 'AWA', price: 960, categoryId: 'music', domain: 'awa.fm' },
   
   // 🎮 ゲーム
   { id: 'nintendo-switch-online', name: 'Nintendo Switch Online', price: 306, categoryId: 'game', domain: 'nintendo.co.jp' },
