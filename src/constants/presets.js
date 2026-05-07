@@ -43,6 +43,13 @@ export const PRESET_SUBSCRIPTIONS = [
   { id: 'claude-pro', name: 'Claude Pro', price: 3000, categoryId: 'ai', domain: 'claude.ai' },
   { id: 'github-copilot', name: 'GitHub Copilot', price: 1500, categoryId: 'ai', domain: 'github.com' },
   { id: 'google-ai-plus', name: 'Google AI Plus', price: 1200, categoryId: 'ai', domain: 'one.google.com' },
+  { id: 'perplexity', name: 'Perplexity Pro', price: 3000, categoryId: 'ai', domain: 'perplexity.ai' },
+  { id: 'notion', name: 'Notion Plus', price: 1650, categoryId: 'ai', domain: 'notion.so' },
+  { id: 'genspark', name: 'Genspark', price: 2000, categoryId: 'ai', domain: 'genspark.ai' },
+  { id: 'midjourney', name: 'Midjourney', price: 1500, categoryId: 'ai', domain: 'midjourney.com' },
+  { id: 'grok', name: 'Grok', price: 2400, categoryId: 'ai', domain: 'x.ai' },
+  { id: 'canva', name: 'Canva Pro', price: 1500, categoryId: 'ai', domain: 'canva.com' },
+  { id: 'copilot', name: 'Microsoft Copilot Pro', price: 3200, categoryId: 'ai', domain: 'copilot.microsoft.com' },
   
   // 🛍️ ショッピング
   { id: 'amazon-prime', name: 'Amazon Prime', price: 600, categoryId: 'shopping', domain: 'amazon.co.jp' }
