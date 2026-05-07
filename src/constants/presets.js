@@ -5,7 +5,7 @@ export const PRESET_SUBSCRIPTIONS = [
   { id: 'disney-plus', name: 'Disney+', price: 990, categoryId: 'video', domain: 'disneyplus.com' },
   { id: 'hulu', name: 'Hulu', price: 1026, categoryId: 'video', domain: 'hulu.jp' },
   { id: 'u-next', name: 'U-NEXT', price: 2189, categoryId: 'video', domain: 'unext.jp' },
-  { id: 'd-anime', name: 'dアニメストア', price: 550, categoryId: 'video', domain: 'danime.co.jp' },
+  { id: 'd-anime', name: 'dアニメストア', price: 550, categoryId: 'video' },
   { id: 'dmm-tv', name: 'DMM TV', price: 550, categoryId: 'video', domain: 'tv.dmm.com' },
   { id: 'fod', name: 'FODプレミアム', price: 976, categoryId: 'video', domain: 'fod.fujitv.co.jp' },
   { id: 'abema', name: 'ABEMAプレミアム', price: 960, categoryId: 'video', domain: 'abema.tv' },
