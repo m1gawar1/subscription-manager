@@ -115,83 +115,84 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
 
         {/* Summary Card */}
         <div className="soft-card summary-card" style={{ display: 'flex', flexDirection: 'column', padding: '24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <div>
-              <div className="section-title" style={{ marginBottom: '4px' }}>
-                {activeCategoryId === 'all' ? '月換算の合計支出' : `${getCategoryById(activeCategoryId).name}の支出`}
-              </div>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px' }}>一時停止中を除く</div>
-              <div className="gold-text count-animate" key={totalMonthly} style={{ fontSize: '32px', fontWeight: '500', letterSpacing: '-0.5px' }}>¥{totalMonthly.toLocaleString()}</div>
+          {/* ベル */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px', position: 'relative' }}>
+            <div
+              style={{ color: 'var(--text-main)', display: 'flex', cursor: 'pointer', position: 'relative' }}
+              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              {upcomingSubscriptions.length > 0 && (
+                <div style={{ position: 'absolute', top: '1px', right: '1px', width: '7px', height: '7px', backgroundColor: '#FF4444', borderRadius: '50%', border: '2px solid var(--card-bg)' }} />
+              )}
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
-              {/* 通知ベル */}
-              <div style={{ position: 'relative' }}>
-                <div
-                  style={{ color: 'var(--text-main)', display: 'flex', cursor: 'pointer', position: 'relative' }}
-                  onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-                >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                  </svg>
-                  {upcomingSubscriptions.length > 0 && (
-                    <div style={{ position: 'absolute', top: '1px', right: '1px', width: '7px', height: '7px', backgroundColor: '#FF4444', borderRadius: '50%', border: '2px solid var(--card-bg)' }} />
+            {/* Notifications Dropdown */}
+            {isNotificationsOpen && (
+              <div className="soft-card" style={{ position: 'absolute', top: '32px', right: '0', width: '280px', zIndex: 100, padding: '16px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: '1.5px solid var(--gold-accent)' }}>
+                <div style={{ fontSize: '14px', fontWeight: '700', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', color: 'var(--text-main)' }}>
+                  通知
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 'normal' }}>リマインダー設定に基づく</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {upcomingSubscriptions.length > 0 ? (
+                    upcomingSubscriptions.map(sub => (
+                      <div key={sub.id} style={{ display: 'flex', gap: '10px', alignItems: 'center', paddingBottom: '8px', borderBottom: '1px solid var(--border-color)' }}>
+                        <div style={{ fontSize: '20px' }}>⏰</div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-main)' }}>{sub.name}</div>
+                          <div style={{ fontSize: '11px', color: 'var(--gold-accent)' }}>
+                            次回更新まで あと {sub.daysLeft === 0 ? '今日' : `${sub.daysLeft}日`}
+                          </div>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                          <div style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-main)' }}>
+                            {sub.currency === 'USD' ? `$${sub.price}` : `¥${sub.price.toLocaleString()}`}
+                          </div>
+                          {sub.currency === 'USD' && (
+                            <div style={{ fontSize: '9px', color: 'var(--text-muted)' }}>約¥{getConvertedPrice(sub, exchangeRate).toLocaleString()}</div>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div style={{ textAlign: 'center', padding: '12px', color: 'var(--text-muted)', fontSize: '13px' }}>
+                      新しい通知はありません
+                    </div>
                   )}
                 </div>
-                {/* Notifications Dropdown */}
-                {isNotificationsOpen && (
-                  <div className="soft-card" style={{ position: 'absolute', top: '32px', right: '0', width: '280px', zIndex: 100, padding: '16px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: '1.5px solid var(--gold-accent)' }}>
-                    <div style={{ fontSize: '14px', fontWeight: '700', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', color: 'var(--text-main)' }}>
-                      通知
-                      <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 'normal' }}>リマインダー設定に基づく</span>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                      {upcomingSubscriptions.length > 0 ? (
-                        upcomingSubscriptions.map(sub => (
-                          <div key={sub.id} style={{ display: 'flex', gap: '10px', alignItems: 'center', paddingBottom: '8px', borderBottom: '1px solid var(--border-color)' }}>
-                            <div style={{ fontSize: '20px' }}>⏰</div>
-                            <div style={{ flex: 1 }}>
-                              <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-main)' }}>{sub.name}</div>
-                              <div style={{ fontSize: '11px', color: 'var(--gold-accent)' }}>
-                                次回更新まで あと {sub.daysLeft === 0 ? '今日' : `${sub.daysLeft}日`}
-                              </div>
-                            </div>
-                            <div style={{ textAlign: 'right' }}>
-                              <div style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-main)' }}>
-                                {sub.currency === 'USD' ? `$${sub.price}` : `¥${sub.price.toLocaleString()}`}
-                              </div>
-                              {sub.currency === 'USD' && (
-                                <div style={{ fontSize: '9px', color: 'var(--text-muted)' }}>約¥{getConvertedPrice(sub, exchangeRate).toLocaleString()}</div>
-                              )}
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div style={{ textAlign: 'center', padding: '12px', color: 'var(--text-muted)', fontSize: '13px' }}>
-                          新しい通知はありません
-                        </div>
-                      )}
-                    </div>
+              </div>
+            )}
+          </div>
+
+          {/* 合計支出 + サービス数 */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '20px' }}>
+            {/* 合計支出 */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div className="section-title" style={{ lineHeight: '1.3' }}>
+                  {activeCategoryId === 'all' ? '月換算の合計支出' : `${getCategoryById(activeCategoryId).name}の支出`}
+                </div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>一時停止中を除く</div>
+              </div>
+              <div className="gold-text count-animate" key={totalMonthly} style={{ fontSize: '28px', fontWeight: '500', letterSpacing: '-0.5px' }}>¥{totalMonthly.toLocaleString()}</div>
+            </div>
+            {/* サービス数 */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div className="section-title" style={{ lineHeight: '1.3' }}>契約中のサービス</div>
+                {!isPro && (
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                    {subscriptions.length}/{maxSlots} 枠
                   </div>
                 )}
+                {isPro && (
+                  <div style={{ fontSize: '11px', color: 'var(--gold-accent)', marginTop: '2px', fontWeight: '600' }}>Pro</div>
+                )}
               </div>
-              {/* サービス数 */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div>
-                  <div className="section-title" style={{ lineHeight: '1.2' }}>契約中の<br/>サービス</div>
-                  {!isPro && (
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
-                      {subscriptions.length}/{maxSlots} 枠
-                    </div>
-                  )}
-                  {isPro && (
-                    <div style={{ fontSize: '11px', color: 'var(--gold-accent)', marginTop: '2px', fontWeight: '600' }}>
-                      Pro
-                    </div>
-                  )}
-                </div>
-                <div className="gold-text" style={{ fontSize: '28px', fontWeight: '500' }}>{activeSubscriptions.length}</div>
-              </div>
+              <div className="gold-text" style={{ fontSize: '28px', fontWeight: '500' }}>{activeSubscriptions.length}</div>
             </div>
           </div>
 
