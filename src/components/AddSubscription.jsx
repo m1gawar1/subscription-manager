@@ -131,7 +131,7 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
                   <img
                     src={getLogoUrl(preset.domain)}
                     alt={preset.name}
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '14px' }}
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '14px', backgroundColor: 'var(--card-bg)' }}
                     onError={(e) => { e.target.style.display = 'none'; }}
                   />
                 </div>
