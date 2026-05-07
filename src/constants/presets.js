@@ -32,7 +32,7 @@ export const PRESET_SUBSCRIPTIONS = [
   { id: 'audible', name: 'Audible', price: 1500, categoryId: 'reading', domain: 'audible.co.jp' },
   { id: 'cmoa', name: 'コミックシーモア', price: 780, categoryId: 'reading' },
   { id: 'rakuten-magazine', name: '楽天マガジン', price: 550, categoryId: 'reading', domain: 'magazine.rakuten.co.jp' },
-  { id: 'd-magazine', name: 'dマガジン', price: 580, categoryId: 'reading', domain: 'dmagazine.docomo.ne.jp' },
+  { id: 'd-magazine', name: 'dマガジン', price: 580, categoryId: 'reading' },
   { id: 'bookwalker', name: 'BOOKWALKER', price: 836, categoryId: 'reading', domain: 'bookwalker.jp' },
   
   // ☁️ クラウド
