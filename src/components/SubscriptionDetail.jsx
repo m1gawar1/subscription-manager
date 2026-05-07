@@ -67,9 +67,9 @@ const SubscriptionDetail = ({ subscription: sub, exchangeRate, onEdit, onDelete,
               width: '64px', height: '64px', borderRadius: '20px', fontSize: '28px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               overflow: 'hidden', backgroundColor: 'var(--input-bg)',
-              border: '1px solid var(--border-color)', position: 'relative',
+              border: `1.5px solid ${cat.color}`, position: 'relative',
             }}>
-              <span style={{ position: 'absolute', zIndex: 1, display: 'flex' }}><CategoryIcon id={cat.id} size={24} color={cat.color} /></span>
+              <span style={{ position: 'absolute', zIndex: 1, display: 'flex' }}><CategoryIcon id={cat.id} size={28} color={cat.color} /></span>
               {sub.domain && (
                 <img
                   src={getLogoUrl(sub.domain)}
