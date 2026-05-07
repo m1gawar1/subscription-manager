@@ -10,6 +10,7 @@ import { getMonthlyPrice } from './utils/currency';
 import { requestNotificationPermission, scheduleAllNotifications } from './utils/notifications';
 import { initializeAdMob, showBannerAd, hideBannerAd, showRewardedAd } from './utils/ads';
 import { purchasePro, restorePurchases, initializePurchases, checkProStatus } from './utils/purchase';
+import UpgradeModal from './components/UpgradeModal';
 
 function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -80,6 +81,7 @@ function App() {
   const [editingSub, setEditingSub] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(150);
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
 
   const [isPro, setIsPro] = useState(() => {
     return localStorage.getItem('subsc_pro') === 'true';
@@ -201,11 +203,18 @@ function App() {
     }
   };
 
-  const handleUpgradePro = async () => {
+  // 設定・上限モーダルから呼ばれる：アップグレードモーダルを開く
+  const handleUpgradePro = () => {
+    setIsUpgradeModalOpen(true);
+    setIsLimitModalOpen(false);
+  };
+
+  // アップグレードモーダル内の購入ボタンから呼ばれる
+  const handlePurchasePro = async () => {
     const purchased = await purchasePro();
     if (purchased) {
       setIsPro(true);
-      setIsLimitModalOpen(false);
+      setIsUpgradeModalOpen(false);
     }
   };
 
@@ -357,6 +366,23 @@ function App() {
             onSave={saveSubscription}
             onCancel={() => { setIsModalOpen(false); setEditingSub(null); }}
             initialData={editingSub}
+          />
+        )}
+
+        {/* アップグレードモーダル */}
+        {isUpgradeModalOpen && (
+          <UpgradeModal
+            onPurchase={handlePurchasePro}
+            onRestore={async () => {
+              const restored = await restorePurchases();
+              if (restored) {
+                setIsPro(true);
+                setIsUpgradeModalOpen(false);
+              } else {
+                alert('復元できる購入が見つかりませんでした');
+              }
+            }}
+            onClose={() => setIsUpgradeModalOpen(false)}
           />
         )}
 

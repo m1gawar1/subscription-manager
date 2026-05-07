@@ -35,7 +35,11 @@
       "Bash(/c/tools/rtk/rtk.exe gain:*)",
       "Bash(/c/tools/rtk/rtk.exe hook:*)",
       "Bash(/c/tools/rtk/rtk.exe --help)",
-      "Bash(/c/tools/rtk/rtk.exe git:*)"
+      "Bash(/c/tools/rtk/rtk.exe git:*)",
+      "Bash(rtk head:*)",
+      "Bash(rtk grep:*)",
+      "Bash(rtk sed:*)",
+      "Bash(rtk npm:*)"
     ]
   }
 }

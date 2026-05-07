@@ -114,7 +114,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
                 👑 プロ版にアップグレード
               </button>
               <div style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-muted)', textAlign: 'center' }}>
-                登録無制限 / 広告なし / 800〜1,000円（買い切り）
+                登録無制限 / 広告なし / ¥1,000（買い切り）
               </div>
               <button
                 onClick={onRestorePurchases}
