@@ -176,19 +176,21 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
                 )}
               </div>
               {/* サービス数 */}
-              <div style={{ textAlign: 'center' }}>
-                <div className="section-title" style={{ marginBottom: '4px', lineHeight: '1.2' }}>契約中の<br/>サービス</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div>
+                  <div className="section-title" style={{ lineHeight: '1.2' }}>契約中の<br/>サービス</div>
+                  {!isPro && (
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                      {subscriptions.length}/{maxSlots} 枠
+                    </div>
+                  )}
+                  {isPro && (
+                    <div style={{ fontSize: '11px', color: 'var(--gold-accent)', marginTop: '2px', fontWeight: '600' }}>
+                      Pro
+                    </div>
+                  )}
+                </div>
                 <div className="gold-text" style={{ fontSize: '28px', fontWeight: '500' }}>{activeSubscriptions.length}</div>
-                {!isPro && (
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                    {subscriptions.length}/{maxSlots} 枠
-                  </div>
-                )}
-                {isPro && (
-                  <div style={{ fontSize: '11px', color: 'var(--gold-accent)', marginTop: '4px', fontWeight: '600' }}>
-                    Pro
-                  </div>
-                )}
               </div>
             </div>
           </div>
