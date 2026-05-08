@@ -205,15 +205,12 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
       setName(preset.name);
       setCategoryId(preset.categoryId);
       setDomain(preset.domain || '');
-      setSelectedPreset(preset);
-      // プランがある場合はプラン選択へ、ない場合は直接詳細へ
-      if (preset.plans && preset.plans.length > 0) {
-        setStep('plan');
-      } else {
-        setPrice(preset.price?.toString() || '');
-        setCurrency('JPY');
-        setStep('detail');
-      }
+      // priceのみのサービスも1プランとして統一
+      const normalized = preset.plans && preset.plans.length > 0
+        ? preset
+        : { ...preset, plans: [{ name: '標準プラン', price: preset.price || 0, billingCycle: 'monthly', currency: preset.currency || 'JPY' }] };
+      setSelectedPreset(normalized);
+      setStep('plan');
     } else {
       setSelectedPreset(null);
       setStep('detail');
