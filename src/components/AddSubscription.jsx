@@ -252,7 +252,7 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
 
   return (
     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'flex-end', zIndex: 1000 }}>
-      <div style={{ width: '100%', maxHeight: '92vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--card-bg)', borderTopLeftRadius: '32px', borderTopRightRadius: '32px', padding: '24px 20px 40px', boxShadow: '0 -10px 40px rgba(0,0,0,0.1)' }}>
+      <div style={{ width: '100%', height: '92vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--card-bg)', borderTopLeftRadius: '32px', borderTopRightRadius: '32px', padding: '24px 20px 40px', boxShadow: '0 -10px 40px rgba(0,0,0,0.1)' }}>
 
         {step === 'service' ? (
           <ServiceSelector onSelect={handlePresetSelect} onCancel={onCancel} />
