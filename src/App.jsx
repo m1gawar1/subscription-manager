@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Crown, Lock, Play } from 'lucide-react';
+import { Crown } from 'lucide-react';
 import Dashboard from './pages/Dashboard';
 import AddSubscription from './components/AddSubscription';
 import Onboarding from './components/Onboarding';
@@ -75,21 +75,12 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingSub, setEditingSub] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(150);
-  const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
 
   const [isPro, setIsPro] = useState(() => {
     return localStorage.getItem('subsc_pro') === 'true';
   });
 
-  const [bonusSlots, setBonusSlots] = useState(() => {
-    return parseInt(localStorage.getItem('subsc_bonus_slots') || '0');
-  });
-
-  const FREE_LIMIT = 5;
-  const MAX_BONUS_SLOTS = 10;
-  const maxSlots = isPro ? Infinity : FREE_LIMIT + bonusSlots;
-  const canAddMore = subscriptions.length < maxSlots;
 
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('subsc_theme') || 'auto';
@@ -185,23 +176,9 @@ function App() {
     localStorage.setItem('subsc_pro', String(isPro));
   }, [isPro]);
 
-  useEffect(() => {
-    localStorage.setItem('subsc_bonus_slots', String(bonusSlots));
-  }, [bonusSlots]);
-
-  const handleWatchAd = async () => {
-    if (bonusSlots >= MAX_BONUS_SLOTS) return;
-    const rewarded = await showRewardedAd();
-    if (rewarded) {
-      setBonusSlots(prev => Math.min(prev + 1, MAX_BONUS_SLOTS));
-      setIsLimitModalOpen(false);
-    }
-  };
-
-  // 設定・上限モーダルから呼ばれる：アップグレードモーダルを開く
+  // アップグレードモーダルを開く
   const handleUpgradePro = () => {
     setIsUpgradeModalOpen(true);
-    setIsLimitModalOpen(false);
   };
 
   // アップグレードモーダル内の購入ボタンから呼ばれる
@@ -223,12 +200,8 @@ function App() {
   };
 
   const handleAddClick = () => {
-    if (canAddMore) {
-      setEditingSub(null);
-      setIsModalOpen(true);
-    } else {
-      setIsLimitModalOpen(true);
-    }
+    setEditingSub(null);
+    setIsModalOpen(true);
   };
 
   // 月別支出履歴を記録（今月分を常に最新に更新）
@@ -312,7 +285,6 @@ function App() {
                 exchangeRate={exchangeRate}
                 budget={budget}
                 isPro={isPro}
-                maxSlots={maxSlots}
                 onUpgrade={handleUpgradePro}
               />
             )}
@@ -321,6 +293,8 @@ function App() {
                 subscriptions={subscriptions}
                 exchangeRate={exchangeRate}
                 monthlyHistory={monthlyHistory}
+                isPro={isPro}
+                onUpgrade={handleUpgradePro}
               />
             )}
             {activeTab === 'calendar' && <Calendar subscriptions={subscriptions} exchangeRate={exchangeRate} onEdit={(sub) => { setEditingSub(sub); setIsModalOpen(true); }} onUpdateDate={updateSubscriptionDate} />}
@@ -333,10 +307,8 @@ function App() {
                 subscriptions={subscriptions}
                 onImport={handleImport}
                 isPro={isPro}
-                bonusSlots={bonusSlots}
-                maxSlots={maxSlots}
                 onUpgradePro={handleUpgradePro}
-                onRestoreFree={() => { setIsPro(false); setBonusSlots(0); }}
+                onRestoreFree={() => setIsPro(false)}
                 onRestorePurchases={handleRestorePurchases}
               />
             )}
@@ -392,103 +364,7 @@ function App() {
           />
         )}
 
-        {/* 登録制限モーダル */}
-        {isLimitModalOpen && (
-          <div style={{
-            position: 'absolute',
-            top: 0, left: 0, right: 0, bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            backdropFilter: 'blur(8px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            padding: '24px',
-          }}>
-            <div style={{
-              width: '100%',
-              maxWidth: '360px',
-              backgroundColor: 'var(--card-bg)',
-              borderRadius: '24px',
-              padding: '32px 24px',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
-              textAlign: 'center',
-            }}>
-              <div style={{ width: '56px', height: '56px', borderRadius: '16px', backgroundColor: 'var(--input-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: 'var(--text-muted)' }}>
-                {bonusSlots >= MAX_BONUS_SLOTS ? <Lock size={26} /> : <Crown size={26} />}
-              </div>
-              <h3 style={{ fontSize: '20px', fontWeight: '700', color: 'var(--text-main)', marginBottom: '8px' }}>
-                登録枠がいっぱいです
-              </h3>
-              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }}>
-                現在 {subscriptions.length}/{maxSlots === Infinity ? '∞' : maxSlots} 件登録済みです。
-                <br />枠を増やして続けましょう。
-              </p>
 
-              {/* 動画視聴ボタン */}
-              {bonusSlots < MAX_BONUS_SLOTS && (
-                <button
-                  onClick={handleWatchAd}
-                  style={{
-                    width: '100%',
-                    padding: '14px',
-                    borderRadius: '14px',
-                    border: '1.5px solid var(--gold-accent)',
-                    background: 'var(--gold-accent-light)',
-                    color: 'var(--gold-accent)',
-                    fontSize: '15px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    marginBottom: '12px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                  }}
-                >
-                  <Play size={18} />
-                  動画を見て +1枠（残り{MAX_BONUS_SLOTS - bonusSlots}回）
-                </button>
-              )}
-
-              {/* プロ版ボタン */}
-              <button
-                onClick={handleUpgradePro}
-                style={{
-                  width: '100%',
-                  padding: '14px',
-                  borderRadius: '14px',
-                  border: 'none',
-                  background: 'var(--gold-accent)',
-                  color: '#FFF',
-                  fontSize: '15px',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  marginBottom: '12px',
-                  boxShadow: '0 4px 15px rgba(195, 157, 85, 0.4)',
-                }}
-              >
-                <Crown size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
-                プロ版にアップグレード（無制限）
-              </button>
-
-              {/* 閉じる */}
-              <button
-                onClick={() => setIsLimitModalOpen(false)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--text-muted)',
-                  fontSize: '14px',
-                  cursor: 'pointer',
-                  padding: '8px',
-                }}
-              >
-                閉じる
-              </button>
-            </div>
-          </div>
-        )}
 
         {showOnboarding && (
           <Onboarding onComplete={() => {

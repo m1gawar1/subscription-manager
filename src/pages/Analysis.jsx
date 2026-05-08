@@ -2,8 +2,9 @@ import React from 'react';
 import { CATEGORIES } from '../constants/categories';
 import { getMonthlyPrice } from '../utils/currency';
 import CategoryIcon from '../components/CategoryIcon';
+import { Crown, Lock } from 'lucide-react';
 
-const Analysis = ({ subscriptions, exchangeRate, monthlyHistory }) => {
+const Analysis = ({ subscriptions, exchangeRate, monthlyHistory, isPro, onUpgrade }) => {
   const totalMonthly = subscriptions
     .filter(sub => !sub.isPaused)
     .reduce((sum, sub) => sum + getMonthlyPrice(sub, exchangeRate), 0);
@@ -57,8 +58,25 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory }) => {
         ))}
       </div>
 
-      {/* 月別推移グラフ */}
-      <div className="soft-card" style={{ padding: '24px', marginBottom: '24px' }}>
+      {/* Pro限定コンテンツ */}
+      {!isPro && (
+        <div
+          onClick={onUpgrade}
+          style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', borderRadius: '16px', background: 'linear-gradient(135deg, var(--gold-accent-light), var(--card-bg))', border: '1.5px solid var(--gold-accent)', cursor: 'pointer', marginBottom: '24px' }}
+        >
+          <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, var(--gold-accent), #b8860b)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <Crown size={18} color="#FFF" />
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--gold-accent)' }}>Pro版で詳細分析を解放</div>
+            <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>月別グラフ・カテゴリ別割合 → ¥1,000</div>
+          </div>
+          <Lock size={16} color="var(--gold-accent)" />
+        </div>
+      )}
+
+      {/* 月別推移グラフ（Pro限定） */}
+      <div className="soft-card" style={{ padding: '24px', marginBottom: '24px', position: 'relative', overflow: 'hidden' }}>
         <div className="section-title" style={{ marginBottom: '20px' }}>月別支出推移</div>
         {hasHistory ? (
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px', height: '120px' }}>
@@ -91,10 +109,16 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory }) => {
             データが蓄積されると推移が表示されます
           </div>
         )}
+        {!isPro && (
+          <div onClick={onUpgrade} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backdropFilter: 'blur(6px)', backgroundColor: 'rgba(var(--card-bg-rgb, 255,255,255), 0.7)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer', borderRadius: '16px' }}>
+            <Lock size={22} color="var(--gold-accent)" />
+            <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--gold-accent)' }}>Pro版で解放</div>
+          </div>
+        )}
       </div>
 
-      {/* カテゴリー別ドーナツチャート */}
-      <div className="soft-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '32px 24px', marginBottom: '80px' }}>
+      {/* カテゴリー別ドーナツチャート（Pro限定） */}
+      <div className="soft-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '32px 24px', marginBottom: '80px', position: 'relative', overflow: 'hidden' }}>
         <div className="section-title" style={{ width: '100%', marginBottom: '24px' }}>カテゴリー別割合</div>
 
         <div style={{ position: 'relative', width: '200px', height: '200px', marginBottom: '32px' }}>
@@ -138,6 +162,12 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory }) => {
             <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '14px' }}>データがありません</div>
           )}
         </div>
+        {!isPro && (
+          <div onClick={onUpgrade} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backdropFilter: 'blur(6px)', backgroundColor: 'rgba(255,255,255,0.7)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer', borderRadius: '16px' }}>
+            <Lock size={22} color="var(--gold-accent)" />
+            <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--gold-accent)' }}>Pro版で解放</div>
+          </div>
+        )}
       </div>
     </div>
   );

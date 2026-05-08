@@ -6,7 +6,7 @@ const sectionStyle = {
   marginBottom: '32px',
 };
 
-const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscriptions, onImport, isPro, bonusSlots, maxSlots, onUpgradePro, onRestoreFree, onRestorePurchases }) => {
+const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscriptions, onImport, isPro, onUpgradePro, onRestoreFree, onRestorePurchases }) => {
   const [budgetInput, setBudgetInput] = useState(budget > 0 ? budget.toString() : '');
   const [importError, setImportError] = useState('');
   const fileInputRef = useRef(null);
@@ -72,50 +72,24 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
             </>
           ) : (
             <>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--input-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <Package size={18} color="var(--text-muted)" />
                 </div>
                 <div>
                   <div style={{ fontSize: '16px', fontWeight: '700', color: 'var(--text-main)' }}>無料版</div>
-                  <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                    {subscriptions.length}/{maxSlots} 枠使用中
-                    {bonusSlots > 0 && <span style={{ color: 'var(--gold-accent)' }}>（+{bonusSlots}枠獲得済み）</span>}
-                  </div>
-                </div>
-              </div>
-              {/* 枠バー */}
-              <div style={{ marginBottom: '16px' }}>
-                <div style={{ width: '100%', height: '8px', background: 'var(--input-bg)', borderRadius: '4px', overflow: 'hidden' }}>
-                  <div style={{
-                    width: `${Math.min((subscriptions.length / maxSlots) * 100, 100)}%`,
-                    height: '100%',
-                    borderRadius: '4px',
-                    backgroundColor: subscriptions.length >= maxSlots ? '#FF4444' : 'var(--gold-accent)',
-                    transition: 'width 0.4s ease',
-                  }} />
+                  <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>広告あり・基本機能のみ</div>
                 </div>
               </div>
               <button
                 onClick={onUpgradePro}
-                style={{
-                  width: '100%',
-                  padding: '14px',
-                  borderRadius: '14px',
-                  border: 'none',
-                  background: 'var(--gold-accent)',
-                  color: '#FFF',
-                  fontSize: '15px',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 15px rgba(195, 157, 85, 0.4)',
-                }}
+                style={{ width: '100%', padding: '14px', borderRadius: '14px', border: 'none', background: 'var(--gold-accent)', color: '#FFF', fontSize: '15px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 15px rgba(195, 157, 85, 0.4)' }}
               >
                 <Crown size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
-                プロ版にアップグレード
+                Pro版にアップグレード ¥1,000
               </button>
-              <div style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-muted)', textAlign: 'center' }}>
-                登録無制限 / 広告なし / ¥1,000（買い切り）
+              <div style={{ marginTop: '10px', fontSize: '12px', color: 'var(--text-muted)', textAlign: 'center' }}>
+                広告なし / 全テーマ / 詳細分析 / エクスポート（買い切り）
               </div>
               <button
                 onClick={onRestorePurchases}
@@ -159,10 +133,13 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
         </div>
       </div>
 
-      {/* データ管理 */}
+      {/* データ管理（Pro限定） */}
       <div style={sectionStyle}>
-        <div className="section-title">データ管理</div>
-        <div className="soft-card" style={{ margin: '16px 0 0 0', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="section-title" style={{ margin: 0 }}>データ管理</div>
+          {!isPro && <Lock size={13} color="var(--gold-accent)" />}
+        </div>
+        <div className="soft-card" style={{ margin: '16px 0 0 0', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px', opacity: isPro ? 1 : 0.5, pointerEvents: isPro ? 'auto' : 'none' }}>
           {/* エクスポート */}
           <div>
             <div style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text-main)', marginBottom: '4px' }}>エクスポート</div>
@@ -192,14 +169,23 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
         </div>
       </div>
 
-      {/* テーマ */}
+      {/* テーマ（Pro限定） */}
       <div style={sectionStyle}>
-        <div className="section-title">デザインテーマ</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="section-title" style={{ margin: 0 }}>デザインテーマ</div>
+          {!isPro && <Lock size={13} color="var(--gold-accent)" />}
+        </div>
+        {!isPro && (
+          <div style={{ marginTop: '12px', padding: '12px 16px', borderRadius: '12px', background: 'var(--gold-accent-light)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Crown size={16} color="var(--gold-accent)" />
+            <div style={{ fontSize: '13px', color: 'var(--gold-accent)', fontWeight: '600' }}>Pro版ではダークモードを含む全テーマが使えます</div>
+          </div>
+        )}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px', opacity: isPro ? 1 : 0.5, pointerEvents: isPro ? 'auto' : 'none' }}>
           {/* 自動（システム追従） */}
           <div
             className="soft-card"
-            onClick={() => onThemeChange('auto')}
+            onClick={() => isPro && onThemeChange('auto')}
             style={{ margin: 0, padding: '20px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: currentTheme === 'auto' ? '2px solid var(--gold-accent)' : '1px solid transparent', transition: 'all 0.3s ease' }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -221,7 +207,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
             <div
               key={key}
               className="soft-card"
-              onClick={() => onThemeChange(key)}
+              onClick={() => isPro && onThemeChange(key)}
               style={{ margin: 0, padding: '20px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: currentTheme === key ? '2px solid var(--gold-accent)' : '1px solid transparent', transition: 'all 0.3s ease' }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

@@ -16,7 +16,7 @@ const SORT_OPTIONS = [
   { id: 'date-asc',    label: '更新日が近い順' },
 ];
 
-const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause, exchangeRate, budget, isPro, maxSlots, onUpgrade }) => {
+const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause, exchangeRate, budget, isPro, onUpgrade }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [activeCategories, setActiveCategories] = useState([]); // 空 = すべて
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -145,38 +145,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
           )}
         </header>
 
-        {/* 上限到達バナー */}
-        {!isPro && subscriptions.length >= maxSlots && (
-          <div
-            onClick={onUpgrade}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '14px 16px',
-              marginBottom: '16px',
-              borderRadius: '16px',
-              background: 'linear-gradient(135deg, var(--gold-accent-light), var(--card-bg))',
-              border: '1.5px solid var(--gold-accent)',
-              cursor: 'pointer',
-            }}
-          >
-            <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, var(--gold-accent), #b8860b)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <Crown size={16} color="#FFF" />
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--gold-accent)' }}>
-                登録枠がいっぱいです
-              </div>
-              <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
-                プロ版で無制限に管理 → ¥1,000
-              </div>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </div>
-        )}
+
 
         {/* Summary Card */}
         <div className="soft-card summary-card" style={{ display: 'flex', flexDirection: 'column', padding: '24px' }}>
@@ -191,11 +160,6 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
             <div style={{ textAlign: 'center' }}>
               <div className="section-title" style={{ marginBottom: '8px', lineHeight: '1.2' }}>契約中の<br/>サービス</div>
               <div className="gold-text" style={{ fontSize: '28px', fontWeight: '500' }}>{activeSubscriptions.length}</div>
-              {!isPro && (
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                  {subscriptions.length}/{maxSlots} 枠
-                </div>
-              )}
               {isPro && (
                 <div style={{ fontSize: '11px', color: 'var(--gold-accent)', marginTop: '4px', fontWeight: '600' }}>
                   Pro
