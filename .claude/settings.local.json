@@ -43,7 +43,10 @@
       "Bash(rtk cat:*)",
       "Bash(mkdir -p docs)",
       "Bash(cp privacy-policy/index.html docs/index.html)",
-      "Bash(rtk git:*)"
+      "Bash(rtk git:*)",
+      "Bash(rtk ls:*)",
+      "Bash(dir:*)",
+      "Bash(find 'C:/Users/Owner/Documents/My Data Sources/Subscription Management/ios' -name *.xcworkspace -o -name *.xcodeproj)"
     ]
   }
 }
