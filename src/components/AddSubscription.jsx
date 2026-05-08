@@ -77,7 +77,7 @@ const ServiceSelector = ({ onSelect, onCancel }) => {
       </div>
 
       {/* サービスグリッド */}
-      <div style={{ flex: 1, overflowY: 'auto' }} className="no-scrollbar">
+      <div style={{ flex: 1, overflowY: 'auto' }}>
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)', fontSize: '14px' }}>
             見つかりませんでした
