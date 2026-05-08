@@ -17,17 +17,11 @@ function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [subscriptions, setSubscriptions] = useState(() => {
     const saved = localStorage.getItem('subsc_data');
-    const initialData = [
-      { id: 1, name: 'Netflix', price: 790, categoryId: 'video', domain: 'netflix.com', date: '18' },
-      { id: 2, name: 'Spotify', price: 980, categoryId: 'music', domain: 'spotify.com', date: '22' },
-      { id: 3, name: 'Adobe Creative Cloud', price: 6480, categoryId: 'work', domain: 'adobe.com', date: '05' },
-    ];
-
     let data;
     try {
-      data = saved ? JSON.parse(saved) : initialData;
+      data = saved ? JSON.parse(saved) : [];
     } catch {
-      data = initialData;
+      data = [];
     }
 
     return data.map(sub => {
