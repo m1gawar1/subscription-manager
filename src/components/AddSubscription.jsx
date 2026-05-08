@@ -29,14 +29,14 @@ const inputStyle = {
 const AddSubscription = ({ onSave, onCancel, initialData }) => {
   const [name, setName] = useState(initialData?.name || '');
   const [price, setPrice] = useState(initialData?.price?.toString() || '');
-  const [date, setDate] = useState(initialData?.date || '');
+  const [date, setDate] = useState(initialData?.date || String(new Date().getDate()));
   const [categoryId, setCategoryId] = useState(initialData?.categoryId || CATEGORIES[0].id);
   const [domain, setDomain] = useState(initialData?.domain || '');
   const [currency, setCurrency] = useState(initialData?.currency || 'JPY');
   const [billingCycle, setBillingCycle] = useState(initialData?.billingCycle || 'monthly');
   const [billingMonth, setBillingMonth] = useState(initialData?.billingMonth || new Date().getMonth() + 1);
   const [isReminderEnabled, setIsReminderEnabled] = useState(initialData?.isReminderEnabled !== false);
-  const [reminderDays, setReminderDays] = useState(initialData?.reminderDays || [7, 3, 0]);
+  const [reminderDays, setReminderDays] = useState(initialData?.reminderDays || [0]);
   const [memo, setMemo] = useState(initialData?.memo || '');
   const [trialEndDate, setTrialEndDate] = useState(initialData?.trialEndDate || '');
   const [cancelDeadline, setCancelDeadline] = useState(initialData?.cancelDeadline || '');
