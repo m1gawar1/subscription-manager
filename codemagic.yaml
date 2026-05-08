@@ -5,7 +5,7 @@ workflows:
     name: Android Build
     max_build_duration: 60
     environment:
-      node: 20.x
+      node: 20.17.0
       java: 17
     scripts:
       - name: Install dependencies
@@ -40,7 +40,7 @@ workflows:
     integrations:
       app_store_connect: SubsTracker
     environment:
-      node: 20.x
+      node: 20.17.0
       xcode: latest
       cocoapods: default
       ios_signing:
