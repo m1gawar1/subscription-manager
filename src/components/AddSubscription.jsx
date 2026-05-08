@@ -122,10 +122,59 @@ const ServiceSelector = ({ onSelect, onCancel }) => {
   );
 };
 
+// ── Step 1.5: プラン選択 ──────────────────────────────
+const PlanSelector = ({ preset, onSelect, onBack }) => {
+  const cat = CATEGORIES.find(c => c.id === preset.categoryId);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <button onClick={onBack} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '22px', lineHeight: 1 }}>‹</button>
+          <h2 style={{ fontSize: '20px', fontWeight: '600', color: 'var(--text-main)' }}>プランを選ぶ</h2>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ width: '32px', height: '32px', borderRadius: '10px', backgroundColor: 'var(--input-bg)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+            <CategoryIcon id={preset.categoryId} size={16} color={cat?.color} />
+            {preset.domain && <img src={getLogoUrl(preset.domain)} alt={preset.name} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', backgroundColor: 'var(--card-bg)' }} onError={e => { e.target.style.display = 'none'; }} />}
+          </div>
+          <span style={{ fontSize: '15px', fontWeight: '600', color: 'var(--text-main)' }}>{preset.name}</span>
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', overflowY: 'auto' }} className="no-scrollbar">
+        {preset.plans.map((plan, i) => (
+          <button
+            key={i}
+            onClick={() => onSelect(plan)}
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', borderRadius: '14px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', cursor: 'pointer', textAlign: 'left' }}
+          >
+            <div>
+              <div style={{ fontSize: '15px', fontWeight: '600', color: 'var(--text-main)' }}>{plan.name}</div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                {plan.billingCycle === 'yearly' ? '年額' : '月額'}
+              </div>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '18px', fontWeight: '700', color: 'var(--gold-accent)' }}>
+                {plan.currency === 'USD' ? `$${plan.price}` : `¥${plan.price.toLocaleString()}`}
+              </div>
+              {plan.billingCycle === 'yearly' && (
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                  月換算 ¥{Math.round(plan.price / 12).toLocaleString()}
+                </div>
+              )}
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // ── Step 2: 詳細入力 ────────────────────────────────
 const AddSubscription = ({ onSave, onCancel, initialData }) => {
-  // 編集時はStep2から始める
-  const [step, setStep] = useState(initialData ? 2 : 1);
+  // 編集時はdetailから始める
+  const [step, setStep] = useState(initialData ? 'detail' : 'service');
   const [selectedPreset, setSelectedPreset] = useState(null);
 
   const [name, setName] = useState(initialData?.name || '');
@@ -154,15 +203,28 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
   const handlePresetSelect = (preset) => {
     if (preset) {
       setName(preset.name);
-      setPrice(preset.price.toString());
       setCategoryId(preset.categoryId);
       setDomain(preset.domain || '');
-      setCurrency('JPY');
       setSelectedPreset(preset);
+      // プランがある場合はプラン選択へ、ない場合は直接詳細へ
+      if (preset.plans && preset.plans.length > 0) {
+        setStep('plan');
+      } else {
+        setPrice(preset.price?.toString() || '');
+        setCurrency('JPY');
+        setStep('detail');
+      }
     } else {
       setSelectedPreset(null);
+      setStep('detail');
     }
-    setStep(2);
+  };
+
+  const handlePlanSelect = (plan) => {
+    setPrice(plan.price.toString());
+    setCurrency(plan.currency || 'JPY');
+    setBillingCycle(plan.billingCycle || 'monthly');
+    setStep('detail');
   };
 
   const handleSubmit = (e) => {
@@ -192,15 +254,21 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'flex-end', zIndex: 1000 }}>
       <div style={{ width: '100%', maxHeight: '92vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--card-bg)', borderTopLeftRadius: '32px', borderTopRightRadius: '32px', padding: '24px 20px 40px', boxShadow: '0 -10px 40px rgba(0,0,0,0.1)' }}>
 
-        {step === 1 ? (
+        {step === 'service' ? (
           <ServiceSelector onSelect={handlePresetSelect} onCancel={onCancel} />
+        ) : step === 'plan' ? (
+          <PlanSelector
+            preset={selectedPreset}
+            onSelect={handlePlanSelect}
+            onBack={() => setStep('service')}
+          />
         ) : (
           <div style={{ overflowY: 'auto', overflowX: 'hidden' }} className="no-scrollbar">
             {/* ヘッダー */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 {!initialData && (
-                  <button onClick={() => setStep(1)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '22px', lineHeight: 1 }}>‹</button>
+                  <button onClick={() => setStep(selectedPreset?.plans?.length ? 'plan' : 'service')} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '22px', lineHeight: 1 }}>‹</button>
                 )}
                 <h2 style={{ fontSize: '20px', fontWeight: '600', color: 'var(--text-main)' }}>
                   {initialData ? 'サブスクを編集' : '詳細を入力'}

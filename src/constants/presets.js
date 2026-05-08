@@ -1,66 +1,263 @@
 export const PRESET_SUBSCRIPTIONS = [
   // 🎬 動画配信
-  { id: 'netflix', name: 'Netflix', price: 790, categoryId: 'video', domain: 'netflix.com' },
-  { id: 'youtube-premium', name: 'YouTube Premium', price: 1280, categoryId: 'video', domain: 'youtube.com' },
-  { id: 'disney-plus', name: 'Disney+', price: 990, categoryId: 'video', domain: 'disneyplus.com' },
-  { id: 'hulu', name: 'Hulu', price: 1026, categoryId: 'video', domain: 'hulu.jp' },
-  { id: 'u-next', name: 'U-NEXT', price: 2189, categoryId: 'video', domain: 'unext.jp' },
-  { id: 'd-anime', name: 'dアニメストア', price: 550, categoryId: 'video' },
-  { id: 'dmm-tv', name: 'DMM TV', price: 550, categoryId: 'video', domain: 'tv.dmm.com' },
-  { id: 'fod', name: 'FODプレミアム', price: 976, categoryId: 'video', domain: 'fod.fujitv.co.jp' },
-  { id: 'abema', name: 'ABEMAプレミアム', price: 960, categoryId: 'video', domain: 'abema.tv' },
-  { id: 'telasa', name: 'TELASA', price: 618, categoryId: 'video', domain: 'telasa.jp' },
-  { id: 'lemino', name: 'Lemino', price: 990, categoryId: 'video', domain: 'lemino.docomo.ne.jp' },
-  { id: 'dazn', name: 'DAZN', price: 4200, categoryId: 'video', domain: 'dazn.com' },
-  { id: 'nba-league-pass', name: 'NBA League Pass', price: 3190, categoryId: 'video', domain: 'nba.com' },
-  
+  {
+    id: 'netflix', name: 'Netflix', categoryId: 'video', domain: 'netflix.com',
+    plans: [
+      { name: '広告付きスタンダード', price: 790, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'スタンダード', price: 1590, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'プレミアム', price: 2290, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'youtube-premium', name: 'YouTube Premium', categoryId: 'video', domain: 'youtube.com',
+    plans: [
+      { name: '個人プラン', price: 1280, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'ファミリープラン', price: 2280, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '学生プラン', price: 680, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'disney-plus', name: 'Disney+', categoryId: 'video', domain: 'disneyplus.com',
+    plans: [
+      { name: 'スタンダード月額', price: 990, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'スタンダード年額', price: 9900, billingCycle: 'yearly', currency: 'JPY' },
+      { name: 'プレミアム月額', price: 1320, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'プレミアム年額', price: 13200, billingCycle: 'yearly', currency: 'JPY' },
+    ]
+  },
+  { id: 'hulu', name: 'Hulu', categoryId: 'video', domain: 'hulu.jp', price: 1026 },
+  {
+    id: 'u-next', name: 'U-NEXT', categoryId: 'video', domain: 'unext.jp',
+    plans: [
+      { name: '月額プラン', price: 2189, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '追加アカウント', price: 429, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  { id: 'd-anime', name: 'dアニメストア', categoryId: 'video', price: 550 },
+  { id: 'dmm-tv', name: 'DMM TV', categoryId: 'video', domain: 'tv.dmm.com', price: 550 },
+  { id: 'fod', name: 'FODプレミアム', categoryId: 'video', domain: 'fod.fujitv.co.jp', price: 976 },
+  {
+    id: 'abema', name: 'ABEMAプレミアム', categoryId: 'video', domain: 'abema.tv',
+    plans: [
+      { name: '月額プラン', price: 960, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '年額プラン', price: 8600, billingCycle: 'yearly', currency: 'JPY' },
+    ]
+  },
+  { id: 'telasa', name: 'TELASA', categoryId: 'video', domain: 'telasa.jp', price: 618 },
+  { id: 'lemino', name: 'Lemino', categoryId: 'video', domain: 'lemino.docomo.ne.jp', price: 990 },
+  {
+    id: 'dazn', name: 'DAZN', categoryId: 'video', domain: 'dazn.com',
+    plans: [
+      { name: '月額プラン', price: 4200, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '年額プラン', price: 27000, billingCycle: 'yearly', currency: 'JPY' },
+    ]
+  },
+  { id: 'nba-league-pass', name: 'NBA League Pass', categoryId: 'video', domain: 'nba.com', price: 3190 },
+
   // 🎵 音楽
-  { id: 'spotify', name: 'Spotify', price: 980, categoryId: 'music', domain: 'spotify.com' },
-  { id: 'apple-music', name: 'Apple Music', price: 1080, categoryId: 'music', domain: 'apple.com' },
-  { id: 'youtube-music', name: 'YouTube Music', price: 1080, categoryId: 'music', domain: 'youtube.com' },
-  { id: 'amazon-music', name: 'Amazon Music Unlimited', price: 1080, categoryId: 'music', domain: 'music.amazon.co.jp' },
-  { id: 'line-music', name: 'LINE MUSIC', price: 980, categoryId: 'music', domain: 'music.line.me' },
-  { id: 'awa', name: 'AWA', price: 960, categoryId: 'music', domain: 'awa.fm' },
-  
+  {
+    id: 'spotify', name: 'Spotify', categoryId: 'music', domain: 'spotify.com',
+    plans: [
+      { name: '個人プラン', price: 980, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'デュオプラン', price: 1280, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'ファミリープラン', price: 1580, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '学生プラン', price: 480, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'apple-music', name: 'Apple Music', categoryId: 'music', domain: 'apple.com',
+    plans: [
+      { name: '個人プラン', price: 1080, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'ファミリープラン', price: 1680, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '学生プラン', price: 580, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'youtube-music', name: 'YouTube Music', categoryId: 'music', domain: 'youtube.com',
+    plans: [
+      { name: '個人プラン', price: 1080, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'ファミリープラン', price: 1680, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'amazon-music', name: 'Amazon Music Unlimited', categoryId: 'music', domain: 'music.amazon.co.jp',
+    plans: [
+      { name: 'Prime会員価格', price: 980, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '通常月額', price: 1080, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'ファミリープラン', price: 1680, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  { id: 'line-music', name: 'LINE MUSIC', categoryId: 'music', domain: 'music.line.me', price: 980 },
+  { id: 'awa', name: 'AWA', categoryId: 'music', domain: 'awa.fm', price: 960 },
+
   // 🎮 ゲーム
-  { id: 'nintendo-switch-online', name: 'Nintendo Switch Online', price: 306, categoryId: 'game', domain: 'nintendo.co.jp' },
-  { id: 'playstation-plus', name: 'PlayStation Plus Essential', price: 850, categoryId: 'game', domain: 'playstation.com' },
-  { id: 'xbox-game-pass', name: 'Xbox Game Pass Ultimate', price: 2750, categoryId: 'game', domain: 'xbox.com' },
-  { id: 'apple-arcade', name: 'Apple Arcade', price: 700, categoryId: 'game', domain: 'apple.com' },
-  
+  {
+    id: 'nintendo-switch-online', name: 'Nintendo Switch Online', categoryId: 'game', domain: 'nintendo.co.jp',
+    plans: [
+      { name: '個人プラン（月）', price: 306, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '個人プラン（年）', price: 2400, billingCycle: 'yearly', currency: 'JPY' },
+      { name: '個人+追加パック（年）', price: 4900, billingCycle: 'yearly', currency: 'JPY' },
+      { name: 'ファミリープラン（年）', price: 4500, billingCycle: 'yearly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'playstation-plus', name: 'PlayStation Plus', categoryId: 'game', domain: 'playstation.com',
+    plans: [
+      { name: 'Essential（月）', price: 850, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'Extra（月）', price: 1300, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'Premium（月）', price: 1550, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'Essential（年）', price: 5143, billingCycle: 'yearly', currency: 'JPY' },
+      { name: 'Extra（年）', price: 8600, billingCycle: 'yearly', currency: 'JPY' },
+      { name: 'Premium（年）', price: 10250, billingCycle: 'yearly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'xbox-game-pass', name: 'Xbox Game Pass', categoryId: 'game', domain: 'xbox.com',
+    plans: [
+      { name: 'PC Game Pass', price: 850, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'Game Pass Ultimate', price: 1210, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'apple-arcade', name: 'Apple Arcade', categoryId: 'game', domain: 'apple.com',
+    plans: [
+      { name: '個人プラン', price: 700, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'ファミリープラン', price: 700, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+
   // 📚 読書・学習
-  { id: 'kindle-unlimited', name: 'Kindle Unlimited', price: 980, categoryId: 'reading', domain: 'amazon.co.jp' },
-  { id: 'audible', name: 'Audible', price: 1500, categoryId: 'reading', domain: 'audible.co.jp' },
-  { id: 'cmoa', name: 'コミックシーモア', price: 780, categoryId: 'reading' },
-  { id: 'rakuten-magazine', name: '楽天マガジン', price: 550, categoryId: 'reading', domain: 'magazine.rakuten.co.jp' },
-  { id: 'd-magazine', name: 'dマガジン', price: 580, categoryId: 'reading' },
-  { id: 'bookwalker', name: 'BOOKWALKER', price: 836, categoryId: 'reading', domain: 'bookwalker.jp' },
-  
+  { id: 'kindle-unlimited', name: 'Kindle Unlimited', categoryId: 'reading', domain: 'amazon.co.jp', price: 980 },
+  { id: 'audible', name: 'Audible', categoryId: 'reading', domain: 'audible.co.jp', price: 1500 },
+  { id: 'cmoa', name: 'コミックシーモア', categoryId: 'reading', price: 780 },
+  {
+    id: 'rakuten-magazine', name: '楽天マガジン', categoryId: 'reading', domain: 'magazine.rakuten.co.jp',
+    plans: [
+      { name: '月額プラン', price: 550, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '年額プラン', price: 5500, billingCycle: 'yearly', currency: 'JPY' },
+    ]
+  },
+  { id: 'd-magazine', name: 'dマガジン', categoryId: 'reading', price: 580 },
+  { id: 'bookwalker', name: 'BOOKWALKER', categoryId: 'reading', domain: 'bookwalker.jp', price: 836 },
+
   // ☁️ クラウド
-  { id: 'icloud-plus-50', name: 'iCloud+ 50GB', price: 130, categoryId: 'cloud', domain: 'icloud.com' },
-  { id: 'google-one-100', name: 'Google One 100GB', price: 290, categoryId: 'cloud', domain: 'one.google.com' },
-  { id: 'dropbox', name: 'Dropbox Plus', price: 1200, categoryId: 'cloud', domain: 'dropbox.com' },
-  { id: 'onedrive', name: 'OneDrive 100GB', price: 260, categoryId: 'cloud', domain: 'onedrive.live.com' },
-  
+  {
+    id: 'icloud-plus', name: 'iCloud+', categoryId: 'cloud', domain: 'icloud.com',
+    plans: [
+      { name: '50GB', price: 130, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '200GB', price: 400, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '2TB', price: 1300, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'google-one', name: 'Google One', categoryId: 'cloud', domain: 'one.google.com',
+    plans: [
+      { name: '100GB', price: 250, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '200GB', price: 380, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '2TB', price: 1300, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'dropbox', name: 'Dropbox', categoryId: 'cloud', domain: 'dropbox.com',
+    plans: [
+      { name: 'Plus（月額）', price: 1200, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'Plus（年額）', price: 11990, billingCycle: 'yearly', currency: 'JPY' },
+      { name: 'Professional', price: 2400, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'onedrive', name: 'OneDrive', categoryId: 'cloud', domain: 'onedrive.live.com',
+    plans: [
+      { name: '100GB', price: 260, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'Microsoft 365込み', price: 1490, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+
   // 💼 仕事・クリエイティブ
-  { id: 'adobe-cc', name: 'Adobe Creative Cloud', price: 6480, categoryId: 'work', domain: 'adobe.com' },
-  { id: 'microsoft-365', name: 'Microsoft 365 Personal', price: 1490, categoryId: 'work', domain: 'microsoft.com' },
-  
+  {
+    id: 'adobe-cc', name: 'Adobe Creative Cloud', categoryId: 'work', domain: 'adobe.com',
+    plans: [
+      { name: 'フォトグラフィー', price: 2180, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '単体アプリ', price: 3280, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'コンプリート（年間）', price: 7780, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'コンプリート（月払い）', price: 9720, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  {
+    id: 'microsoft-365', name: 'Microsoft 365', categoryId: 'work', domain: 'microsoft.com',
+    plans: [
+      { name: 'Personal（月額）', price: 1490, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'Personal（年額）', price: 14900, billingCycle: 'yearly', currency: 'JPY' },
+      { name: 'Family（月額）', price: 2100, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'Family（年額）', price: 21000, billingCycle: 'yearly', currency: 'JPY' },
+    ]
+  },
+
   // 🤖 AI・テック
-  { id: 'chatgpt-plus', name: 'ChatGPT Plus', price: 3000, categoryId: 'ai', domain: 'openai.com' }, // USDを想定した概算円で登録するか、UIで通貨切り替えさせるか
-  { id: 'claude-pro', name: 'Claude Pro', price: 3000, categoryId: 'ai', domain: 'claude.ai' },
-  { id: 'github-copilot', name: 'GitHub Copilot', price: 1500, categoryId: 'ai', domain: 'github.com' },
-  { id: 'google-ai-plus', name: 'Google AI Plus', price: 1200, categoryId: 'ai', domain: 'one.google.com' },
-  { id: 'perplexity', name: 'Perplexity Pro', price: 3000, categoryId: 'ai', domain: 'perplexity.ai' },
-  { id: 'notion', name: 'Notion Plus', price: 1650, categoryId: 'ai', domain: 'notion.so' },
-  { id: 'genspark', name: 'Genspark', price: 2000, categoryId: 'ai', domain: 'genspark.ai' },
-  { id: 'midjourney', name: 'Midjourney', price: 1500, categoryId: 'ai', domain: 'midjourney.com' },
-  { id: 'grok', name: 'Grok', price: 2400, categoryId: 'ai', domain: 'x.ai' },
-  { id: 'canva', name: 'Canva Pro', price: 1500, categoryId: 'ai', domain: 'canva.com' },
-  { id: 'copilot', name: 'Microsoft Copilot Pro', price: 3200, categoryId: 'ai' },
-  
+  {
+    id: 'chatgpt-plus', name: 'ChatGPT', categoryId: 'ai', domain: 'openai.com',
+    plans: [
+      { name: 'Plus', price: 20, billingCycle: 'monthly', currency: 'USD' },
+      { name: 'Pro', price: 200, billingCycle: 'monthly', currency: 'USD' },
+    ]
+  },
+  {
+    id: 'claude-pro', name: 'Claude', categoryId: 'ai', domain: 'claude.ai',
+    plans: [
+      { name: 'Pro', price: 18, billingCycle: 'monthly', currency: 'USD' },
+      { name: 'Max（5倍）', price: 100, billingCycle: 'monthly', currency: 'USD' },
+    ]
+  },
+  {
+    id: 'github-copilot', name: 'GitHub Copilot', categoryId: 'ai', domain: 'github.com',
+    plans: [
+      { name: 'Individual', price: 10, billingCycle: 'monthly', currency: 'USD' },
+      { name: 'Business', price: 19, billingCycle: 'monthly', currency: 'USD' },
+    ]
+  },
+  { id: 'google-ai-plus', name: 'Google AI Plus', categoryId: 'ai', domain: 'one.google.com', price: 1200 },
+  {
+    id: 'perplexity', name: 'Perplexity', categoryId: 'ai', domain: 'perplexity.ai',
+    plans: [
+      { name: 'Pro（月額）', price: 20, billingCycle: 'monthly', currency: 'USD' },
+      { name: 'Pro（年額）', price: 200, billingCycle: 'yearly', currency: 'USD' },
+    ]
+  },
+  {
+    id: 'notion', name: 'Notion', categoryId: 'ai', domain: 'notion.so',
+    plans: [
+      { name: 'Plus', price: 10, billingCycle: 'monthly', currency: 'USD' },
+      { name: 'Business', price: 18, billingCycle: 'monthly', currency: 'USD' },
+    ]
+  },
+  { id: 'genspark', name: 'Genspark', categoryId: 'ai', domain: 'genspark.ai', price: 2000 },
+  {
+    id: 'midjourney', name: 'Midjourney', categoryId: 'ai', domain: 'midjourney.com',
+    plans: [
+      { name: 'Basic', price: 10, billingCycle: 'monthly', currency: 'USD' },
+      { name: 'Standard', price: 30, billingCycle: 'monthly', currency: 'USD' },
+      { name: 'Pro', price: 60, billingCycle: 'monthly', currency: 'USD' },
+    ]
+  },
+  { id: 'grok', name: 'Grok', categoryId: 'ai', domain: 'x.ai', price: 2400 },
+  {
+    id: 'canva', name: 'Canva', categoryId: 'ai', domain: 'canva.com',
+    plans: [
+      { name: 'Pro（月額）', price: 1500, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'Pro（年額）', price: 12000, billingCycle: 'yearly', currency: 'JPY' },
+      { name: 'Teams', price: 2000, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
+  { id: 'copilot', name: 'Microsoft Copilot Pro', categoryId: 'ai', price: 3200 },
+
   // 🛍️ ショッピング
-  { id: 'amazon-prime', name: 'Amazon Prime', price: 600, categoryId: 'shopping', domain: 'amazon.co.jp' }
+  {
+    id: 'amazon-prime', name: 'Amazon Prime', categoryId: 'shopping', domain: 'amazon.co.jp',
+    plans: [
+      { name: '月額プラン', price: 600, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '年額プラン', price: 5900, billingCycle: 'yearly', currency: 'JPY' },
+    ]
+  },
 ];
 
 export const getLogoUrl = (domain) => {
