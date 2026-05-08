@@ -52,18 +52,6 @@
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, S, S);
 
-    // カードの影
-    ctx.shadowColor = 'rgba(0,0,0,0.5)';
-    ctx.shadowBlur = 60;
-    ctx.shadowOffsetY = 20;
-
-    // メインカード
-    const cx = S / 2;
-    const cy = S * 0.44;
-    const cw = S * 0.58;
-    const ch = S * 0.38;
-    const cr = S * 0.06;
-
     function roundRect(x, y, w, h, r) {
       ctx.beginPath();
       ctx.moveTo(x + r, y);
@@ -78,24 +66,32 @@
       ctx.closePath();
     }
 
-    // カード本体
+    // カードの影
+    ctx.shadowColor = 'rgba(195, 157, 85, 0.35)';
+    ctx.shadowBlur = 60;
+    ctx.shadowOffsetY = 16;
+
+    // メインカード
+    const cx = S / 2;
+    const cy = S * 0.44;
+    const cw = S * 0.58;
+    const ch = S * 0.38;
+    const cr = S * 0.06;
+
     const cardGrad = ctx.createLinearGradient(cx - cw/2, cy - ch/2, cx + cw/2, cy + ch/2);
     cardGrad.addColorStop(0, '#C39D55');
-    cardGrad.addColorStop(1, '#8B6914');
-    ctx.shadowColor = 'rgba(195, 157, 85, 0.4)';
-    ctx.shadowBlur = 50;
-    ctx.shadowOffsetY = 10;
+    cardGrad.addColorStop(1, '#7a5c10');
     roundRect(cx - cw/2, cy - ch/2, cw, ch, cr);
     ctx.fillStyle = cardGrad;
     ctx.fill();
 
-    // カード上部ライン
+    // カード上部ハイライト
     ctx.shadowColor = 'transparent';
-    ctx.fillStyle = 'rgba(255,255,255,0.12)';
-    roundRect(cx - cw/2, cy - ch/2, cw, ch * 0.38, cr);
+    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+    roundRect(cx - cw/2, cy - ch/2, cw, ch * 0.36, cr);
     ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,0.12)';
-    ctx.fillRect(cx - cw/2, cy - ch/2 + ch * 0.3, cw, ch * 0.08);
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fillRect(cx - cw/2, cy - ch/2 + ch * 0.28, cw, ch * 0.08);
 
     // チップ
     const chipX = cx - cw/2 + cw * 0.1;
@@ -110,62 +106,60 @@
     ctx.fill();
 
     // チップの溝
-    ctx.strokeStyle = 'rgba(195,157,85,0.4)';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'rgba(180,140,60,0.5)';
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(chipX + chipW * 0.33, chipY);
-    ctx.lineTo(chipX + chipW * 0.33, chipY + chipH);
-    ctx.moveTo(chipX + chipW * 0.66, chipY);
-    ctx.lineTo(chipX + chipW * 0.66, chipY + chipH);
-    ctx.moveTo(chipX, chipY + chipH * 0.4);
-    ctx.lineTo(chipX + chipW, chipY + chipH * 0.4);
+    ctx.moveTo(chipX + chipW * 0.33, chipY + 2);
+    ctx.lineTo(chipX + chipW * 0.33, chipY + chipH - 2);
+    ctx.moveTo(chipX + chipW * 0.66, chipY + 2);
+    ctx.lineTo(chipX + chipW * 0.66, chipY + chipH - 2);
+    ctx.moveTo(chipX + 2, chipY + chipH * 0.4);
+    ctx.lineTo(chipX + chipW - 2, chipY + chipH * 0.4);
     ctx.stroke();
 
-    // 循環矢印（更新を表すシンボル）
+    // 循環矢印（右側に配置）
     const arrowCx = cx + cw * 0.22;
-    const arrowCy = cy - ch * 0.02;
-    const arrowR = ch * 0.22;
-    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
-    ctx.lineWidth = S * 0.022;
+    const arrowCy = cy + ch * 0.06;
+    const arrowR = ch * 0.2;
+    const lineW = S * 0.026;
+
+    ctx.shadowColor = 'rgba(255,255,255,0.2)';
+    ctx.shadowBlur = 12;
+    ctx.strokeStyle = 'rgba(255,255,255,0.88)';
+    ctx.lineWidth = lineW;
     ctx.lineCap = 'round';
-    ctx.shadowColor = 'rgba(255,255,255,0.3)';
-    ctx.shadowBlur = 10;
 
-    // 弧（270度）
+    // 300度の弧（上から時計回り）
+    const startAngle = -Math.PI * 0.7;
+    const endAngle = Math.PI * 0.7;
     ctx.beginPath();
-    ctx.arc(arrowCx, arrowCy, arrowR, Math.PI * 0.15, Math.PI * 1.85);
+    ctx.arc(arrowCx, arrowCy, arrowR, startAngle, endAngle);
     ctx.stroke();
 
-    // 矢印の先端
-    const arrowAngle = Math.PI * 0.15;
-    const ax = arrowCx + arrowR * Math.cos(arrowAngle);
-    const ay = arrowCy + arrowR * Math.sin(arrowAngle);
-    const headSize = S * 0.028;
-    ctx.beginPath();
-    ctx.moveTo(ax, ay);
-    ctx.lineTo(ax + headSize * Math.cos(arrowAngle - Math.PI * 0.4), ay + headSize * Math.sin(arrowAngle - Math.PI * 0.4));
-    ctx.moveTo(ax, ay);
-    ctx.lineTo(ax + headSize * Math.cos(arrowAngle + Math.PI * 0.65), ay + headSize * Math.sin(arrowAngle + Math.PI * 0.65));
-    ctx.stroke();
+    // 終点（右下）の矢印
+    const ex = arrowCx + arrowR * Math.cos(endAngle);
+    const ey = arrowCy + arrowR * Math.sin(endAngle);
+    const tangentAngle = endAngle + Math.PI / 2;
+    const hs = lineW * 1.6;
 
-    // 下部テキストライン（カード番号風）
     ctx.shadowColor = 'transparent';
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    const dotY = cy + ch * 0.3;
-    for (let g = 0; g < 3; g++) {
-      for (let d = 0; d < 4; d++) {
-        const dotX = cx - cw * 0.32 + g * cw * 0.22 + d * S * 0.028;
-        ctx.beginPath();
-        ctx.arc(dotX, dotY, S * 0.008, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
+    ctx.beginPath();
+    ctx.moveTo(ex + hs * Math.cos(tangentAngle - 0.6), ey + hs * Math.sin(tangentAngle - 0.6));
+    ctx.lineTo(ex, ey);
+    ctx.lineTo(ex + hs * Math.cos(tangentAngle + 0.6), ey + hs * Math.sin(tangentAngle + 0.6));
+    ctx.strokeStyle = 'rgba(255,255,255,0.88)';
+    ctx.lineWidth = lineW;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
 
-    // "ST" ロゴ（右下）
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.font = `600 ${S * 0.04}px -apple-system, sans-serif`;
+    // SubsTracker テキスト
+    ctx.shadowColor = 'transparent';
+    ctx.fillStyle = 'rgba(255,255,255,0.65)';
+    ctx.font = `500 ${S * 0.038}px -apple-system, Helvetica, sans-serif`;
     ctx.textAlign = 'right';
-    ctx.fillText('SubsTracker', cx + cw/2 - S*0.03, cy + ch/2 - S*0.025);
+    ctx.letterSpacing = '1px';
+    ctx.fillText('SubsTracker', cx + cw/2 - S * 0.03, cy + ch/2 - S * 0.025);
 
     function download() {
       const a = document.createElement('a');
