@@ -120,23 +120,11 @@
 
     // 塗りつぶし三角形の矢頭
     ctx.shadowColor = 'transparent';
-    const ts = lw * 2.2; // 三角形のサイズ
+    const ts = lw * 1.8; // 外接円の半径
     ctx.beginPath();
-    // 頂点（進行方向の先端）
-    ctx.moveTo(
-      ex + ts * Math.cos(tAngle),
-      ey + ts * Math.sin(tAngle)
-    );
-    // 左翼
-    ctx.lineTo(
-      ex + ts * Math.cos(tAngle + Math.PI - 0.4),
-      ey + ts * Math.sin(tAngle + Math.PI - 0.4)
-    );
-    // 右翼
-    ctx.lineTo(
-      ex + ts * Math.cos(tAngle + Math.PI + 0.4),
-      ey + ts * Math.sin(tAngle + Math.PI + 0.4)
-    );
+    ctx.moveTo(ex + ts * Math.cos(tAngle),              ey + ts * Math.sin(tAngle));
+    ctx.lineTo(ex + ts * Math.cos(tAngle + Math.PI * 2/3), ey + ts * Math.sin(tAngle + Math.PI * 2/3));
+    ctx.lineTo(ex + ts * Math.cos(tAngle - Math.PI * 2/3), ey + ts * Math.sin(tAngle - Math.PI * 2/3));
     ctx.closePath();
     ctx.fillStyle = 'rgba(255,255,255,0.9)';
     ctx.fill();
