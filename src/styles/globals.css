@@ -29,7 +29,7 @@ body {
 }
 
 .dashboard-container {
-  padding: calc(32px + env(safe-area-inset-top)) 24px calc(100px + env(safe-area-inset-bottom)) 24px;
+  padding: calc(16px + env(safe-area-inset-top)) 24px calc(100px + env(safe-area-inset-bottom)) 24px;
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none; /* Firefox */
@@ -178,7 +178,7 @@ body {
 
 .nav-item .nav-indicator {
   position: absolute;
-  top: -2px;
+  top: 2px;
   left: 50%;
   transform: translateX(-50%) scaleX(0);
   width: 20px;
