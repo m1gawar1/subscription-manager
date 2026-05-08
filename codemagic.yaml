@@ -73,11 +73,16 @@ workflows:
             -archivePath ios/App.xcarchive \
             archive \
             CODE_SIGN_STYLE=Manual
+          app-store-connect fetch-signing-files \
+            com.subscmanager.app \
+            --type IOS_APP_STORE \
+            --create
+          xcode-project use-profiles
           xcodebuild \
             -exportArchive \
             -archivePath ios/App.xcarchive \
             -exportPath ios/ipa \
-            -exportOptionsPlist ios/ExportOptions.plist
+            -exportOptionsPlist /Users/builder/export_options.plist
 
     artifacts:
       - ios/ipa/*.ipa
