@@ -7,10 +7,14 @@ const SLIDES = [
         <circle cx="50" cy="50" r="40" stroke="var(--gold-accent)" strokeWidth="2" opacity="0.2" />
         <circle cx="50" cy="50" r="28" stroke="var(--gold-accent)" strokeWidth="2" opacity="0.4" />
         <circle cx="50" cy="50" r="16" fill="var(--gold-accent)" opacity="0.15" />
-        <text x="50" y="56" textAnchor="middle" fontSize="28">💰</text>
+        {/* Wallet icon */}
+        <rect x="30" y="38" width="40" height="26" rx="5" stroke="var(--gold-accent)" strokeWidth="2.5" />
+        <path d="M30 46h40" stroke="var(--gold-accent)" strokeWidth="2" opacity="0.5" />
+        <circle cx="62" cy="54" r="3" fill="var(--gold-accent)" />
+        <path d="M30 43c0-3.3 2.7-6 6-6h28" stroke="var(--gold-accent)" strokeWidth="2" strokeLinecap="round" />
       </svg>
     ),
-    title: 'サブスク管理へようこそ',
+    title: 'SubsTrackerへようこそ',
     description: 'サブスクリプションの支出を\n一目で把握・管理できるアプリです',
   },
   {
@@ -67,8 +71,11 @@ const SLIDES = [
   {
     icon: (
       <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
-        <circle cx="50" cy="46" r="24" stroke="var(--gold-accent)" strokeWidth="2" opacity="0.3" />
-        <path d="M50 30 L54 42 L66 42 L56 50 L60 62 L50 54 L40 62 L44 50 L34 42 L46 42 Z" fill="var(--gold-accent)" opacity="0.8" />
+        <circle cx="50" cy="46" r="26" stroke="var(--gold-accent)" strokeWidth="2" opacity="0.3" />
+        <circle cx="50" cy="46" r="18" fill="var(--gold-accent)" opacity="0.1" />
+        {/* Checkmark */}
+        <circle cx="50" cy="46" r="14" fill="var(--gold-accent)" opacity="0.9" />
+        <path d="M43 46l5 5 9-9" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         <rect x="30" y="76" width="40" height="6" rx="3" fill="var(--gold-accent)" />
       </svg>
     ),
@@ -154,10 +161,10 @@ const Onboarding = ({ onComplete }) => {
           </div>
           <h2 style={{
             fontSize: '24px',
-            fontWeight: '700',
+            fontWeight: '600',
             color: 'var(--text-main)',
             marginBottom: '16px',
-            letterSpacing: '-0.5px',
+            letterSpacing: '-0.3px',
           }}>
             {slide.title}
           </h2>
@@ -179,12 +186,14 @@ const Onboarding = ({ onComplete }) => {
           {SLIDES.map((_, i) => (
             <div
               key={i}
+              onClick={() => { setSlideDirection(i > currentSlide ? 'right' : 'left'); setCurrentSlide(i); }}
               style={{
                 width: i === currentSlide ? '24px' : '8px',
                 height: '8px',
                 borderRadius: '4px',
                 background: i === currentSlide ? 'var(--gold-accent)' : 'var(--border-color)',
                 transition: 'all 0.3s ease',
+                cursor: 'pointer',
               }}
             />
           ))}
@@ -201,8 +210,8 @@ const Onboarding = ({ onComplete }) => {
                 border: '1.5px solid var(--border-color)',
                 background: 'var(--card-bg)',
                 color: 'var(--text-muted)',
-                fontSize: '16px',
-                fontWeight: '600',
+                fontSize: '15px',
+                fontWeight: '500',
                 cursor: 'pointer',
               }}
             >
@@ -218,8 +227,8 @@ const Onboarding = ({ onComplete }) => {
               border: 'none',
               background: 'var(--gold-accent)',
               color: '#FFF',
-              fontSize: '16px',
-              fontWeight: '700',
+              fontSize: '15px',
+              fontWeight: '600',
               cursor: 'pointer',
               boxShadow: '0 4px 15px rgba(195, 157, 85, 0.4)',
             }}

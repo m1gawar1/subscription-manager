@@ -262,7 +262,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
             <button onClick={() => setIsEditMode(!isEditMode)} style={{ background: 'none', border: 'none', color: 'var(--gold-accent)', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>
               {isEditMode ? '完了' : '編集'}
             </button>
-            <button onClick={onAddClick} style={{ width: '28px', height: '28px', borderRadius: '14px', backgroundColor: 'var(--card-bg)', color: 'var(--gold-accent)', border: '1.5px solid var(--gold-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 10px rgba(195, 157, 85, 0.2)' }}>
+            <button onClick={onAddClick} className="add-btn" style={{ width: '32px', height: '32px', borderRadius: '16px', backgroundColor: 'var(--gold-accent)', color: '#FFF', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', fontWeight: '300', cursor: 'pointer', boxShadow: '0 4px 12px rgba(195, 157, 85, 0.4)' }}>
               <span style={{ transform: 'translateY(-1px)' }}>+</span>
             </button>
           </div>

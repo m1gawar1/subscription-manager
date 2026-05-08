@@ -285,9 +285,13 @@ function App() {
   };
 
   const [tabKey, setTabKey] = useState(0);
+  const [tabDirection, setTabDirection] = useState('right');
+  const TAB_ORDER = ['home', 'analysis', 'calendar', 'settings'];
 
   const handleTabChange = (tab) => {
     if (tab !== activeTab) {
+      const dir = TAB_ORDER.indexOf(tab) > TAB_ORDER.indexOf(activeTab) ? 'right' : 'left';
+      setTabDirection(dir);
       setActiveTab(tab);
       setTabKey(prev => prev + 1);
     }
@@ -297,7 +301,7 @@ function App() {
     <div className="app-wrapper">
       <div className="app-container">
         <div style={{ height: 'calc(100% - 80px)', overflow: 'hidden' }}>
-          <div key={tabKey} className="tab-enter" style={{ height: '100%' }}>
+          <div key={tabKey} className={`tab-enter-${tabDirection}`} style={{ height: '100%' }}>
             {activeTab === 'home' && (
               <Dashboard
                 subscriptions={subscriptions}
