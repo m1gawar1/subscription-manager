@@ -206,6 +206,9 @@ const Calendar = ({ subscriptions, exchangeRate, onEdit, onUpdateDate }) => {
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                           flexShrink: 0, position: 'relative',
                           cursor: 'grab',
+                          WebkitTouchCallout: 'none',
+                          WebkitUserSelect: 'none',
+                          userSelect: 'none',
                         }}
                       >
                         <CategoryIcon id={sub.categoryId} size={10} color={isSelected ? '#FFF' : getCategoryById(sub.categoryId).color} />

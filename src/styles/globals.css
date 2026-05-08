@@ -18,6 +18,14 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  draggable: false;
+}
+
 body {
   font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   background-color: #E2E8F0; /* Outer background for desktop preview */
