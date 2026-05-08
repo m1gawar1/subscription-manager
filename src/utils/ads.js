@@ -3,15 +3,14 @@ import { Capacitor } from '@capacitor/core';
 
 const isNative = Capacitor.isNativePlatform();
 
-// テスト用広告ID（リリース時に本番IDに差し替え）
 const AD_IDS = {
   banner: {
-    android: 'ca-app-pub-3940256099942544/6300978111',  // Google テスト用
-    ios: 'ca-app-pub-3940256099942544/2934735716',
+    android: 'ca-app-pub-3940256099942544/6300978111',  // Android は後で差し替え
+    ios: 'ca-app-pub-5452070430246807/5813115365',
   },
   rewarded: {
-    android: 'ca-app-pub-3940256099942544/5224354917',
-    ios: 'ca-app-pub-3940256099942544/1712485313',
+    android: 'ca-app-pub-3940256099942544/5224354917',  // Android は後で差し替え
+    ios: 'ca-app-pub-5452070430246807/7950597651',
   },
 };
 
@@ -22,7 +21,7 @@ export const initializeAdMob = async () => {
   if (!isNative) return;
   try {
     await AdMob.initialize({
-      initializeForTesting: true, // リリース時に false に変更
+      initializeForTesting: false,
     });
   } catch (err) {
     console.error('AdMob init failed:', err);
