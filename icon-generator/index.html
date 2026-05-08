@@ -118,22 +118,28 @@
     const ey = ay + ar * Math.sin(endA);
     const hs = lw * 1.6;
 
+    // 塗りつぶし三角形の矢頭
     ctx.shadowColor = 'transparent';
+    const ts = lw * 2.2; // 三角形のサイズ
     ctx.beginPath();
-    // 進行方向tAngleから、後ろに±0.45ラジアン
+    // 頂点（進行方向の先端）
     ctx.moveTo(
-      ex + hs * Math.cos(tAngle + Math.PI + 0.45),
-      ey + hs * Math.sin(tAngle + Math.PI + 0.45)
+      ex + ts * Math.cos(tAngle),
+      ey + ts * Math.sin(tAngle)
     );
-    ctx.lineTo(ex, ey);
+    // 左翼
     ctx.lineTo(
-      ex + hs * Math.cos(tAngle + Math.PI - 0.45),
-      ey + hs * Math.sin(tAngle + Math.PI - 0.45)
+      ex + ts * Math.cos(tAngle + Math.PI - 0.4),
+      ey + ts * Math.sin(tAngle + Math.PI - 0.4)
     );
-    ctx.strokeStyle = 'rgba(255,255,255,0.9)';
-    ctx.lineWidth = lw;
-    ctx.lineJoin = 'round';
-    ctx.stroke();
+    // 右翼
+    ctx.lineTo(
+      ex + ts * Math.cos(tAngle + Math.PI + 0.4),
+      ey + ts * Math.sin(tAngle + Math.PI + 0.4)
+    );
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.fill();
 
     // SubsTracker テキスト
     ctx.fillStyle = 'rgba(255,255,255,0.6)';
