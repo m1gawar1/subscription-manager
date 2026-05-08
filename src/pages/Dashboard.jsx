@@ -18,7 +18,7 @@ const SORT_OPTIONS = [
 
 const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause, exchangeRate, budget, isPro, maxSlots, onUpgrade }) => {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [activeCategoryId, setActiveCategoryId] = useState('all');
+  const [activeCategories, setActiveCategories] = useState([]); // 空 = すべて
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortId, setSortId] = useState('default');
@@ -26,9 +26,15 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [detailSub, setDetailSub] = useState(null);
 
+  const toggleCategory = (id) => {
+    setActiveCategories(prev =>
+      prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
+    );
+  };
+
   // カテゴリー・検索・ソートを適用
   const filteredSubscriptions = subscriptions
-    .filter(sub => activeCategoryId === 'all' || sub.categoryId === activeCategoryId)
+    .filter(sub => activeCategories.length === 0 || activeCategories.includes(sub.categoryId))
     .filter(sub => sub.name.toLowerCase().includes(searchQuery.toLowerCase()))
     .sort((a, b) => {
       switch (sortId) {
@@ -177,7 +183,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div>
               <div className="section-title" style={{ marginBottom: '4px' }}>
-                {activeCategoryId === 'all' ? '月換算の合計支出' : `${getCategoryById(activeCategoryId).name}の支出`}
+                {activeCategories.length === 0 ? '月換算の合計支出' : activeCategories.length === 1 ? `${getCategoryById(activeCategories[0]).name}の支出` : '選択カテゴリの支出'}
               </div>
               <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px' }}>一時停止中を除く</div>
               <div className="gold-text count-animate" key={totalMonthly} style={{ fontSize: '32px', fontWeight: '500', letterSpacing: '-0.5px' }}>¥{totalMonthly.toLocaleString()}</div>
@@ -248,7 +254,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '32px', marginBottom: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div className="section-title" style={{ margin: 0 }}>サブスクリプション一覧</div>
-            {(activeCategoryId !== 'all' || sortId !== 'default') && (
+            {(activeCategories.length > 0 || sortId !== 'default') && (
               <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--gold-accent)' }} />
             )}
           </div>
@@ -258,8 +264,8 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
               style={{
                 display: 'flex', alignItems: 'center', gap: '5px',
                 padding: '6px 12px', borderRadius: '20px', border: 'none',
-                background: (activeCategoryId !== 'all' || sortId !== 'default') ? 'var(--gold-accent-light)' : 'var(--input-bg)',
-                color: (activeCategoryId !== 'all' || sortId !== 'default') ? 'var(--gold-accent)' : 'var(--text-muted)',
+                background: (activeCategories.length > 0 || sortId !== 'default') ? 'var(--gold-accent-light)' : 'var(--input-bg)',
+                color: (activeCategories.length > 0 || sortId !== 'default') ? 'var(--gold-accent)' : 'var(--text-muted)',
                 fontSize: '12px', fontWeight: '600', cursor: 'pointer',
               }}
             >
@@ -314,21 +320,24 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
                 <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>カテゴリ</div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   <button
-                    onClick={() => setActiveCategoryId('all')}
-                    style={{ padding: '7px 14px', borderRadius: '20px', border: 'none', fontSize: '13px', fontWeight: '600', cursor: 'pointer', background: activeCategoryId === 'all' ? 'var(--gold-accent)' : 'var(--input-bg)', color: activeCategoryId === 'all' ? '#FFF' : 'var(--text-muted)' }}
+                    onClick={() => setActiveCategories([])}
+                    style={{ padding: '7px 14px', borderRadius: '20px', border: 'none', fontSize: '13px', fontWeight: '600', cursor: 'pointer', background: activeCategories.length === 0 ? 'var(--gold-accent)' : 'var(--input-bg)', color: activeCategories.length === 0 ? '#FFF' : 'var(--text-muted)' }}
                   >
                     すべて
                   </button>
-                  {CATEGORIES.map(cat => (
-                    <button
-                      key={cat.id}
-                      onClick={() => setActiveCategoryId(cat.id)}
-                      style={{ padding: '7px 14px', borderRadius: '20px', border: 'none', fontSize: '13px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px', background: activeCategoryId === cat.id ? 'var(--gold-accent)' : 'var(--input-bg)', color: activeCategoryId === cat.id ? '#FFF' : 'var(--text-muted)' }}
-                    >
-                      <CategoryIcon id={cat.id} size={12} />
-                      {cat.name}
-                    </button>
-                  ))}
+                  {CATEGORIES.map(cat => {
+                    const isActive = activeCategories.includes(cat.id);
+                    return (
+                      <button
+                        key={cat.id}
+                        onClick={() => toggleCategory(cat.id)}
+                        style={{ padding: '7px 14px', borderRadius: '20px', border: isActive ? '1.5px solid var(--gold-accent)' : '1.5px solid transparent', fontSize: '13px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px', background: isActive ? 'var(--gold-accent-light)' : 'var(--input-bg)', color: isActive ? 'var(--gold-accent)' : 'var(--text-muted)' }}
+                      >
+                        <CategoryIcon id={cat.id} size={12} />
+                        {cat.name}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -460,10 +469,10 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
                 <line x1="56" y1="52" x2="56" y2="60" stroke="white" strokeWidth="2" strokeLinecap="round" />
               </svg>
               <div className="empty-title">
-                {searchQuery ? `"${searchQuery}" に一致するサービスなし` : activeCategoryId === 'all' ? 'まだサブスクが登録されていません' : `${getCategoryById(activeCategoryId).name}のサブスクなし`}
+                {searchQuery ? `"${searchQuery}" に一致するサービスなし` : activeCategories.length === 0 ? 'まだサブスクが登録されていません' : '該当するサブスクなし'}
               </div>
               <div className="empty-desc">
-                {searchQuery ? '別のキーワードで検索してみてください' : activeCategoryId === 'all' ? '「+」ボタンからサブスクリプションを追加して\n支出を管理しましょう' : '別のカテゴリーを選択してください'}
+                {searchQuery ? '別のキーワードで検索してみてください' : activeCategories.length === 0 ? '「+」ボタンからサブスクリプションを追加して\n支出を管理しましょう' : '別のカテゴリーを選択してください'}
               </div>
             </div>
           )}
