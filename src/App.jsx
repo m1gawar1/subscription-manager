@@ -261,6 +261,12 @@ function App() {
     }
   };
 
+  const updateSubscriptionDate = (id, newDay) => {
+    setSubscriptions(subs => subs.map(sub =>
+      sub.id === id ? { ...sub, date: String(newDay) } : sub
+    ));
+  };
+
   const togglePauseSubscription = (id) => {
     setSubscriptions(subscriptions.map(sub =>
       sub.id === id ? { ...sub, isPaused: !sub.isPaused } : sub
@@ -317,7 +323,7 @@ function App() {
                 monthlyHistory={monthlyHistory}
               />
             )}
-            {activeTab === 'calendar' && <Calendar subscriptions={subscriptions} exchangeRate={exchangeRate} onEdit={(sub) => { setEditingSub(sub); setIsModalOpen(true); }} />}
+            {activeTab === 'calendar' && <Calendar subscriptions={subscriptions} exchangeRate={exchangeRate} onEdit={(sub) => { setEditingSub(sub); setIsModalOpen(true); }} onUpdateDate={updateSubscriptionDate} />}
             {activeTab === 'settings' && (
               <Settings
                 currentTheme={theme}

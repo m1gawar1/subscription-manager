@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getCategoryById } from '../constants/categories';
 import { getConvertedPrice } from '../utils/currency';
 import { isBillingMonth } from '../constants/billing';
@@ -6,11 +6,71 @@ import CategoryIcon from '../components/CategoryIcon';
 import { getLogoUrl } from '../constants/presets';
 import { Pencil } from 'lucide-react';
 
-const Calendar = ({ subscriptions, exchangeRate, onEdit }) => {
+const Calendar = ({ subscriptions, exchangeRate, onEdit, onUpdateDate }) => {
   const now = new Date();
   const [viewYear, setViewYear] = useState(now.getFullYear());
   const [viewMonth, setViewMonth] = useState(now.getMonth()); // 0-indexed
   const [selectedDay, setSelectedDay] = useState(now.getDate());
+
+  // ドラッグ状態
+  const draggingRef = useRef(null);
+  const dragOverDayRef = useRef(null);
+  const longPressTimer = useRef(null);
+  const [ghostPos, setGhostPos] = useState(null);
+  const [dragOverDay, setDragOverDay] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  useEffect(() => {
+    const handleMove = (e) => {
+      if (!draggingRef.current) return;
+      e.preventDefault();
+      const touch = e.touches[0];
+      setGhostPos({ x: touch.clientX, y: touch.clientY });
+
+      // タッチ位置のdataDay要素を特定
+      const el = document.elementFromPoint(touch.clientX, touch.clientY);
+      const cell = el?.closest('[data-day]');
+      const day = cell ? parseInt(cell.getAttribute('data-day')) : null;
+      dragOverDayRef.current = day;
+      setDragOverDay(day);
+    };
+
+    const handleEnd = () => {
+      clearTimeout(longPressTimer.current);
+      if (draggingRef.current && dragOverDayRef.current) {
+        const sub = draggingRef.current;
+        const newDay = dragOverDayRef.current;
+        if (String(newDay) !== String(sub.date) && onUpdateDate) {
+          onUpdateDate(sub.id, newDay);
+        }
+      }
+      draggingRef.current = null;
+      dragOverDayRef.current = null;
+      setGhostPos(null);
+      setDragOverDay(null);
+      setIsDragging(false);
+    };
+
+    document.addEventListener('touchmove', handleMove, { passive: false });
+    document.addEventListener('touchend', handleEnd);
+    return () => {
+      document.removeEventListener('touchmove', handleMove);
+      document.removeEventListener('touchend', handleEnd);
+    };
+  }, [onUpdateDate]);
+
+  const startLongPress = (e, sub) => {
+    const touch = e.touches[0];
+    longPressTimer.current = setTimeout(() => {
+      draggingRef.current = sub;
+      setIsDragging(true);
+      setGhostPos({ x: touch.clientX, y: touch.clientY });
+    }, 300);
+  };
+
+  const cancelLongPress = () => {
+    clearTimeout(longPressTimer.current);
+  };
 
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(viewYear, viewMonth, 1).getDay();
@@ -43,7 +103,25 @@ const Calendar = ({ subscriptions, exchangeRate, onEdit }) => {
   const isCurrentMonth = viewYear === now.getFullYear() && viewMonth === now.getMonth();
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container" style={{ overflowY: isDragging ? 'hidden' : 'auto' }}>
+      {/* ドラッグ中のゴーストアイコン */}
+      {ghostPos && draggingRef.current && (
+        <div style={{
+          position: 'fixed',
+          left: ghostPos.x - 20,
+          top: ghostPos.y - 20,
+          width: '40px', height: '40px',
+          borderRadius: '12px',
+          background: 'linear-gradient(135deg, var(--gold-accent), #b8860b)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          pointerEvents: 'none',
+          zIndex: 9999,
+          boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+          transform: 'scale(1.15)',
+        }}>
+          <CategoryIcon id={draggingRef.current.categoryId} size={20} color="#FFF" />
+        </div>
+      )}
       <header style={{ marginBottom: '32px' }}>
         {/* 月移動ナビゲーション */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -93,34 +171,44 @@ const Calendar = ({ subscriptions, exchangeRate, onEdit }) => {
             const iconsToShow = daySubsc.slice(0, 2);
             const extraCount = daySubsc.length - iconsToShow.length;
 
+            const isDragTarget = isDragging && dragOverDay === day;
+
             return (
               <div
                 key={day}
-                onClick={() => setSelectedDay(day)}
+                data-day={day}
+                onClick={() => !isDragging && setSelectedDay(day)}
                 style={{
                   height: '52px',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start',
                   paddingTop: '6px',
-                  borderRadius: '12px', cursor: 'pointer',
-                  backgroundColor: isSelected ? 'var(--gold-accent)' : (isToday ? 'var(--gold-accent-light)' : 'transparent'),
-                  color: isSelected ? '#FFF' : (isToday ? 'var(--gold-accent)' : 'var(--text-main)'),
-                  fontWeight: (isSelected || isToday) ? '700' : '400',
+                  borderRadius: '12px', cursor: isDragging ? 'copy' : 'pointer',
+                  backgroundColor: isDragTarget ? 'var(--gold-accent)' : isSelected ? 'var(--gold-accent)' : (isToday ? 'var(--gold-accent-light)' : 'transparent'),
+                  color: (isDragTarget || isSelected) ? '#FFF' : (isToday ? 'var(--gold-accent)' : 'var(--text-main)'),
+                  fontWeight: (isSelected || isToday || isDragTarget) ? '700' : '400',
                   fontSize: '13px',
-                  transition: 'all 0.2s ease',
+                  transition: 'background-color 0.15s ease',
                   gap: '3px',
+                  outline: isDragTarget ? '2px solid var(--gold-accent)' : 'none',
                 }}
               >
                 {day}
                 {hasSubsc && (
                   <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
                     {iconsToShow.map(sub => (
-                      <div key={sub.id} style={{
-                        width: '14px', height: '14px', borderRadius: '4px',
-                        overflow: 'hidden', backgroundColor: isSelected ? 'rgba(255,255,255,0.3)' : 'var(--input-bg)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        flexShrink: 0, position: 'relative',
-                      }}>
-                        <CategoryIcon id={sub.categoryId} size={8} color={isSelected ? '#FFF' : getCategoryById(sub.categoryId).color} />
+                      <div
+                        key={sub.id}
+                        onTouchStart={(e) => { e.stopPropagation(); startLongPress(e, sub); }}
+                        onTouchMove={cancelLongPress}
+                        style={{
+                          width: '18px', height: '18px', borderRadius: '4px',
+                          overflow: 'hidden', backgroundColor: isSelected ? 'rgba(255,255,255,0.3)' : 'var(--input-bg)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          flexShrink: 0, position: 'relative',
+                          cursor: 'grab',
+                        }}
+                      >
+                        <CategoryIcon id={sub.categoryId} size={10} color={isSelected ? '#FFF' : getCategoryById(sub.categoryId).color} />
                         {sub.domain && (
                           <img
                             src={getLogoUrl(sub.domain)}
