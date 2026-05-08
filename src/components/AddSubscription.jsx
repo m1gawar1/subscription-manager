@@ -189,15 +189,15 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
           {/* 支払いサイクル */}
           <div>
             <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '8px' }}>支払いサイクル</label>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
               {BILLING_CYCLES.map(cycle => (
                 <button
                   key={cycle.id}
                   type="button"
                   onClick={() => setBillingCycle(cycle.id)}
                   style={{
-                    padding: '8px 14px', borderRadius: '20px', fontSize: '13px', fontWeight: '600',
-                    cursor: 'pointer', transition: 'all 0.2s ease',
+                    padding: '8px 4px', borderRadius: '20px', fontSize: '12px', fontWeight: '600',
+                    cursor: 'pointer', transition: 'all 0.2s ease', whiteSpace: 'nowrap',
                     border: billingCycle === cycle.id ? '1.5px solid var(--gold-accent)' : '1.5px solid var(--border-color)',
                     background: billingCycle === cycle.id ? 'var(--gold-accent-light)' : 'var(--card-bg)',
                     color: billingCycle === cycle.id ? 'var(--gold-accent)' : 'var(--text-muted)',
