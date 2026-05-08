@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/globals.css';
-import { Crown } from 'lucide-react';
+import { Crown, SlidersHorizontal, X } from 'lucide-react';
 import { CATEGORIES, getCategoryById } from '../constants/categories';
 import { getLogoUrl } from '../constants/presets';
 import { getBillingCycleById, isBillingMonth } from '../constants/billing';
@@ -23,6 +23,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
   const [searchQuery, setSearchQuery] = useState('');
   const [sortId, setSortId] = useState('default');
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [detailSub, setDetailSub] = useState(null);
 
   // カテゴリー・検索・ソートを適用
@@ -243,22 +244,28 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
           )}
         </div>
 
-        {/* Category Filters */}
-        <div style={{ display: 'flex', overflowX: 'auto', gap: '10px', marginTop: '24px', paddingBottom: '8px', scrollbarWidth: 'none' }} className="no-scrollbar">
-          <button onClick={() => setActiveCategoryId('all')} style={{ flexShrink: 0, padding: '8px 16px', borderRadius: '20px', border: 'none', background: activeCategoryId === 'all' ? 'var(--gold-accent)' : 'var(--card-bg)', color: activeCategoryId === 'all' ? '#FFF' : 'var(--text-muted)', fontSize: '13px', fontWeight: '600', cursor: 'pointer', boxShadow: activeCategoryId === 'all' ? '0 4px 12px rgba(195, 157, 85, 0.3)' : 'none' }}>
-            すべて
-          </button>
-          {CATEGORIES.map(cat => (
-            <button key={cat.id} onClick={() => setActiveCategoryId(cat.id)} style={{ flexShrink: 0, padding: '8px 16px', borderRadius: '20px', border: 'none', background: activeCategoryId === cat.id ? 'var(--gold-accent)' : 'var(--card-bg)', color: activeCategoryId === cat.id ? '#FFF' : 'var(--text-muted)', fontSize: '13px', fontWeight: '600', cursor: 'pointer', boxShadow: activeCategoryId === cat.id ? '0 4px 12px rgba(195, 157, 85, 0.3)' : 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <CategoryIcon id={cat.id} size={13} />{cat.name}
-            </button>
-          ))}
-        </div>
-
         {/* List Section Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '32px', marginBottom: '12px' }}>
-          <div className="section-title" style={{ margin: 0 }}>サブスクリプション一覧</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div className="section-title" style={{ margin: 0 }}>サブスクリプション一覧</div>
+            {(activeCategoryId !== 'all' || sortId !== 'default') && (
+              <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--gold-accent)' }} />
+            )}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '5px',
+                padding: '6px 12px', borderRadius: '20px', border: 'none',
+                background: (activeCategoryId !== 'all' || sortId !== 'default') ? 'var(--gold-accent-light)' : 'var(--input-bg)',
+                color: (activeCategoryId !== 'all' || sortId !== 'default') ? 'var(--gold-accent)' : 'var(--text-muted)',
+                fontSize: '12px', fontWeight: '600', cursor: 'pointer',
+              }}
+            >
+              <SlidersHorizontal size={13} />
+              絞り込み
+            </button>
             <button onClick={() => setIsEditMode(!isEditMode)} style={{ background: 'none', border: 'none', color: 'var(--gold-accent)', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>
               {isEditMode ? '完了' : '編集'}
             </button>
@@ -268,10 +275,9 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
           </div>
         </div>
 
-        {/* 検索・ソートバー */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-          {/* 検索 */}
-          <div style={{ flex: 1, position: 'relative' }}>
+        {/* 検索バー */}
+        <div style={{ marginBottom: '16px' }}>
+          <div style={{ position: 'relative' }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }}>
               <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
@@ -283,30 +289,67 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
               style={{ width: '100%', padding: '10px 12px 10px 36px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '14px', boxSizing: 'border-box' }}
             />
           </div>
-          {/* ソート */}
-          <div style={{ position: 'relative' }}>
-            <button
-              onClick={() => setIsSortOpen(!isSortOpen)}
-              style={{ padding: '10px 12px', borderRadius: '12px', border: '1px solid var(--border-color)', background: sortId !== 'default' ? 'var(--gold-accent-light)' : 'var(--input-bg)', color: sortId !== 'default' ? 'var(--gold-accent)' : 'var(--text-muted)', fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '4px' }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
-              {currentSortLabel}
-            </button>
-            {isSortOpen && (
-              <div className="soft-card" style={{ position: 'absolute', right: 0, top: '44px', zIndex: 50, minWidth: '160px', padding: '8px', boxShadow: '0 8px 20px rgba(0,0,0,0.1)' }}>
-                {SORT_OPTIONS.map(opt => (
-                  <button
-                    key={opt.id}
-                    onClick={() => { setSortId(opt.id); setIsSortOpen(false); }}
-                    style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 12px', background: sortId === opt.id ? 'var(--gold-accent-light)' : 'none', color: sortId === opt.id ? 'var(--gold-accent)' : 'var(--text-main)', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: sortId === opt.id ? '600' : '400', cursor: 'pointer' }}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
+
+        {/* フィルター・ソートシート */}
+        {isFilterOpen && (
+          <div
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', zIndex: 500, display: 'flex', alignItems: 'flex-end' }}
+            onClick={() => setIsFilterOpen(false)}
+          >
+            <div
+              style={{ width: '100%', backgroundColor: 'var(--card-bg)', borderRadius: '24px 24px 0 0', padding: '24px 20px 40px' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* ヘッダー */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <div style={{ fontSize: '16px', fontWeight: '600', color: 'var(--text-main)' }}>絞り込み・並び替え</div>
+                <button onClick={() => setIsFilterOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* カテゴリ */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>カテゴリ</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  <button
+                    onClick={() => setActiveCategoryId('all')}
+                    style={{ padding: '7px 14px', borderRadius: '20px', border: 'none', fontSize: '13px', fontWeight: '600', cursor: 'pointer', background: activeCategoryId === 'all' ? 'var(--gold-accent)' : 'var(--input-bg)', color: activeCategoryId === 'all' ? '#FFF' : 'var(--text-muted)' }}
+                  >
+                    すべて
+                  </button>
+                  {CATEGORIES.map(cat => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setActiveCategoryId(cat.id)}
+                      style={{ padding: '7px 14px', borderRadius: '20px', border: 'none', fontSize: '13px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px', background: activeCategoryId === cat.id ? 'var(--gold-accent)' : 'var(--input-bg)', color: activeCategoryId === cat.id ? '#FFF' : 'var(--text-muted)' }}
+                    >
+                      <CategoryIcon id={cat.id} size={12} />
+                      {cat.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* ソート */}
+              <div>
+                <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>並び替え</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  {SORT_OPTIONS.map(opt => (
+                    <button
+                      key={opt.id}
+                      onClick={() => { setSortId(opt.id); setIsFilterOpen(false); }}
+                      style={{ textAlign: 'left', padding: '11px 14px', borderRadius: '12px', border: 'none', fontSize: '14px', fontWeight: sortId === opt.id ? '600' : '400', cursor: 'pointer', background: sortId === opt.id ? 'var(--gold-accent-light)' : 'transparent', color: sortId === opt.id ? 'var(--gold-accent)' : 'var(--text-main)' }}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {filteredSubscriptions.map(sub => {
