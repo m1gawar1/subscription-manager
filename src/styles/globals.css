@@ -79,25 +79,7 @@ body {
 }
 
 .soft-card::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(195, 157, 85, 0.1);
-  transform: translate(-50%, -50%);
-  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.soft-card:active::after {
-  width: 300px;
-  height: 300px;
-  opacity: 1;
-  transition: width 0.1s ease, height 0.1s ease, opacity 0s;
+  content: none;
 }
 
 .soft-card:active {

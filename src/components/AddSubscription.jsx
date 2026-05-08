@@ -23,6 +23,7 @@ const inputStyle = {
   background: 'var(--input-bg)',
   color: 'var(--text-main)',
   fontSize: '16px',
+  boxSizing: 'border-box',
 };
 
 const AddSubscription = ({ onSave, onCancel, initialData }) => {
@@ -93,6 +94,7 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
         width: '100%',
         maxHeight: '90vh',
         overflowY: 'auto',
+        overflowX: 'hidden',
         backgroundColor: 'var(--card-bg)',
         borderTopLeftRadius: '32px',
         borderTopRightRadius: '32px',
