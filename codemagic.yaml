@@ -37,6 +37,8 @@ workflows:
   ios-workflow:
     name: iOS App Store Build
     max_build_duration: 60
+    integrations:
+      app_store_connect: SubsTracker
     environment:
       node: 20.x
       xcode: latest
@@ -44,11 +46,6 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.subscmanager.app
-      vars:
-        APP_STORE_CONNECT_ISSUER_ID: $APP_STORE_CONNECT_ISSUER_ID
-        APP_STORE_CONNECT_KEY_IDENTIFIER: $APP_STORE_CONNECT_KEY_IDENTIFIER
-        APP_STORE_CONNECT_PRIVATE_KEY: $APP_STORE_CONNECT_PRIVATE_KEY
-        CERTIFICATE_PRIVATE_KEY: $CERTIFICATE_PRIVATE_KEY
 
     scripts:
       - name: Install dependencies
