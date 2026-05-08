@@ -86,7 +86,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
 
   return (
     <>
-      <div className="dashboard-container">
+      <div className="dashboard-container" style={{ overflowY: isFilterOpen ? 'hidden' : 'auto' }}>
         {/* Header */}
         <header className="greeting-header">
           <div style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text-muted)' }}>
