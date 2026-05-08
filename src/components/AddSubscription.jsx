@@ -83,7 +83,7 @@ const ServiceSelector = ({ onSelect, onCancel }) => {
             見つかりませんでした
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', paddingBottom: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', paddingBottom: '8px' }}>
             {filtered.map(preset => (
               <button
                 key={preset.id}
@@ -91,8 +91,8 @@ const ServiceSelector = ({ onSelect, onCancel }) => {
                 onClick={() => onSelect(preset)}
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px', background: 'none', border: 'none', cursor: 'pointer', padding: '2px', minWidth: 0 }}
               >
-                <div style={{ width: '52px', height: '52px', borderRadius: '14px', backgroundColor: 'var(--input-bg)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
-                  <CategoryIcon id={preset.categoryId} size={20} color={CATEGORIES.find(c => c.id === preset.categoryId)?.color || 'var(--text-muted)'} />
+                <div style={{ width: '64px', height: '64px', borderRadius: '16px', backgroundColor: 'var(--input-bg)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+                  <CategoryIcon id={preset.categoryId} size={26} color={CATEGORIES.find(c => c.id === preset.categoryId)?.color || 'var(--text-muted)'} />
                   {preset.domain && (
                     <img
                       src={getLogoUrl(preset.domain)}
