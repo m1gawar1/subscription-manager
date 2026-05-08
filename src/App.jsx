@@ -317,7 +317,7 @@ function App() {
                 monthlyHistory={monthlyHistory}
               />
             )}
-            {activeTab === 'calendar' && <Calendar subscriptions={subscriptions} exchangeRate={exchangeRate} />}
+            {activeTab === 'calendar' && <Calendar subscriptions={subscriptions} exchangeRate={exchangeRate} onEdit={(sub) => { setEditingSub(sub); setIsModalOpen(true); }} />}
             {activeTab === 'settings' && (
               <Settings
                 currentTheme={theme}

@@ -4,8 +4,9 @@ import { getConvertedPrice } from '../utils/currency';
 import { isBillingMonth } from '../constants/billing';
 import CategoryIcon from '../components/CategoryIcon';
 import { getLogoUrl } from '../constants/presets';
+import { Pencil } from 'lucide-react';
 
-const Calendar = ({ subscriptions, exchangeRate }) => {
+const Calendar = ({ subscriptions, exchangeRate, onEdit }) => {
   const now = new Date();
   const [viewYear, setViewYear] = useState(now.getFullYear());
   const [viewMonth, setViewMonth] = useState(now.getMonth()); // 0-indexed
@@ -167,12 +168,22 @@ const Calendar = ({ subscriptions, exchangeRate }) => {
                       <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{cat.name}</div>
                     </div>
                   </div>
-                  <div className="gold-text" style={{ fontSize: '16px', fontWeight: '600', textAlign: 'right' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div className="gold-text" style={{ fontSize: '16px', fontWeight: '600', textAlign: 'right' }}>
                     {sub.currency === 'USD' ? `$${sub.price}` : `¥${sub.price.toLocaleString()}`}
                     {sub.currency === 'USD' && (
                       <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 'normal' }}>
                         約¥{getConvertedPrice(sub, exchangeRate).toLocaleString()}
                       </div>
+                    )}
+                    </div>
+                    {onEdit && (
+                      <button
+                        onClick={() => onEdit(sub)}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '4px', display: 'flex', alignItems: 'center' }}
+                      >
+                        <Pencil size={15} />
+                      </button>
                     )}
                   </div>
                 </div>
