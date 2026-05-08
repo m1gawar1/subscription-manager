@@ -138,7 +138,7 @@ export const PRESET_SUBSCRIPTIONS = [
     ]
   },
   { id: 'd-magazine', name: 'dマガジン', categoryId: 'reading', price: 580 },
-  { id: 'bookwalker', name: 'BOOKWALKER', categoryId: 'reading', domain: 'bookwalker.jp', price: 836 },
+  { id: 'bookwalker', name: 'BOOKWALKER', categoryId: 'reading', domain: 'bookwalker.jp' },
 
   // ☁️ クラウド
   {
@@ -215,7 +215,7 @@ export const PRESET_SUBSCRIPTIONS = [
       { name: 'Business', price: 19, billingCycle: 'monthly', currency: 'USD' },
     ]
   },
-  { id: 'google-ai-plus', name: 'Google AI Plus', categoryId: 'ai', domain: 'one.google.com', price: 1200 },
+  { id: 'google-ai-plus', name: 'Google AI Premium', categoryId: 'ai', domain: 'one.google.com', price: 2900 },
   {
     id: 'perplexity', name: 'Perplexity', categoryId: 'ai', domain: 'perplexity.ai',
     plans: [
@@ -230,7 +230,7 @@ export const PRESET_SUBSCRIPTIONS = [
       { name: 'Business', price: 18, billingCycle: 'monthly', currency: 'USD' },
     ]
   },
-  { id: 'genspark', name: 'Genspark', categoryId: 'ai', domain: 'genspark.ai', price: 2000 },
+  { id: 'genspark', name: 'Genspark', categoryId: 'ai', domain: 'genspark.ai', price: 10, currency: 'USD' },
   {
     id: 'midjourney', name: 'Midjourney', categoryId: 'ai', domain: 'midjourney.com',
     plans: [
@@ -239,7 +239,13 @@ export const PRESET_SUBSCRIPTIONS = [
       { name: 'Pro', price: 60, billingCycle: 'monthly', currency: 'USD' },
     ]
   },
-  { id: 'grok', name: 'Grok', categoryId: 'ai', domain: 'x.ai', price: 2400 },
+  {
+    id: 'grok', name: 'Grok', categoryId: 'ai', domain: 'x.ai',
+    plans: [
+      { name: 'X Premium', price: 1380, billingCycle: 'monthly', currency: 'JPY' },
+      { name: 'X Premium+', price: 3300, billingCycle: 'monthly', currency: 'JPY' },
+    ]
+  },
   {
     id: 'canva', name: 'Canva', categoryId: 'ai', domain: 'canva.com',
     plans: [
