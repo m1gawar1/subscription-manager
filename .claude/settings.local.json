@@ -40,7 +40,10 @@
       "Bash(rtk grep:*)",
       "Bash(rtk sed:*)",
       "Bash(rtk npm:*)",
-      "Bash(rtk cat:*)"
+      "Bash(rtk cat:*)",
+      "Bash(mkdir -p docs)",
+      "Bash(cp privacy-policy/index.html docs/index.html)",
+      "Bash(rtk git:*)"
     ]
   }
 }
