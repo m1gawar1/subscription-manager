@@ -3,6 +3,49 @@ import { CATEGORIES } from '../constants/categories';
 import { PRESET_SUBSCRIPTIONS, getLogoUrl } from '../constants/presets';
 import { BILLING_CYCLES } from '../constants/billing';
 import CategoryIcon from './CategoryIcon';
+import { Calendar, Globe } from 'lucide-react';
+
+// 年/月/日セレクト式日付ピッカー
+const DateSelector = ({ value, onChange }) => {
+  const today = new Date();
+  const [y, m, d] = value ? value.split('-') : ['', '', ''];
+
+  const handleChange = (field, val) => {
+    const ny = field === 'y' ? val : (y || '');
+    const nm = field === 'm' ? val : (m || '');
+    const nd = field === 'd' ? val : (d || '');
+    if (ny && nm && nd) onChange(`${ny}-${nm.padStart(2,'0')}-${nd.padStart(2,'0')}`);
+    else onChange('');
+  };
+
+  const years = Array.from({ length: 4 }, (_, i) => today.getFullYear() + i);
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+
+  const selStyle = {
+    flex: 1, padding: '12px 6px', borderRadius: '10px', fontSize: '14px',
+    border: '1px solid var(--border-color)', background: 'var(--input-bg)',
+    color: value ? 'var(--text-main)' : 'var(--text-muted)',
+    outline: 'none', boxSizing: 'border-box',
+  };
+
+  return (
+    <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+      <select value={y || ''} onChange={(e) => handleChange('y', e.target.value)} style={selStyle}>
+        <option value="">年</option>
+        {years.map(yr => <option key={yr} value={yr}>{yr}</option>)}
+      </select>
+      <select value={m || ''} onChange={(e) => handleChange('m', e.target.value)} style={selStyle}>
+        <option value="">月</option>
+        {months.map(mo => <option key={mo} value={mo}>{mo}月</option>)}
+      </select>
+      <select value={d || ''} onChange={(e) => handleChange('d', e.target.value)} style={selStyle}>
+        <option value="">日</option>
+        {days.map(dy => <option key={dy} value={dy}>{dy}日</option>)}
+      </select>
+    </div>
+  );
+};
 
 const selectStyle = {
   padding: '16px',
@@ -328,25 +371,26 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
 
           {/* ドメイン */}
           <div>
-            <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '8px' }}>ドメイン（オプション）</label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '8px' }}>
+              <Globe size={13} />
+              ロゴ表示用ドメイン（オプション）
+            </label>
             <input
               type="text"
               value={domain}
               onChange={(e) => setDomain(e.target.value)}
-              placeholder="example.com（ロゴ表示に使用）"
+              placeholder="例: netflix.com"
               style={inputStyle}
             />
           </div>
 
           {/* 無料トライアル */}
           <div>
-            <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '8px' }}>無料トライアル終了日（オプション）</label>
-            <input
-              type="date"
-              value={trialEndDate}
-              onChange={(e) => setTrialEndDate(e.target.value)}
-              style={inputStyle}
-            />
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '8px' }}>
+              <Calendar size={13} />
+              無料トライアル終了日（オプション）
+            </label>
+            <DateSelector value={trialEndDate} onChange={setTrialEndDate} />
             {trialEndDate && (() => {
               const diff = Math.ceil((new Date(trialEndDate) - new Date()) / (1000 * 60 * 60 * 24));
               return (
@@ -359,13 +403,11 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
 
           {/* 解約期限 */}
           <div>
-            <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '8px' }}>解約期限日（オプション）</label>
-            <input
-              type="date"
-              value={cancelDeadline}
-              onChange={(e) => setCancelDeadline(e.target.value)}
-              style={inputStyle}
-            />
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '8px' }}>
+              <Calendar size={13} />
+              解約期限日（オプション）
+            </label>
+            <DateSelector value={cancelDeadline} onChange={setCancelDeadline} />
             {cancelDeadline && (() => {
               const diff = Math.ceil((new Date(cancelDeadline) - new Date()) / (1000 * 60 * 60 * 24));
               return (
