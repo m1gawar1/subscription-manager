@@ -5,7 +5,7 @@
     <key>CAPACITOR_DEBUG</key>
 	<string>$(CAPACITOR_DEBUG)</string>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<string>ca-app-pub-5452070430246807~865634051</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>広告をパーソナライズするために使用します。</string>
 	<key>CFBundleDevelopmentRegion</key>
