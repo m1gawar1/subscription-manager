@@ -47,7 +47,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
   };
 
   return (
-    <div className="dashboard-container" style={{ paddingBottom: '100px' }}>
+    <div className="dashboard-container">
       {/* プラン */}
       <div style={sectionStyle}>
         <div className="section-title">プラン</div>

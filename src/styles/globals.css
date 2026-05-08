@@ -29,7 +29,7 @@ body {
 }
 
 .dashboard-container {
-  padding: 32px 24px 100px 24px; /* Bottom padding for navbar */
+  padding: calc(32px + env(safe-area-inset-top)) 24px calc(100px + env(safe-area-inset-bottom)) 24px;
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none; /* Firefox */
@@ -138,7 +138,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding-bottom: 20px; /* Safe area */
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
   border-top: 1px solid rgba(0,0,0,0.03);
   backdrop-filter: blur(20px);
   background: color-mix(in srgb, var(--card-bg) 85%, transparent);

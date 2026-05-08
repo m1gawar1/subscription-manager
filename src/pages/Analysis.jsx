@@ -42,7 +42,7 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory }) => {
   const hasHistory = historyData.some(d => d.amount > 0);
 
   return (
-    <div className="dashboard-container" style={{ height: '100%', overflowY: 'auto', paddingBottom: '100px' }}>
+    <div className="dashboard-container" style={{ height: '100%', overflowY: 'auto' }}>
       {/* Projection Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '32px' }}>
         {[
