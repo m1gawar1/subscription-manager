@@ -33,14 +33,23 @@ workflows:
           success: true
           failure: true
 
-  # ── iOS ──────────────────────────────────────────────────
+  # ── iOS (App Store) ───────────────────────────────────────
   ios-workflow:
-    name: iOS Build
+    name: iOS App Store Build
     max_build_duration: 60
     environment:
       node: 20.x
       xcode: latest
       cocoapods: default
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.subscmanager.app
+      vars:
+        APP_STORE_CONNECT_ISSUER_ID: $APP_STORE_CONNECT_ISSUER_ID
+        APP_STORE_CONNECT_KEY_IDENTIFIER: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        APP_STORE_CONNECT_PRIVATE_KEY: $APP_STORE_CONNECT_PRIVATE_KEY
+        CERTIFICATE_PRIVATE_KEY: $CERTIFICATE_PRIVATE_KEY
+
     scripts:
       - name: Install dependencies
         script: npm ci
@@ -56,20 +65,37 @@ workflows:
           cd ios/App
           pod install
 
-      - name: Build iOS (simulator用)
+      - name: Set app version
         script: |
+          LATEST_BUILD=$(app-store-connect get-latest-testflight-build-number "$APP_APPLE_ID" 2>/dev/null || echo "0")
+          agvtool new-version -all $(($LATEST_BUILD + 1))
+
+      - name: Build iOS (App Store)
+        script: |
+          xcode-project use-profiles
           xcodebuild \
             -workspace ios/App/App.xcworkspace \
             -scheme App \
-            -configuration Debug \
-            -sdk iphonesimulator \
-            -derivedDataPath ios/build \
-            CODE_SIGNING_ALLOWED=NO
+            -configuration Release \
+            -archivePath ios/App.xcarchive \
+            archive \
+            CODE_SIGN_STYLE=Manual
+          xcodebuild \
+            -exportArchive \
+            -archivePath ios/App.xcarchive \
+            -exportPath ios/ipa \
+            -exportOptionsPlist ios/ExportOptions.plist
 
     artifacts:
-      - ios/build/Build/Products/Debug-iphonesimulator/App.app
+      - ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
 
     publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        beta_groups:
+          - App Store Connect Users
       email:
         recipients:
           - tim1209136@gmail.com
