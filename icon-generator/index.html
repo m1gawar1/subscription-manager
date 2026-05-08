@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>SubsTracker Icon Generator</title>
+  <style>
+    body {
+      margin: 0;
+      background: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 24px;
+      font-family: sans-serif;
+    }
+    canvas { border-radius: 22%; display: block; }
+    button {
+      padding: 14px 32px;
+      background: #C39D55;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #b8860b; }
+  </style>
+</head>
+<body>
+  <canvas id="icon" width="1024" height="1024"></canvas>
+  <button onclick="download()">1024x1024 PNG をダウンロード</button>
+
+  <script>
+    const canvas = document.getElementById('icon');
+    const ctx = canvas.getContext('2d');
+    const S = 1024;
+
+    // 背景グラデーション
+    const bg = ctx.createLinearGradient(0, 0, S, S);
+    bg.addColorStop(0, '#1C1C2E');
+    bg.addColorStop(1, '#0f0f1a');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, S, S);
+
+    // 背景の光彩
+    const glow = ctx.createRadialGradient(S/2, S*0.42, 0, S/2, S*0.42, S*0.55);
+    glow.addColorStop(0, 'rgba(195, 157, 85, 0.18)');
+    glow.addColorStop(1, 'rgba(195, 157, 85, 0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, S, S);
+
+    // カードの影
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 60;
+    ctx.shadowOffsetY = 20;
+
+    // メインカード
+    const cx = S / 2;
+    const cy = S * 0.44;
+    const cw = S * 0.58;
+    const ch = S * 0.38;
+    const cr = S * 0.06;
+
+    function roundRect(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    // カード本体
+    const cardGrad = ctx.createLinearGradient(cx - cw/2, cy - ch/2, cx + cw/2, cy + ch/2);
+    cardGrad.addColorStop(0, '#C39D55');
+    cardGrad.addColorStop(1, '#8B6914');
+    ctx.shadowColor = 'rgba(195, 157, 85, 0.4)';
+    ctx.shadowBlur = 50;
+    ctx.shadowOffsetY = 10;
+    roundRect(cx - cw/2, cy - ch/2, cw, ch, cr);
+    ctx.fillStyle = cardGrad;
+    ctx.fill();
+
+    // カード上部ライン
+    ctx.shadowColor = 'transparent';
+    ctx.fillStyle = 'rgba(255,255,255,0.12)';
+    roundRect(cx - cw/2, cy - ch/2, cw, ch * 0.38, cr);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.12)';
+    ctx.fillRect(cx - cw/2, cy - ch/2 + ch * 0.3, cw, ch * 0.08);
+
+    // チップ
+    const chipX = cx - cw/2 + cw * 0.1;
+    const chipY = cy - ch/2 + ch * 0.52;
+    const chipW = cw * 0.18;
+    const chipH = ch * 0.28;
+    roundRect(chipX, chipY, chipW, chipH, chipW * 0.15);
+    const chipGrad = ctx.createLinearGradient(chipX, chipY, chipX + chipW, chipY + chipH);
+    chipGrad.addColorStop(0, 'rgba(255,255,255,0.9)');
+    chipGrad.addColorStop(1, 'rgba(255,255,255,0.5)');
+    ctx.fillStyle = chipGrad;
+    ctx.fill();
+
+    // チップの溝
+    ctx.strokeStyle = 'rgba(195,157,85,0.4)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(chipX + chipW * 0.33, chipY);
+    ctx.lineTo(chipX + chipW * 0.33, chipY + chipH);
+    ctx.moveTo(chipX + chipW * 0.66, chipY);
+    ctx.lineTo(chipX + chipW * 0.66, chipY + chipH);
+    ctx.moveTo(chipX, chipY + chipH * 0.4);
+    ctx.lineTo(chipX + chipW, chipY + chipH * 0.4);
+    ctx.stroke();
+
+    // 循環矢印（更新を表すシンボル）
+    const arrowCx = cx + cw * 0.22;
+    const arrowCy = cy - ch * 0.02;
+    const arrowR = ch * 0.22;
+    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+    ctx.lineWidth = S * 0.022;
+    ctx.lineCap = 'round';
+    ctx.shadowColor = 'rgba(255,255,255,0.3)';
+    ctx.shadowBlur = 10;
+
+    // 弧（270度）
+    ctx.beginPath();
+    ctx.arc(arrowCx, arrowCy, arrowR, Math.PI * 0.15, Math.PI * 1.85);
+    ctx.stroke();
+
+    // 矢印の先端
+    const arrowAngle = Math.PI * 0.15;
+    const ax = arrowCx + arrowR * Math.cos(arrowAngle);
+    const ay = arrowCy + arrowR * Math.sin(arrowAngle);
+    const headSize = S * 0.028;
+    ctx.beginPath();
+    ctx.moveTo(ax, ay);
+    ctx.lineTo(ax + headSize * Math.cos(arrowAngle - Math.PI * 0.4), ay + headSize * Math.sin(arrowAngle - Math.PI * 0.4));
+    ctx.moveTo(ax, ay);
+    ctx.lineTo(ax + headSize * Math.cos(arrowAngle + Math.PI * 0.65), ay + headSize * Math.sin(arrowAngle + Math.PI * 0.65));
+    ctx.stroke();
+
+    // 下部テキストライン（カード番号風）
+    ctx.shadowColor = 'transparent';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    const dotY = cy + ch * 0.3;
+    for (let g = 0; g < 3; g++) {
+      for (let d = 0; d < 4; d++) {
+        const dotX = cx - cw * 0.32 + g * cw * 0.22 + d * S * 0.028;
+        ctx.beginPath();
+        ctx.arc(dotX, dotY, S * 0.008, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // "ST" ロゴ（右下）
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.font = `600 ${S * 0.04}px -apple-system, sans-serif`;
+    ctx.textAlign = 'right';
+    ctx.fillText('SubsTracker', cx + cw/2 - S*0.03, cy + ch/2 - S*0.025);
+
+    function download() {
+      const a = document.createElement('a');
+      a.download = 'SubsTracker-icon-1024.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }
+  </script>
+</body>
+</html>
