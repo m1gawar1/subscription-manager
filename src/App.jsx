@@ -107,6 +107,10 @@ function App() {
     return parseInt(localStorage.getItem('subsc_notification_hour') || '9');
   });
 
+  const [notificationMinute, setNotificationMinute] = useState(() => {
+    return parseInt(localStorage.getItem('subsc_notification_minute') || '0');
+  });
+
   // Fetch Exchange Rate
   useEffect(() => {
     fetch('https://open.er-api.com/v6/latest/USD')
@@ -150,12 +154,16 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('subsc_data', JSON.stringify(subscriptions));
-    scheduleAllNotifications(subscriptions, notificationHour);
-  }, [subscriptions, notificationHour]);
+    scheduleAllNotifications(subscriptions, notificationHour, notificationMinute);
+  }, [subscriptions, notificationHour, notificationMinute]);
 
   useEffect(() => {
     localStorage.setItem('subsc_notification_hour', String(notificationHour));
   }, [notificationHour]);
+
+  useEffect(() => {
+    localStorage.setItem('subsc_notification_minute', String(notificationMinute));
+  }, [notificationMinute]);
 
   // 初回起動時に通知権限リクエスト & AdMob初期化 & RevenueCat初期化
   useEffect(() => {
@@ -320,6 +328,8 @@ function App() {
                 onRestorePurchases={handleRestorePurchases}
                 notificationHour={notificationHour}
                 onNotificationHourChange={setNotificationHour}
+                notificationMinute={notificationMinute}
+                onNotificationMinuteChange={setNotificationMinute}
               />
             )}
           </div>

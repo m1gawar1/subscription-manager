@@ -11,7 +11,7 @@ export const requestNotificationPermission = async () => {
 };
 
 // 全通知をスケジュールし直す（サブスク変更時に呼ぶ）
-export const scheduleAllNotifications = async (subscriptions, notificationHour = 9) => {
+export const scheduleAllNotifications = async (subscriptions, notificationHour = 9, notificationMinute = 0) => {
   if (!isNative) return;
 
   try {
@@ -32,7 +32,7 @@ export const scheduleAllNotifications = async (subscriptions, notificationHour =
         reminderDays.forEach(daysBefore => {
           // 次回の請求日を計算
           const billingDay = parseInt(sub.date);
-          let nextBilling = new Date(now.getFullYear(), now.getMonth(), billingDay, notificationHour, 0, 0);
+          let nextBilling = new Date(now.getFullYear(), now.getMonth(), billingDay, notificationHour, notificationMinute, 0);
 
           // 請求日 - リマインダー日数 が過去なら来月に設定
           const notifyDate = new Date(nextBilling);
@@ -64,7 +64,7 @@ export const scheduleAllNotifications = async (subscriptions, notificationHour =
       .filter(sub => sub.cancelDeadline && !sub.isPaused)
       .forEach(sub => {
         const deadline = new Date(sub.cancelDeadline);
-        deadline.setHours(notificationHour, 0, 0, 0);
+        deadline.setHours(notificationHour, notificationMinute, 0, 0);
 
         [7, 3, 1, 0].forEach(daysBefore => {
           const notifyDate = new Date(deadline);

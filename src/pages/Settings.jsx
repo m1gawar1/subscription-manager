@@ -6,7 +6,7 @@ const sectionStyle = {
   marginBottom: '32px',
 };
 
-const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscriptions, onImport, isPro, onUpgradePro, onRestoreFree, onRestorePurchases, notificationHour, onNotificationHourChange }) => {
+const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscriptions, onImport, isPro, onUpgradePro, onRestoreFree, onRestorePurchases, notificationHour, onNotificationHourChange, notificationMinute, onNotificationMinuteChange }) => {
   const [budgetInput, setBudgetInput] = useState(budget > 0 ? budget.toString() : '');
   const [importError, setImportError] = useState('');
   const fileInputRef = useRef(null);
@@ -146,17 +146,27 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
               <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>リマインダー通知を受け取る時間帯</div>
             </div>
           </div>
-          <select
-            value={notificationHour}
-            onChange={(e) => onNotificationHourChange(parseInt(e.target.value))}
-            style={{ width: '100%', padding: '12px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'auto' }}
-          >
-            {Array.from({ length: 24 }, (_, i) => (
-              <option key={i} value={i}>
-                {String(i).padStart(2, '0')}:00
-              </option>
-            ))}
-          </select>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <select
+              value={notificationHour}
+              onChange={(e) => onNotificationHourChange(parseInt(e.target.value))}
+              style={{ flex: 1, padding: '12px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'auto' }}
+            >
+              {Array.from({ length: 24 }, (_, i) => (
+                <option key={i} value={i}>{String(i).padStart(2, '0')}時</option>
+              ))}
+            </select>
+            <span style={{ fontSize: '18px', color: 'var(--text-muted)', fontWeight: '600' }}>:</span>
+            <select
+              value={notificationMinute}
+              onChange={(e) => onNotificationMinuteChange(parseInt(e.target.value))}
+              style={{ flex: 1, padding: '12px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'auto' }}
+            >
+              {[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(m => (
+                <option key={m} value={m}>{String(m).padStart(2, '0')}分</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
