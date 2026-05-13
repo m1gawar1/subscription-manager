@@ -153,7 +153,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
               style={{ flex: 1, padding: '12px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'auto' }}
             >
               {Array.from({ length: 24 }, (_, i) => (
-                <option key={i} value={i}>{String(i).padStart(2, '0')}時</option>
+                <option key={i} value={i}>{String(i).padStart(2, '0')}</option>
               ))}
             </select>
             <span style={{ fontSize: '18px', color: 'var(--text-muted)', fontWeight: '600' }}>:</span>
@@ -163,7 +163,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
               style={{ flex: 1, padding: '12px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'auto' }}
             >
               {[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(m => (
-                <option key={m} value={m}>{String(m).padStart(2, '0')}分</option>
+                <option key={m} value={m}>{String(m).padStart(2, '0')}</option>
               ))}
             </select>
           </div>
