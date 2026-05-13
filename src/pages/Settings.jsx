@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { THEMES } from '../constants/themes';
-import { Crown, Package, Lock } from 'lucide-react';
+import { Crown, Package, Lock, Bell } from 'lucide-react';
 
 const sectionStyle = {
   marginBottom: '32px',
 };
 
-const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscriptions, onImport, isPro, onUpgradePro, onRestoreFree, onRestorePurchases }) => {
+const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscriptions, onImport, isPro, onUpgradePro, onRestoreFree, onRestorePurchases, notificationHour, onNotificationHourChange }) => {
   const [budgetInput, setBudgetInput] = useState(budget > 0 ? budget.toString() : '');
   const [importError, setImportError] = useState('');
   const fileInputRef = useRef(null);
@@ -130,6 +130,33 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
               現在の設定: ¥{budget.toLocaleString()}/月
             </div>
           )}
+        </div>
+      </div>
+
+      {/* 通知時刻 */}
+      <div style={sectionStyle}>
+        <div className="section-title">通知設定</div>
+        <div className="soft-card" style={{ margin: '16px 0 0 0', padding: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--input-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Bell size={18} color="var(--text-muted)" />
+            </div>
+            <div>
+              <div style={{ fontSize: '15px', fontWeight: '600', color: 'var(--text-main)' }}>通知を送る時刻</div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>リマインダー通知を受け取る時間帯</div>
+            </div>
+          </div>
+          <select
+            value={notificationHour}
+            onChange={(e) => onNotificationHourChange(parseInt(e.target.value))}
+            style={{ width: '100%', padding: '12px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'auto' }}
+          >
+            {Array.from({ length: 24 }, (_, i) => (
+              <option key={i} value={i}>
+                {String(i).padStart(2, '0')}:00
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
