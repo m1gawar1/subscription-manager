@@ -146,7 +146,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
               <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>リマインダー通知を受け取る時間帯</div>
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
             <select
               value={notificationHour}
               onChange={(e) => onNotificationHourChange(parseInt(e.target.value))}
