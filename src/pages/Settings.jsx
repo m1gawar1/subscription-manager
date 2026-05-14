@@ -146,21 +146,21 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
               <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>リマインダー通知を受け取る時間帯</div>
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <select
               value={notificationHour}
               onChange={(e) => onNotificationHourChange(parseInt(e.target.value))}
-              style={{ flex: 1, padding: '12px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'auto' }}
+              style={{ width: '72px', padding: '8px 6px', borderRadius: '10px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '15px', cursor: 'pointer', appearance: 'auto', textAlign: 'center' }}
             >
               {Array.from({ length: 24 }, (_, i) => (
                 <option key={i} value={i}>{String(i).padStart(2, '0')}</option>
               ))}
             </select>
-            <span style={{ fontSize: '18px', color: 'var(--text-muted)', fontWeight: '600' }}>:</span>
+            <span style={{ fontSize: '16px', color: 'var(--text-muted)', fontWeight: '600' }}>:</span>
             <select
               value={notificationMinute}
               onChange={(e) => onNotificationMinuteChange(parseInt(e.target.value))}
-              style={{ flex: 1, padding: '12px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'auto' }}
+              style={{ width: '72px', padding: '8px 6px', borderRadius: '10px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '15px', cursor: 'pointer', appearance: 'auto', textAlign: 'center' }}
             >
               {[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(m => (
                 <option key={m} value={m}>{String(m).padStart(2, '0')}</option>
