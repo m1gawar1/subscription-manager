@@ -36,6 +36,7 @@ function App() {
         else if (normalizedName.includes('youtube')) newSub.domain = 'youtube.com';
         else if (normalizedName.includes('dアニメ') || normalizedName.includes('d anime')) newSub.domain = '/icons/docomo.svg';
         else if (normalizedName.includes('dマガジン') || normalizedName.includes('d magazine')) newSub.domain = '/icons/docomo.svg';
+        else if (normalizedName.includes('シーモア') || normalizedName.includes('cmoa')) newSub.domain = '/icons/cmoa.svg';
       }
 
       if (newSub.category && !newSub.categoryId) {
