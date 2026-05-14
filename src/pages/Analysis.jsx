@@ -184,7 +184,7 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory, isPro, onUpgrad
       </div>
 
       {/* カテゴリー別ドーナツチャート（Pro限定） */}
-      <div className="soft-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '32px 24px', marginBottom: '80px', position: 'relative', overflow: 'hidden' }}>
+      <div className="soft-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '32px 24px', marginBottom: '24px', position: 'relative', overflow: 'hidden' }}>
         <div className="section-title" style={{ width: '100%', marginBottom: '24px' }}>カテゴリー別割合</div>
 
         <div style={{ position: 'relative', width: '200px', height: '200px', marginBottom: '32px' }}>
@@ -358,7 +358,7 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory, isPro, onUpgrad
       </ProSection>
 
       {/* ② 節約シミュレーター */}
-      <ProSection isPro={isPro} onUpgrade={onUpgrade}>
+      <ProSection isPro={isPro} onUpgrade={onUpgrade} style={{ marginBottom: '80px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
           <TrendingDown size={16} color="var(--gold-accent)" />
           <div className="section-title" style={{ margin: 0 }}>節約シミュレーター</div>
