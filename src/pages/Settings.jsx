@@ -156,7 +156,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
                 <option key={i} value={i}>{String(i).padStart(2, '0')}</option>
               ))}
             </select>
-            <span style={{ fontSize: '18px', color: 'var(--text-muted)', fontWeight: '600' }}>:</span>
+            <span style={{ fontSize: '24px', color: 'var(--text-muted)', fontWeight: '700' }}>:</span>
             <select
               value={notificationMinute}
               onChange={(e) => onNotificationMinuteChange(parseInt(e.target.value))}
