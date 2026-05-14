@@ -19,6 +19,7 @@ const Calendar = ({ subscriptions, exchangeRate, onEdit, onUpdateDate }) => {
   const [ghostPos, setGhostPos] = useState(null);
   const [dragOverDay, setDragOverDay] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [draggingSub, setDraggingSub] = useState(null); // 再レンダリング用に元アイコンを非表示にするため
 
   useEffect(() => {
     const handleMove = (e) => {
@@ -49,6 +50,7 @@ const Calendar = ({ subscriptions, exchangeRate, onEdit, onUpdateDate }) => {
       setGhostPos(null);
       setDragOverDay(null);
       setIsDragging(false);
+      setDraggingSub(null);
     };
 
     document.addEventListener('touchmove', handleMove, { passive: false });
@@ -64,6 +66,7 @@ const Calendar = ({ subscriptions, exchangeRate, onEdit, onUpdateDate }) => {
     longPressTimer.current = setTimeout(() => {
       draggingRef.current = sub;
       setIsDragging(true);
+      setDraggingSub(sub);
       setGhostPos({ x: touch.clientX, y: touch.clientY });
     }, 300);
   };
@@ -104,22 +107,33 @@ const Calendar = ({ subscriptions, exchangeRate, onEdit, onUpdateDate }) => {
 
   return (
     <div className="dashboard-container" style={{ overflowY: isDragging ? 'hidden' : 'auto' }}>
-      {/* ドラッグ中のゴーストアイコン */}
-      {ghostPos && draggingRef.current && (
+      {/* ドラッグ中のゴーストアイコン（実際のアイコンを表示） */}
+      {ghostPos && draggingSub && (
         <div style={{
           position: 'fixed',
           left: ghostPos.x - 20,
           top: ghostPos.y - 20,
           width: '40px', height: '40px',
           borderRadius: '12px',
-          background: 'linear-gradient(135deg, var(--gold-accent), #b8860b)',
+          backgroundColor: 'var(--card-bg)',
+          border: '1px solid var(--border-color)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           pointerEvents: 'none',
           zIndex: 9999,
           boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
-          transform: 'scale(1.15)',
+          transform: 'scale(1.2)',
+          overflow: 'hidden',
+          position: 'fixed',
         }}>
-          <CategoryIcon id={draggingRef.current.categoryId} size={20} color="#FFF" />
+          <CategoryIcon id={draggingSub.categoryId} size={20} color={getCategoryById(draggingSub.categoryId).color} />
+          {draggingSub.domain && (
+            <img
+              src={getLogoUrl(draggingSub.domain)}
+              alt={draggingSub.name}
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', backgroundColor: 'var(--card-bg)' }}
+              onError={(e) => { e.target.style.display = 'none'; }}
+            />
+          )}
         </div>
       )}
       <header style={{ marginBottom: '32px' }}>
@@ -195,33 +209,38 @@ const Calendar = ({ subscriptions, exchangeRate, onEdit, onUpdateDate }) => {
                 {day}
                 {hasSubsc && (
                   <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
-                    {iconsToShow.map(sub => (
-                      <div
-                        key={sub.id}
-                        onTouchStart={(e) => { e.stopPropagation(); startLongPress(e, sub); }}
-                        onTouchMove={cancelLongPress}
-                        style={{
-                          width: '18px', height: '18px', borderRadius: '4px',
-                          overflow: 'hidden', backgroundColor: isSelected ? 'rgba(255,255,255,0.3)' : 'var(--input-bg)',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          flexShrink: 0, position: 'relative',
-                          cursor: 'grab',
-                          WebkitTouchCallout: 'none',
-                          WebkitUserSelect: 'none',
-                          userSelect: 'none',
-                        }}
-                      >
-                        <CategoryIcon id={sub.categoryId} size={10} color={isSelected ? '#FFF' : getCategoryById(sub.categoryId).color} />
-                        {sub.domain && (
-                          <img
-                            src={getLogoUrl(sub.domain)}
-                            alt={sub.name}
-                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', backgroundColor: 'var(--card-bg)' }}
-                            onError={(e) => { e.target.style.display = 'none'; }}
-                          />
-                        )}
-                      </div>
-                    ))}
+                    {iconsToShow.map(sub => {
+                      const isDraggingThis = draggingSub?.id === sub.id;
+                      return (
+                        <div
+                          key={sub.id}
+                          onTouchStart={(e) => { e.stopPropagation(); startLongPress(e, sub); }}
+                          onTouchMove={cancelLongPress}
+                          style={{
+                            width: '18px', height: '18px', borderRadius: '4px',
+                            overflow: 'hidden', backgroundColor: isSelected ? 'rgba(255,255,255,0.3)' : 'var(--input-bg)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            flexShrink: 0, position: 'relative',
+                            cursor: 'grab',
+                            WebkitTouchCallout: 'none',
+                            WebkitUserSelect: 'none',
+                            userSelect: 'none',
+                            // ドラッグ中は元アイコンを非表示
+                            opacity: isDraggingThis ? 0 : 1,
+                          }}
+                        >
+                          <CategoryIcon id={sub.categoryId} size={10} color={isSelected ? '#FFF' : getCategoryById(sub.categoryId).color} />
+                          {sub.domain && (
+                            <img
+                              src={getLogoUrl(sub.domain)}
+                              alt={sub.name}
+                              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', backgroundColor: 'var(--card-bg)' }}
+                              onError={(e) => { e.target.style.display = 'none'; }}
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
                     {extraCount > 0 && (
                       <div style={{ fontSize: '8px', color: isSelected ? '#FFF' : 'var(--text-muted)', fontWeight: '600' }}>+{extraCount}</div>
                     )}
