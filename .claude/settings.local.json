@@ -46,7 +46,9 @@
       "Bash(rtk git:*)",
       "Bash(rtk ls:*)",
       "Bash(dir:*)",
-      "Bash(find 'C:/Users/Owner/Documents/My Data Sources/Subscription Management/ios' -name *.xcworkspace -o -name *.xcodeproj)"
+      "Bash(find 'C:/Users/Owner/Documents/My Data Sources/Subscription Management/ios' -name *.xcworkspace -o -name *.xcodeproj)",
+      "Bash(rtk read:*)",
+      "Bash(rtk curl:*)"
     ]
   }
 }
