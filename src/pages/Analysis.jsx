@@ -141,171 +141,6 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory, isPro, onUpgrad
         </div>
       )}
 
-      {/* ① 高額ランキング */}
-      <ProSection isPro={isPro} onUpgrade={onUpgrade}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-          <Trophy size={16} color="var(--gold-accent)" />
-          <div className="section-title" style={{ margin: 0 }}>高額ランキング</div>
-        </div>
-        {topSubscriptions.length === 0 ? (
-          <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '14px', padding: '16px' }}>
-            登録されたサブスクリプションがありません
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {topSubscriptions.map((sub, i) => (
-              <div key={sub.id} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '22px', textAlign: 'center', fontSize: '13px', fontWeight: '700', color: i === 0 ? 'var(--gold-accent)' : 'var(--text-muted)', flexShrink: 0 }}>
-                  {i + 1}
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-main)', marginBottom: '5px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {sub.name}
-                  </div>
-                  <div style={{ height: '6px', borderRadius: '3px', backgroundColor: 'var(--input-bg)', overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${(sub.monthly / maxMonthly) * 100}%`, borderRadius: '3px', backgroundColor: i === 0 ? 'var(--gold-accent)' : 'var(--gold-accent-light)', border: i === 0 ? 'none' : '1px solid var(--gold-accent)', transition: 'width 0.4s ease' }} />
-                  </div>
-                </div>
-                <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-main)', flexShrink: 0 }}>
-                  ¥{Math.round(sub.monthly).toLocaleString()}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </ProSection>
-
-      {/* ② 節約シミュレーター */}
-      <ProSection isPro={isPro} onUpgrade={onUpgrade}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-          <TrendingDown size={16} color="var(--gold-accent)" />
-          <div className="section-title" style={{ margin: 0 }}>節約シミュレーター</div>
-        </div>
-        <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '20px' }}>
-          解約した場合の年間節約額
-        </div>
-        {savingsData.length === 0 ? (
-          <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '14px', padding: '16px' }}>
-            登録されたサブスクリプションがありません
-          </div>
-        ) : (
-          <>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-              {savingsData.map((sub, i) => {
-                const annual = Math.round(sub.monthly * 12);
-                return (
-                  <div key={sub.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: i < savingsData.length - 1 ? '1px solid var(--border-color)' : 'none' }}>
-                    <div>
-                      <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-main)' }}>{sub.name}</div>
-                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
-                        ¥{Math.round(sub.monthly).toLocaleString()}/月
-                      </div>
-                    </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontSize: '13px', fontWeight: '700', color: '#E05C5C' }}>
-                        年間 ¥{annual.toLocaleString()}
-                      </div>
-                      <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>解約で節約</div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div style={{ marginTop: '16px', padding: '12px 16px', borderRadius: '12px', backgroundColor: 'var(--input-bg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>全解約した場合の年間節約</div>
-              <div style={{ fontSize: '16px', fontWeight: '700', color: '#E05C5C' }}>¥{Math.round(totalAnnual).toLocaleString()}</div>
-            </div>
-          </>
-        )}
-      </ProSection>
-
-      {/* ⑨ コスト偏り警告 */}
-      <ProSection isPro={isPro} onUpgrade={onUpgrade}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-          <AlertTriangle size={16} color="var(--gold-accent)" />
-          <div className="section-title" style={{ margin: 0 }}>コスト偏り警告</div>
-        </div>
-        {activeCategories.length === 0 ? (
-          <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '14px', padding: '16px' }}>
-            登録されたサブスクリプションがありません
-          </div>
-        ) : skewedCategories.length === 0 ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px 16px', borderRadius: '12px', backgroundColor: 'rgba(52, 199, 89, 0.1)' }}>
-            <CheckCircle size={18} color="#34C759" />
-            <div>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#34C759' }}>支出バランスは良好です</div>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>特定カテゴリへの極端な集中はありません</div>
-            </div>
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {skewedCategories.map(cat => {
-              const pct = Math.round((cat.amount / totalMonthly) * 100);
-              return (
-                <div key={cat.id} style={{ padding: '14px 16px', borderRadius: '12px', backgroundColor: 'rgba(255, 149, 0, 0.1)', border: '1px solid rgba(255, 149, 0, 0.3)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '24px', height: '24px', borderRadius: '6px', backgroundColor: 'var(--input-bg)', color: 'var(--text-muted)', flexShrink: 0 }}>
-                      <CategoryIcon id={cat.id} size={13} />
-                    </div>
-                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#FF9500' }}>{cat.name}に{pct}%集中</div>
-                  </div>
-                  <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                    月額 ¥{Math.round(cat.amount).toLocaleString()} を {cat.name} だけに支払っています
-                  </div>
-                  <div style={{ marginTop: '8px', height: '4px', borderRadius: '2px', backgroundColor: 'var(--input-bg)', overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${pct}%`, borderRadius: '2px', backgroundColor: '#FF9500' }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </ProSection>
-
-      {/* ⑩ 年間プランお得診断 */}
-      <ProSection isPro={isPro} onUpgrade={onUpgrade}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-          <Lightbulb size={16} color="var(--gold-accent)" />
-          <div className="section-title" style={{ margin: 0 }}>年間プランお得診断</div>
-        </div>
-        <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '20px' }}>
-          月払い → 年払いに切り替えると節約できるサービス
-        </div>
-        {yearlyDeals.length === 0 ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px 16px', borderRadius: '12px', backgroundColor: 'rgba(52, 199, 89, 0.1)' }}>
-            <CheckCircle size={18} color="#34C759" />
-            <div>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#34C759' }}>すでに最適なプランです</div>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>年払いで節約できるサービスは見つかりませんでした</div>
-            </div>
-          </div>
-        ) : (
-          <>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-              {yearlyDeals.map((deal, i) => (
-                <div key={deal.sub.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: i < yearlyDeals.length - 1 ? '1px solid var(--border-color)' : 'none' }}>
-                  <div>
-                    <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-main)' }}>{deal.sub.name}</div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
-                      年払い ¥{Math.round(deal.yearlyPrice).toLocaleString()}
-                    </div>
-                  </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#34C759' }}>
-                      年間 ¥{Math.round(deal.savings).toLocaleString()} 節約
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div style={{ marginTop: '16px', padding: '12px 16px', borderRadius: '12px', backgroundColor: 'var(--input-bg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>全部切り替えた場合の節約額</div>
-              <div style={{ fontSize: '16px', fontWeight: '700', color: '#34C759' }}>¥{Math.round(totalYearlySavings).toLocaleString()}/年</div>
-            </div>
-          </>
-        )}
-      </ProSection>
-
       {/* 月別推移グラフ（Pro限定） */}
       <div className="soft-card" style={{ padding: '24px', marginBottom: '24px', position: 'relative', overflow: 'hidden' }}>
         <div className="section-title" style={{ marginBottom: '20px' }}>月別支出推移</div>
@@ -400,6 +235,171 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory, isPro, onUpgrad
           </div>
         )}
       </div>
+
+      {/* ① 高額ランキング */}
+      <ProSection isPro={isPro} onUpgrade={onUpgrade}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+          <Trophy size={16} color="var(--gold-accent)" />
+          <div className="section-title" style={{ margin: 0 }}>高額ランキング</div>
+        </div>
+        {topSubscriptions.length === 0 ? (
+          <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '14px', padding: '16px' }}>
+            登録されたサブスクリプションがありません
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {topSubscriptions.map((sub, i) => (
+              <div key={sub.id} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '22px', textAlign: 'center', fontSize: '13px', fontWeight: '700', color: i === 0 ? 'var(--gold-accent)' : 'var(--text-muted)', flexShrink: 0 }}>
+                  {i + 1}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-main)', marginBottom: '5px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {sub.name}
+                  </div>
+                  <div style={{ height: '6px', borderRadius: '3px', backgroundColor: 'var(--input-bg)', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: `${(sub.monthly / maxMonthly) * 100}%`, borderRadius: '3px', backgroundColor: i === 0 ? 'var(--gold-accent)' : 'var(--gold-accent-light)', border: i === 0 ? 'none' : '1px solid var(--gold-accent)', transition: 'width 0.4s ease' }} />
+                  </div>
+                </div>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-main)', flexShrink: 0 }}>
+                  ¥{Math.round(sub.monthly).toLocaleString()}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </ProSection>
+
+      {/* ⑩ 年間プランお得診断 */}
+      <ProSection isPro={isPro} onUpgrade={onUpgrade}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+          <Lightbulb size={16} color="var(--gold-accent)" />
+          <div className="section-title" style={{ margin: 0 }}>年間プランお得診断</div>
+        </div>
+        <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '20px' }}>
+          月払い → 年払いに切り替えると節約できるサービス
+        </div>
+        {yearlyDeals.length === 0 ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px 16px', borderRadius: '12px', backgroundColor: 'rgba(52, 199, 89, 0.1)' }}>
+            <CheckCircle size={18} color="#34C759" />
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: '#34C759' }}>すでに最適なプランです</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>年払いで節約できるサービスは見つかりませんでした</div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {yearlyDeals.map((deal, i) => (
+                <div key={deal.sub.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: i < yearlyDeals.length - 1 ? '1px solid var(--border-color)' : 'none' }}>
+                  <div>
+                    <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-main)' }}>{deal.sub.name}</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                      年払い ¥{Math.round(deal.yearlyPrice).toLocaleString()}
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#34C759' }}>
+                      年間 ¥{Math.round(deal.savings).toLocaleString()} 節約
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: '16px', padding: '12px 16px', borderRadius: '12px', backgroundColor: 'var(--input-bg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>全部切り替えた場合の節約額</div>
+              <div style={{ fontSize: '16px', fontWeight: '700', color: '#34C759' }}>¥{Math.round(totalYearlySavings).toLocaleString()}/年</div>
+            </div>
+          </>
+        )}
+      </ProSection>
+
+      {/* ⑨ コスト偏り警告 */}
+      <ProSection isPro={isPro} onUpgrade={onUpgrade}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+          <AlertTriangle size={16} color="var(--gold-accent)" />
+          <div className="section-title" style={{ margin: 0 }}>コスト偏り警告</div>
+        </div>
+        {activeCategories.length === 0 ? (
+          <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '14px', padding: '16px' }}>
+            登録されたサブスクリプションがありません
+          </div>
+        ) : skewedCategories.length === 0 ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px 16px', borderRadius: '12px', backgroundColor: 'rgba(52, 199, 89, 0.1)' }}>
+            <CheckCircle size={18} color="#34C759" />
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: '#34C759' }}>支出バランスは良好です</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>特定カテゴリへの極端な集中はありません</div>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {skewedCategories.map(cat => {
+              const pct = Math.round((cat.amount / totalMonthly) * 100);
+              return (
+                <div key={cat.id} style={{ padding: '14px 16px', borderRadius: '12px', backgroundColor: 'rgba(255, 149, 0, 0.1)', border: '1px solid rgba(255, 149, 0, 0.3)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '24px', height: '24px', borderRadius: '6px', backgroundColor: 'var(--input-bg)', color: 'var(--text-muted)', flexShrink: 0 }}>
+                      <CategoryIcon id={cat.id} size={13} />
+                    </div>
+                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#FF9500' }}>{cat.name}に{pct}%集中</div>
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                    月額 ¥{Math.round(cat.amount).toLocaleString()} を {cat.name} だけに支払っています
+                  </div>
+                  <div style={{ marginTop: '8px', height: '4px', borderRadius: '2px', backgroundColor: 'var(--input-bg)', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: `${pct}%`, borderRadius: '2px', backgroundColor: '#FF9500' }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </ProSection>
+
+      {/* ② 節約シミュレーター */}
+      <ProSection isPro={isPro} onUpgrade={onUpgrade}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+          <TrendingDown size={16} color="var(--gold-accent)" />
+          <div className="section-title" style={{ margin: 0 }}>節約シミュレーター</div>
+        </div>
+        <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '20px' }}>
+          解約した場合の年間節約額
+        </div>
+        {savingsData.length === 0 ? (
+          <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '14px', padding: '16px' }}>
+            登録されたサブスクリプションがありません
+          </div>
+        ) : (
+          <>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {savingsData.map((sub, i) => {
+                const annual = Math.round(sub.monthly * 12);
+                return (
+                  <div key={sub.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: i < savingsData.length - 1 ? '1px solid var(--border-color)' : 'none' }}>
+                    <div>
+                      <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-main)' }}>{sub.name}</div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                        ¥{Math.round(sub.monthly).toLocaleString()}/月
+                      </div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '13px', fontWeight: '700', color: '#E05C5C' }}>
+                        年間 ¥{annual.toLocaleString()}
+                      </div>
+                      <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>解約で節約</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ marginTop: '16px', padding: '12px 16px', borderRadius: '12px', backgroundColor: 'var(--input-bg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>全解約した場合の年間節約</div>
+              <div style={{ fontSize: '16px', fontWeight: '700', color: '#E05C5C' }}>¥{Math.round(totalAnnual).toLocaleString()}</div>
+            </div>
+          </>
+        )}
+      </ProSection>
     </div>
   );
 };
