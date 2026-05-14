@@ -34,8 +34,8 @@ function App() {
         else if (normalizedName.includes('adobe')) newSub.domain = 'adobe.com';
         else if (normalizedName.includes('amazon')) newSub.domain = 'amazon.co.jp';
         else if (normalizedName.includes('youtube')) newSub.domain = 'youtube.com';
-        else if (normalizedName.includes('dアニメ') || normalizedName.includes('d anime')) newSub.domain = 'docomo.ne.jp';
-        else if (normalizedName.includes('dマガジン') || normalizedName.includes('d magazine')) newSub.domain = 'docomo.ne.jp';
+        else if (normalizedName.includes('dアニメ') || normalizedName.includes('d anime')) newSub.domain = 'nttdocomo.co.jp';
+        else if (normalizedName.includes('dマガジン') || normalizedName.includes('d magazine')) newSub.domain = 'nttdocomo.co.jp';
       }
 
       if (newSub.category && !newSub.categoryId) {

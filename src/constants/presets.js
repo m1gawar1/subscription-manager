@@ -36,7 +36,7 @@ export const PRESET_SUBSCRIPTIONS = [
       { name: 'サッカープラン（年額）', price: 26000, billingCycle: 'yearly', currency: 'JPY' },
     ]
   },
-  { id: 'd-anime', name: 'dアニメストア', categoryId: 'video', domain: 'docomo.ne.jp', price: 660 },
+  { id: 'd-anime', name: 'dアニメストア', categoryId: 'video', domain: 'nttdocomo.co.jp', price: 660 },
   { id: 'dmm-tv', name: 'DMM TV', categoryId: 'video', domain: 'tv.dmm.com', price: 550 },
   {
     id: 'fod', name: 'FODプレミアム', categoryId: 'video', domain: 'fod.fujitv.co.jp',
@@ -199,7 +199,7 @@ export const PRESET_SUBSCRIPTIONS = [
       { name: '年額プラン', price: 5980, billingCycle: 'yearly', currency: 'JPY' },
     ]
   },
-  { id: 'd-magazine', name: 'dマガジン', categoryId: 'reading', domain: 'docomo.ne.jp', price: 580 },
+  { id: 'd-magazine', name: 'dマガジン', categoryId: 'reading', domain: 'nttdocomo.co.jp', price: 580 },
 
   // ☁️ クラウド
   {
