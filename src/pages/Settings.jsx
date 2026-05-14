@@ -150,7 +150,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
             <select
               value={notificationHour}
               onChange={(e) => onNotificationHourChange(parseInt(e.target.value))}
-              style={{ width: '90px', padding: '12px 6px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'auto', textAlign: 'center' }}
+              style={{ width: '90px', padding: '12px 6px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'none', textAlign: 'center' }}
             >
               {Array.from({ length: 24 }, (_, i) => (
                 <option key={i} value={i}>{String(i).padStart(2, '0')}</option>
@@ -160,7 +160,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
             <select
               value={notificationMinute}
               onChange={(e) => onNotificationMinuteChange(parseInt(e.target.value))}
-              style={{ width: '90px', padding: '12px 6px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'auto', textAlign: 'center' }}
+              style={{ width: '90px', padding: '12px 6px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', fontSize: '16px', cursor: 'pointer', appearance: 'none', textAlign: 'center' }}
             >
               {[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(m => (
                 <option key={m} value={m}>{String(m).padStart(2, '0')}</option>
