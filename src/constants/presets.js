@@ -36,7 +36,7 @@ export const PRESET_SUBSCRIPTIONS = [
       { name: 'サッカープラン（年額）', price: 26000, billingCycle: 'yearly', currency: 'JPY' },
     ]
   },
-  { id: 'd-anime', name: 'dアニメストア', categoryId: 'video', domain: 'https://logo.clearbit.com/nttdocomo.co.jp', price: 660 },
+  { id: 'd-anime', name: 'dアニメストア', categoryId: 'video', domain: '/icons/docomo.svg', price: 660 },
   { id: 'dmm-tv', name: 'DMM TV', categoryId: 'video', domain: 'tv.dmm.com', price: 550 },
   {
     id: 'fod', name: 'FODプレミアム', categoryId: 'video', domain: 'fod.fujitv.co.jp',
@@ -199,7 +199,7 @@ export const PRESET_SUBSCRIPTIONS = [
       { name: '年額プラン', price: 5980, billingCycle: 'yearly', currency: 'JPY' },
     ]
   },
-  { id: 'd-magazine', name: 'dマガジン', categoryId: 'reading', domain: 'https://logo.clearbit.com/nttdocomo.co.jp', price: 580 },
+  { id: 'd-magazine', name: 'dマガジン', categoryId: 'reading', domain: '/icons/docomo.svg', price: 580 },
 
   // ☁️ クラウド
   {
@@ -371,7 +371,7 @@ export const PRESET_SUBSCRIPTIONS = [
 
 export const getLogoUrl = (domain) => {
   if (!domain) return null;
-  // 直接URLが渡された場合はそのまま使用
-  if (domain.startsWith('http')) return domain;
+  // 直接URLまたはローカルパスが渡された場合はそのまま使用
+  if (domain.startsWith('http') || domain.startsWith('/')) return domain;
   return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 };
