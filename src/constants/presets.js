@@ -185,7 +185,7 @@ export const PRESET_SUBSCRIPTIONS = [
   { id: 'kindle-unlimited', name: 'Kindle Unlimited', categoryId: 'reading', domain: 'amazon.co.jp', price: 980 },
   { id: 'audible', name: 'Audible', categoryId: 'reading', domain: 'audible.co.jp', price: 1500 },
   {
-    id: 'cmoa', name: 'コミックシーモア', categoryId: 'reading',
+    id: 'cmoa', name: 'コミックシーモア', categoryId: 'reading', domain: 'cmoa.jp',
     plans: [
       { name: '読み放題ライト', price: 780, billingCycle: 'monthly', currency: 'JPY' },
       { name: '読み放題フル', price: 1480, billingCycle: 'monthly', currency: 'JPY' },
