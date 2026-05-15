@@ -78,6 +78,8 @@ workflows:
     integrations:
       app_store_connect: SubsTracker
     environment:
+      groups:
+        - ios_credential
       node: 22.12.0
       xcode: latest
       cocoapods: default
