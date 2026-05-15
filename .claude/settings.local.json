@@ -48,7 +48,11 @@
       "Bash(dir:*)",
       "Bash(find 'C:/Users/Owner/Documents/My Data Sources/Subscription Management/ios' -name *.xcworkspace -o -name *.xcodeproj)",
       "Bash(rtk read:*)",
-      "Bash(rtk curl:*)"
+      "Bash(rtk curl:*)",
+      "Bash(mkdir -p resources)",
+      "Bash(cp \"アイコン.png\" \"resources/icon.png\")",
+      "Bash(npm install:*)",
+      "Bash(rtk npx:*)"
     ]
   }
 }
