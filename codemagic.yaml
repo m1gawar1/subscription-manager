@@ -78,6 +78,8 @@ workflows:
     integrations:
       app_store_connect: SubsTracker
     environment:
+      groups:
+        - default
       node: 22.12.0
       xcode: latest
       cocoapods: default
