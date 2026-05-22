@@ -16,10 +16,14 @@ const AD_IDS = {
 
 const getPlatform = () => Capacitor.getPlatform();
 
-// AdMob の初期化
+// AdMob の初期化（iOS では ATT 許可リクエストを先に行う）
 export const initializeAdMob = async () => {
   if (!isNative) return;
   try {
+    // iOS 14+ の App Tracking Transparency 許可リクエスト
+    if (getPlatform() === 'ios') {
+      await AdMob.requestTrackingAuthorization();
+    }
     await AdMob.initialize({
       initializeForTesting: false,
     });
