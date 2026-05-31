@@ -1,4 +1,4 @@
-import { AdMob, BannerAdSize, BannerAdPosition, AdmobConsentStatus } from '@capacitor-community/admob';
+import { AdMob, BannerAdSize, BannerAdPosition } from '@capacitor-community/admob';
 import { Capacitor } from '@capacitor/core';
 
 const isNative = Capacitor.isNativePlatform();
@@ -16,16 +16,13 @@ const AD_IDS = {
 
 const getPlatform = () => Capacitor.getPlatform();
 
-// AdMob の初期化（iOS では ATT 許可リクエストを先に行う）
+// AdMob の初期化（非パーソナライズ広告モード）
 export const initializeAdMob = async () => {
   if (!isNative) return;
   try {
-    // iOS 14+ の App Tracking Transparency 許可リクエスト
-    if (getPlatform() === 'ios') {
-      await AdMob.requestTrackingAuthorization();
-    }
     await AdMob.initialize({
       initializeForTesting: false,
+      requestTrackingAuthorization: false,
     });
   } catch (err) {
     console.error('AdMob init failed:', err);
