@@ -53,7 +53,8 @@
       "Bash(cp \"アイコン.png\" \"resources/icon.png\")",
       "Bash(npm install:*)",
       "Bash(rtk npx:*)",
-      "Bash(rtk gh:*)"
+      "Bash(rtk gh:*)",
+      "Bash(rtk proxy *)"
     ]
   }
 }
