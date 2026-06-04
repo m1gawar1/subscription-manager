@@ -57,7 +57,12 @@
       "Bash(rtk proxy *)",
       "WebFetch(domain:www.npmjs.com)",
       "Bash(tar -tz)",
-      "Bash(tar -tzf rc10.tgz)"
+      "Bash(tar -tzf rc10.tgz)",
+      "Bash(tar -xzf rc13b.tgz package/dist/esm/definitions.d.ts)",
+      "Bash(tar -tzf rc13b.tgz)",
+      "Bash(tar -xzf rc13b.tgz)",
+      "Bash(tar -xzf rc10b.tgz package/dist/esm/definitions.d.ts -O)",
+      "Bash(tar -xzf rc10b.tgz)"
     ]
   }
 }
