@@ -65,7 +65,7 @@ export const purchasePro = async () => {
 export const restorePurchases = async () => {
   if (!isNative) return false;
   try {
-    const customerInfo = await Purchases.restorePurchases();
+    const { customerInfo } = await Purchases.restorePurchases();
     const entitlement = customerInfo.entitlements.active[ENTITLEMENT_ID];
     return !!entitlement;
   } catch (e) {
@@ -83,7 +83,7 @@ export const restorePurchases = async () => {
 export const checkProStatus = async () => {
   if (!isNative) return false;
   try {
-    const customerInfo = await Purchases.getCustomerInfo();
+    const { customerInfo } = await Purchases.getCustomerInfo();
     const entitlement = customerInfo.entitlements.active[ENTITLEMENT_ID];
     return !!entitlement;
   } catch (e) {
