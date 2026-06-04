@@ -54,7 +54,10 @@
       "Bash(npm install:*)",
       "Bash(rtk npx:*)",
       "Bash(rtk gh:*)",
-      "Bash(rtk proxy *)"
+      "Bash(rtk proxy *)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(tar -tz)",
+      "Bash(tar -tzf rc10.tgz)"
     ]
   }
 }
