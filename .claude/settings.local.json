@@ -62,7 +62,8 @@
       "Bash(tar -tzf rc13b.tgz)",
       "Bash(tar -xzf rc13b.tgz)",
       "Bash(tar -xzf rc10b.tgz package/dist/esm/definitions.d.ts -O)",
-      "Bash(tar -xzf rc10b.tgz)"
+      "Bash(tar -xzf rc10b.tgz)",
+      "Bash(node -e \"const f=require\\('fs'\\);for\\(const p of ['New icon.png','resources/icon.png']\\){const b=f.readFileSync\\(p\\);const w=b.readUInt32BE\\(16\\),h=b.readUInt32BE\\(20\\);console.log\\(p,w+'x'+h\\)}\")"
     ]
   }
 }
