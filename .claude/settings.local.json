@@ -69,7 +69,8 @@
       "Bash(node -e \"let sharp; try{sharp=require\\('sharp'\\);console.log\\('sharp:root OK'\\)}catch\\(e\\){try{sharp=require\\('@capacitor/assets/node_modules/sharp'\\);console.log\\('sharp:nested OK'\\)}catch\\(e2\\){console.log\\('NO sharp'\\)}}; if\\(sharp\\){sharp\\('design_handoff_gamaguchi_pastel/prototype/assets/app-icon.png'\\).metadata\\(\\).then\\(m=>console.log\\('new icon',m.width+'x'+m.height,m.format,'alpha',m.hasAlpha\\)\\)}\")",
       "Bash(node -e ' *)",
       "Bash(rtk lint *)",
-      "Bash(break)"
+      "Bash(break)",
+      "Bash(node -e \"const fs=require\\('fs'\\);const p='ios/App/App.xcodeproj/project.pbxproj';let s=fs.readFileSync\\(p,'utf8'\\);const before=\\(s.match\\(/MARKETING_VERSION = 1.0;/g\\)||[]\\).length;s=s.replace\\(/MARKETING_VERSION = 1\\\\.0;/g,'MARKETING_VERSION = 1.0.1;'\\);fs.writeFileSync\\(p,s\\);const after=\\(s.match\\(/MARKETING_VERSION = 1.0.1;/g\\)||[]\\).length;console.log\\('replaced',before,'-> now 1.0.1 x',after\\)\")"
     ]
   }
 }
