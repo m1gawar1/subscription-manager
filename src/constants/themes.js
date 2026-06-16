@@ -7,7 +7,7 @@
 export const THEMES = {
   // ライト（既定）= がま口パステル
   default: {
-    name: 'がま口パステル (ライト)',
+    name: 'ライト',
     variables: {
       // --- ベース ---
       '--bg-app': '#F6F3EC',
@@ -52,7 +52,7 @@ export const THEMES = {
   },
   // ダーク = がま口パステル（暗色版）
   dark: {
-    name: 'がま口パステル (ダーク)',
+    name: 'ダーク',
     variables: {
       // --- ベース ---
       '--bg-app': '#16140F',
