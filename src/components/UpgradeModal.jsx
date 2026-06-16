@@ -66,7 +66,7 @@ const UpgradeModal = ({ onPurchase, onRestore, onClose }) => {
             <Crown size={28} color="#FFF" />
           </div>
           <div style={{ fontSize: '22px', fontWeight: '800', color: 'var(--gold-accent)', letterSpacing: '-0.5px' }}>
-            SubsTracker Pro
+            がま口サブスク Pro
           </div>
           <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '6px' }}>
             一度の購入で、ずっと快適に

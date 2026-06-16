@@ -1,6 +1,6 @@
 {
-  "name": "サブスク管理",
-  "short_name": "サブスク",
+  "name": "がま口サブスク",
+  "short_name": "がま口サブスク",
   "description": "サブスクリプションを一括管理するアプリ",
   "start_url": "/",
   "display": "standalone",

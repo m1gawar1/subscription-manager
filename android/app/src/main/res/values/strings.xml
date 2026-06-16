@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">サブスク管理</string>
-    <string name="title_activity_main">サブスク管理</string>
+    <string name="app_name">がま口サブスク</string>
+    <string name="title_activity_main">がま口サブスク</string>
     <string name="package_name">com.subscmanager.app</string>
     <string name="custom_url_scheme">com.subscmanager.app</string>
 </resources>

@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.subscmanager.app',
-  appName: 'サブスク管理',
+  appName: 'がま口サブスク',
   webDir: 'dist',
   server: {
     androidScheme: 'https',

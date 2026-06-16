@@ -14,7 +14,7 @@ const SLIDES = [
         <path d="M30 43c0-3.3 2.7-6 6-6h28" stroke="var(--gold-accent)" strokeWidth="2" strokeLinecap="round" />
       </svg>
     ),
-    title: 'SubsTrackerへようこそ',
+    title: 'がま口サブスクへようこそ',
     description: 'サブスクリプションの支出を\n一目で把握・管理できるアプリです',
   },
   {
