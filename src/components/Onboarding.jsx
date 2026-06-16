@@ -230,7 +230,7 @@ const Onboarding = ({ onComplete }) => {
               fontSize: '15px',
               fontWeight: '600',
               cursor: 'pointer',
-              boxShadow: '0 4px 15px rgba(195, 157, 85, 0.4)',
+              boxShadow: '0 4px 15px var(--accent-shadow)',
             }}
           >
             {isLast ? 'はじめる' : '次へ'}

@@ -130,7 +130,7 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory, isPro, onUpgrad
           onClick={onUpgrade}
           style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', borderRadius: '16px', background: 'linear-gradient(135deg, var(--gold-accent-light), var(--card-bg))', border: '1.5px solid var(--gold-accent)', cursor: 'pointer', marginBottom: '24px' }}
         >
-          <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, var(--gold-accent), #b8860b)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, var(--accent), var(--accent2))', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <Crown size={18} color="#FFF" />
           </div>
           <div style={{ flex: 1 }}>
@@ -342,13 +342,13 @@ const Analysis = ({ subscriptions, exchangeRate, monthlyHistory, isPro, onUpgrad
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '24px', height: '24px', borderRadius: '6px', backgroundColor: 'var(--input-bg)', color: 'var(--text-muted)', flexShrink: 0 }}>
                       <CategoryIcon id={cat.id} size={13} />
                     </div>
-                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#FF9500' }}>{cat.name}に{pct}%集中</div>
+                    <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--trial)' }}>{cat.name}に{pct}%集中</div>
                   </div>
                   <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                     月額 ¥{Math.round(cat.amount).toLocaleString()} を {cat.name} だけに支払っています
                   </div>
                   <div style={{ marginTop: '8px', height: '4px', borderRadius: '2px', backgroundColor: 'var(--input-bg)', overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${pct}%`, borderRadius: '2px', backgroundColor: '#FF9500' }} />
+                    <div style={{ height: '100%', width: `${pct}%`, borderRadius: '2px', backgroundColor: 'var(--trial)' }} />
                   </div>
                 </div>
               );

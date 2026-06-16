@@ -102,7 +102,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
                 <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
               </svg>
               {upcomingSubscriptions.length > 0 && (
-                <div style={{ position: 'absolute', top: '2px', right: '2px', width: '8px', height: '8px', backgroundColor: '#FF4444', borderRadius: '50%', border: '2px solid var(--bg-app)' }} />
+                <div style={{ position: 'absolute', top: '2px', right: '2px', width: '8px', height: '8px', backgroundColor: 'var(--warning)', borderRadius: '50%', border: '2px solid var(--bg-app)' }} />
               )}
             </div>
           </div>
@@ -175,15 +175,15 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
             return (
               <div style={{ marginBottom: '16px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '6px' }}>
-                  <span style={{ color: isOver ? '#FF4444' : 'var(--text-muted)', fontWeight: '600' }}>
+                  <span style={{ color: isOver ? 'var(--warning)' : 'var(--text-muted)', fontWeight: '600' }}>
                     {isOver ? '⚠️ 予算超過' : '月予算'}
                   </span>
-                  <span style={{ color: isOver ? '#FF4444' : 'var(--text-muted)' }}>
+                  <span style={{ color: isOver ? 'var(--warning)' : 'var(--text-muted)' }}>
                     ¥{totalMonthly.toLocaleString()} / ¥{budget.toLocaleString()}
                   </span>
                 </div>
                 <div style={{ width: '100%', height: '6px', background: 'var(--input-bg)', borderRadius: '3px', overflow: 'hidden' }}>
-                  <div style={{ width: `${pct}%`, height: '100%', borderRadius: '3px', backgroundColor: isOver ? '#FF4444' : 'var(--gold-accent)', transition: 'width 0.4s ease' }} />
+                  <div style={{ width: `${pct}%`, height: '100%', borderRadius: '3px', backgroundColor: isOver ? 'var(--warning)' : 'var(--gold-accent)', transition: 'width 0.4s ease' }} />
                 </div>
               </div>
             );
@@ -239,7 +239,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
             <button onClick={() => setIsEditMode(!isEditMode)} style={{ background: 'none', border: 'none', color: 'var(--gold-accent)', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>
               {isEditMode ? '完了' : '編集'}
             </button>
-            <button onClick={onAddClick} className="add-btn" style={{ width: '32px', height: '32px', borderRadius: '16px', backgroundColor: 'var(--gold-accent)', color: '#FFF', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', fontWeight: '300', cursor: 'pointer', boxShadow: '0 4px 12px rgba(195, 157, 85, 0.4)' }}>
+            <button onClick={onAddClick} className="add-btn" style={{ width: '32px', height: '32px', borderRadius: '16px', backgroundColor: 'var(--gold-accent)', color: '#FFF', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', fontWeight: '300', cursor: 'pointer', boxShadow: '0 4px 12px var(--accent-shadow)' }}>
               <span style={{ transform: 'translateY(-1px)' }}>+</span>
             </button>
           </div>
@@ -356,7 +356,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
                       const diff = Math.ceil((new Date(sub.trialEndDate) - new Date()) / (1000 * 60 * 60 * 24));
                       if (diff < 0) return null;
                       return (
-                        <div style={{ fontSize: '10px', marginTop: '3px', padding: '2px 8px', borderRadius: '6px', display: 'inline-block', background: diff <= 3 ? 'rgba(255,68,68,0.1)' : 'rgba(255,165,0,0.1)', color: diff <= 3 ? '#FF4444' : '#FF8C00', fontWeight: '700' }}>
+                        <div style={{ fontSize: '10px', marginTop: '3px', padding: '2px 8px', borderRadius: '6px', display: 'inline-block', background: diff <= 3 ? 'var(--warning-soft)' : 'var(--trial-soft)', color: diff <= 3 ? 'var(--warning)' : 'var(--trial)', fontWeight: '700' }}>
                           {diff === 0 ? 'トライアル最終日！' : `トライアル残り${diff}日`}
                         </div>
                       );
@@ -365,7 +365,7 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
                       const diff = Math.ceil((new Date(sub.cancelDeadline) - new Date()) / (1000 * 60 * 60 * 24));
                       if (diff < 0) return null;
                       return (
-                        <div style={{ fontSize: '10px', marginTop: '3px', padding: '2px 8px', borderRadius: '6px', display: 'inline-block', background: diff <= 3 ? 'rgba(255,68,68,0.1)' : diff <= 7 ? 'rgba(255,165,0,0.1)' : 'rgba(100,149,237,0.1)', color: diff <= 3 ? '#FF4444' : diff <= 7 ? '#FF8C00' : '#6495ED', fontWeight: '700' }}>
+                        <div style={{ fontSize: '10px', marginTop: '3px', padding: '2px 8px', borderRadius: '6px', display: 'inline-block', background: diff <= 3 ? 'var(--warning-soft)' : diff <= 7 ? 'var(--trial-soft)' : 'var(--accent-soft)', color: diff <= 3 ? 'var(--warning)' : diff <= 7 ? 'var(--trial)' : 'var(--accent)', fontWeight: '700' }}>
                           {diff === 0 ? '今日が解約期限！' : `解約期限まで${diff}日`}
                         </div>
                       );

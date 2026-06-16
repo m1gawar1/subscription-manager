@@ -1,11 +1,37 @@
 :root {
-  --bg-app: #F5F6F8;
+  /* がま口パステル（ライト）既定値。正は src/constants/themes.js */
+  --bg-app: #F6F3EC;
   --card-bg: #FFFFFF;
-  --text-main: #1C1C1E;
-  --text-muted: #8E8D92;
-  --gold-accent: #C39D55;
-  --gold-accent-light: rgba(195, 157, 85, 0.1);
-  --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.05);
+  --input-bg: #F4F0E7;
+  --border: #ECE6D8;
+  --text: #3B362E;
+  --muted: #A39C8D;
+  --accent: #7FA869;
+  --accent2: #E89BB0;
+  --shadow: rgba(120,100,60,0.07);
+  --accent-soft: #F0F5ED;
+  --accent-weak: #F7FAF6;
+  --accent2-soft: #FCF1F4;
+  --accent-line: #E0EADB;
+  --accent-blend: #B4A28D;
+  --accent-shadow: rgba(127,168,105,0.40);
+  --accent-border: rgba(127,168,105,0.50);
+  --nav-bg: rgba(255,255,255,0.90);
+  --nav-border: #F4F0E8;
+  --summary-grad: linear-gradient(140deg,#FFFFFF 0%,#F3F7F2 100%);
+  --warning: #E06A6A;
+  --warning-soft: rgba(224,106,106,0.10);
+  --warning-border: rgba(224,106,106,0.30);
+  --trial: #E8A04B;
+  --trial-soft: rgba(232,160,75,0.12);
+  --trial-border: rgba(232,160,75,0.30);
+  /* 旧名エイリアス（互換） */
+  --gold-accent: #7FA869;
+  --gold-accent-light: rgba(127,168,105,0.12);
+  --border-color: #ECE6D8;
+  --text-main: #3B362E;
+  --text-muted: #A39C8D;
+  --shadow-soft: 0 10px 26px rgba(120,100,60,0.07);
   --shadow-inner: inset 0 2px 4px rgba(255, 255, 255, 0.5);
   --border-radius-lg: 16px;
   --border-radius-md: 12px;
@@ -143,9 +169,9 @@ body {
   justify-content: space-around;
   align-items: center;
   padding-bottom: max(20px, env(safe-area-inset-bottom));
-  border-top: 1px solid rgba(0,0,0,0.03);
+  border-top: 1px solid var(--nav-border);
   backdrop-filter: blur(20px);
-  background: color-mix(in srgb, var(--card-bg) 85%, transparent);
+  background: var(--nav-bg);
 }
 
 .nav-item {
@@ -295,8 +321,8 @@ body {
 
 /* Summary card gradient */
 .summary-card {
-  background: linear-gradient(135deg, var(--card-bg) 0%, color-mix(in srgb, var(--gold-accent) 8%, var(--card-bg)) 100%);
-  border: 1px solid rgba(195, 157, 85, 0.2);
+  background: var(--summary-grad);
+  border: 1px solid var(--accent-line);
 }
 
 /* Count up animation */
@@ -319,11 +345,11 @@ body {
 }
 .add-btn:hover {
   transform: scale(1.12);
-  box-shadow: 0 6px 16px rgba(195, 157, 85, 0.5) !important;
+  box-shadow: 0 6px 16px var(--accent-shadow) !important;
 }
 .add-btn:active {
   transform: scale(0.92);
-  box-shadow: 0 2px 6px rgba(195, 157, 85, 0.3) !important;
+  box-shadow: 0 2px 6px var(--accent-shadow) !important;
 }
 
 /* Onboarding slide animations */

@@ -113,7 +113,7 @@ const SubscriptionDetail = ({ subscription: sub, exchangeRate, onEdit, onDelete,
           {infoRow('料金', sub.currency === 'USD' ? `$${sub.price}（約¥${actualPrice.toLocaleString()}）` : `¥${actualPrice.toLocaleString()}${cycle.shortLabel}`)}
           {infoRow('支払いサイクル', cycle.label)}
           {infoRow('次回更新', getRenewalLabel())}
-          {infoRow('更新まで', `${daysUntilRenewal}日`, daysUntilRenewal <= 3 ? '#FF4444' : 'var(--gold-accent)')}
+          {infoRow('更新まで', `${daysUntilRenewal}日`, daysUntilRenewal <= 3 ? 'var(--warning)' : 'var(--gold-accent)')}
           {sub.isReminderEnabled !== false && infoRow('リマインダー', (sub.reminderDays || []).map(d => d === 0 ? '当日' : `${d}日前`).join(', '))}
         </div>
 
@@ -121,13 +121,13 @@ const SubscriptionDetail = ({ subscription: sub, exchangeRate, onEdit, onDelete,
         {trialDiff !== null && trialDiff >= 0 && (
           <div style={{
             padding: '14px 16px', borderRadius: '14px', marginBottom: '12px',
-            background: trialDiff <= 3 ? 'rgba(255,68,68,0.1)' : 'rgba(255,165,0,0.1)',
-            border: `1px solid ${trialDiff <= 3 ? 'rgba(255,68,68,0.3)' : 'rgba(255,165,0,0.3)'}`,
+            background: trialDiff <= 3 ? 'var(--warning-soft)' : 'var(--trial-soft)',
+            border: `1px solid ${trialDiff <= 3 ? 'var(--warning-border)' : 'var(--trial-border)'}`,
             display: 'flex', alignItems: 'center', gap: '10px',
           }}>
             <span style={{ fontSize: '20px' }}>⏳</span>
             <div>
-              <div style={{ fontSize: '13px', fontWeight: '700', color: trialDiff <= 3 ? '#FF4444' : '#FF8C00' }}>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: trialDiff <= 3 ? 'var(--warning)' : 'var(--trial)' }}>
                 {trialDiff === 0 ? 'トライアル最終日！' : `トライアル残り${trialDiff}日`}
               </div>
               <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{sub.trialEndDate} に自動課金</div>
@@ -138,13 +138,13 @@ const SubscriptionDetail = ({ subscription: sub, exchangeRate, onEdit, onDelete,
         {cancelDiff !== null && cancelDiff >= 0 && (
           <div style={{
             padding: '14px 16px', borderRadius: '14px', marginBottom: '12px',
-            background: cancelDiff <= 3 ? 'rgba(255,68,68,0.1)' : cancelDiff <= 7 ? 'rgba(255,165,0,0.1)' : 'rgba(100,149,237,0.1)',
-            border: `1px solid ${cancelDiff <= 3 ? 'rgba(255,68,68,0.3)' : cancelDiff <= 7 ? 'rgba(255,165,0,0.3)' : 'rgba(100,149,237,0.3)'}`,
+            background: cancelDiff <= 3 ? 'var(--warning-soft)' : cancelDiff <= 7 ? 'var(--trial-soft)' : 'var(--accent-soft)',
+            border: `1px solid ${cancelDiff <= 3 ? 'var(--warning-border)' : cancelDiff <= 7 ? 'var(--trial-border)' : 'var(--accent-border)'}`,
             display: 'flex', alignItems: 'center', gap: '10px',
           }}>
             <span style={{ fontSize: '20px' }}>🔔</span>
             <div>
-              <div style={{ fontSize: '13px', fontWeight: '700', color: cancelDiff <= 3 ? '#FF4444' : cancelDiff <= 7 ? '#FF8C00' : '#6495ED' }}>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: cancelDiff <= 3 ? 'var(--warning)' : cancelDiff <= 7 ? 'var(--trial)' : 'var(--accent)' }}>
                 {cancelDiff === 0 ? '今日が解約期限！' : `解約期限まで${cancelDiff}日`}
               </div>
               <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{sub.cancelDeadline} までに解約</div>
@@ -182,7 +182,7 @@ const SubscriptionDetail = ({ subscription: sub, exchangeRate, onEdit, onDelete,
               background: 'var(--gold-accent)',
               color: '#FFF',
               fontSize: '14px', fontWeight: '700', cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(195, 157, 85, 0.3)',
+              boxShadow: '0 4px 12px var(--accent-shadow)',
             }}
           >
             編集する
@@ -192,9 +192,9 @@ const SubscriptionDetail = ({ subscription: sub, exchangeRate, onEdit, onDelete,
           onClick={() => { onClose(); onDelete(sub.id); }}
           style={{
             width: '100%', marginTop: '10px', padding: '12px', borderRadius: '14px',
-            border: '1.5px solid rgba(255,68,68,0.3)',
-            background: 'rgba(255,68,68,0.05)',
-            color: '#FF4444',
+            border: '1.5px solid var(--warning-border)',
+            background: 'var(--warning-soft)',
+            color: 'var(--warning)',
             fontSize: '14px', fontWeight: '600', cursor: 'pointer',
           }}
         >

@@ -409,7 +409,7 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
                     <DatePicker value={trialEndDate} onChange={setTrialEndDate} placeholder="終了日を選択" />
                     {trialEndDate && (() => {
                       const diff = Math.ceil((new Date(trialEndDate) - new Date()) / (1000 * 60 * 60 * 24));
-                      return <div style={{ marginTop: '6px', fontSize: '12px', padding: '8px 12px', borderRadius: '8px', background: diff <= 3 ? 'rgba(255,68,68,0.1)' : 'var(--gold-accent-light)', color: diff <= 3 ? '#FF4444' : 'var(--gold-accent)', fontWeight: '600' }}>{diff > 0 ? `あと${diff}日で自動課金されます` : diff === 0 ? '今日が最終日です！' : 'トライアルは終了しています'}</div>;
+                      return <div style={{ marginTop: '6px', fontSize: '12px', padding: '8px 12px', borderRadius: '8px', background: diff <= 3 ? 'var(--warning-soft)' : 'var(--gold-accent-light)', color: diff <= 3 ? 'var(--warning)' : 'var(--gold-accent)', fontWeight: '600' }}>{diff > 0 ? `あと${diff}日で自動課金されます` : diff === 0 ? '今日が最終日です！' : 'トライアルは終了しています'}</div>;
                     })()}
                   </div>
 
@@ -419,7 +419,7 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
                     <DatePicker value={cancelDeadline} onChange={setCancelDeadline} placeholder="期限日を選択" />
                     {cancelDeadline && (() => {
                       const diff = Math.ceil((new Date(cancelDeadline) - new Date()) / (1000 * 60 * 60 * 24));
-                      return <div style={{ marginTop: '6px', fontSize: '12px', padding: '8px 12px', borderRadius: '8px', background: diff <= 3 ? 'rgba(255,68,68,0.1)' : diff <= 7 ? 'rgba(255,165,0,0.1)' : 'var(--gold-accent-light)', color: diff <= 3 ? '#FF4444' : diff <= 7 ? '#FF8C00' : 'var(--gold-accent)', fontWeight: '600' }}>{diff > 0 ? `解約期限まであと${diff}日` : diff === 0 ? '今日が解約期限です！' : '解約期限を過ぎています'}</div>;
+                      return <div style={{ marginTop: '6px', fontSize: '12px', padding: '8px 12px', borderRadius: '8px', background: diff <= 3 ? 'var(--warning-soft)' : diff <= 7 ? 'var(--trial-soft)' : 'var(--gold-accent-light)', color: diff <= 3 ? 'var(--warning)' : diff <= 7 ? 'var(--trial)' : 'var(--gold-accent)', fontWeight: '600' }}>{diff > 0 ? `解約期限まであと${diff}日` : diff === 0 ? '今日が解約期限です！' : '解約期限を過ぎています'}</div>;
                     })()}
                   </div>
 
@@ -431,7 +431,7 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
                 </>
               )}
 
-              <button type="submit" style={{ marginTop: '8px', backgroundColor: 'var(--gold-accent)', color: '#FFFFFF', padding: '16px', borderRadius: '16px', border: 'none', fontSize: '16px', fontWeight: '600', boxShadow: '0 6px 18px rgba(195, 157, 85, 0.3)', cursor: 'pointer' }}>
+              <button type="submit" style={{ marginTop: '8px', backgroundColor: 'var(--gold-accent)', color: '#FFFFFF', padding: '16px', borderRadius: '16px', border: 'none', fontSize: '16px', fontWeight: '600', boxShadow: '0 6px 18px var(--accent-shadow)', cursor: 'pointer' }}>
                 {initialData ? '保存する' : '追加する'}
               </button>
             </form>

@@ -55,7 +55,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
           {isPro ? (
             <>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, var(--gold-accent), #b8860b)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, var(--accent), var(--accent2))', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <Crown size={18} color="#FFF" />
                 </div>
                 <div>
@@ -83,7 +83,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
               </div>
               <button
                 onClick={onUpgradePro}
-                style={{ width: '100%', padding: '14px', borderRadius: '14px', border: 'none', background: 'var(--gold-accent)', color: '#FFF', fontSize: '15px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 15px rgba(195, 157, 85, 0.4)' }}
+                style={{ width: '100%', padding: '14px', borderRadius: '14px', border: 'none', background: 'var(--gold-accent)', color: '#FFF', fontSize: '15px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 15px var(--accent-shadow)' }}
               >
                 <Crown size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
                 Pro版にアップグレード ¥1,000
@@ -201,7 +201,7 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
               ファイルを選択
             </button>
             <input ref={fileInputRef} type="file" accept=".json" onChange={handleImportFile} style={{ display: 'none' }} />
-            {importError && <div style={{ marginTop: '8px', fontSize: '12px', color: '#FF4444' }}>{importError}</div>}
+            {importError && <div style={{ marginTop: '8px', fontSize: '12px', color: 'var(--warning)' }}>{importError}</div>}
           </div>
         </div>
       </div>

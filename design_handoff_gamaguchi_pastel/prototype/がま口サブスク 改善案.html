@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>がま口サブスク — 改善案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="components/styles.css" />
+<link rel="stylesheet" href="components/styles2.css" />
+<style>
+  /* viewport hint chip */
+  .vp-hint { position: fixed; left: 18px; bottom: 16px; font-size: 11px; color: #8b8794; background: rgba(255,255,255,.7); padding: 6px 11px; border-radius: 8px; backdrop-filter: blur(8px); z-index: 2; font-family: "Noto Sans JP", sans-serif; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="phone-frame" id="phoneFrame">
+    <div class="notch"></div>
+    <div class="phone-screen" id="screenRoot"></div>
+  </div>
+</div>
+<div class="vp-hint">Tweaks でアクセントテーマを切り替え →</div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="components/themes.js"></script>
+<script src="components/data.js"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="components/icons.jsx"></script>
+<script type="text/babel" src="components/shared.jsx"></script>
+<script type="text/babel" src="components/home.jsx"></script>
+<script type="text/babel" src="components/analysis.jsx"></script>
+<script type="text/babel" src="components/calendar.jsx"></script>
+<script type="text/babel" src="components/settings.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "gamaguchi",
+  "density": "compact",
+  "showLegend": true
+}/*EDITMODE-END*/;
+
+function StatusBar() {
+  return (
+    <div className="statusbar">
+      <span>9:41</span>
+      <div className="sb-right">
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1" opacity="0.4"/></svg>
+        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M1 4.5C4.5 1 12.5 1 16 4.5M3.5 7C6 4.7 11 4.7 13.5 7M6 9.4c1.6-1.4 3.4-1.4 5 0" strokeLinecap="round"/></svg>
+        <span className="sb-batt"></span>
+      </div>
+    </div>
+  );
+}
+
+const NAV = [
+  { id: "home", label: "ホーム", Ico: () => <window.IconHome size={23} /> },
+  { id: "analysis", label: "分析", Ico: () => <window.IconChart size={23} /> },
+  { id: "calendar", label: "カレンダー", Ico: () => <window.IconCalendar size={23} /> },
+  { id: "settings", label: "設定", Ico: () => <window.IconSettings size={23} /> },
+];
+
+function BottomNav({ tab, setTab }) {
+  return (
+    <nav className="bottom-nav">
+      {NAV.map((n) => (
+        <button key={n.id} className={"nav-item" + (tab === n.id ? " on" : "")} onClick={() => setTab(n.id)}>
+          {tab === n.id && <span className="nav-indicator" />}
+          <span className="nav-ico"><n.Ico /></span>
+          <span className="nav-label">{n.label}</span>
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [tab, setTab] = useState("home");
+  const [sheet, setSheet] = useState(false);
+
+  const theme = window.THEMES[t.theme] || window.THEMES.gamaguchi;
+  const vars = window.themeVars(theme);
+
+  // CSS 変数を画面ルートに流し込む
+  useEffect(() => {
+    const el = document.getElementById("screenRoot");
+    Object.entries(vars).forEach(([k, v]) => el.style.setProperty(k, v));
+  }, [t.theme]);
+
+  const screens = {
+    home: <window.HomeScreen density={t.density} showLegend={t.showLegend} />,
+    analysis: <window.AnalysisScreen />,
+    calendar: <window.CalendarScreen />,
+    settings: <window.SettingsScreen />,
+  };
+
+  return (
+    <React.Fragment>
+      <StatusBar />
+      <div className="screen-scroll" key={tab}>
+        {screens[tab]}
+      </div>
+      {tab === "home" && (
+        <button className="fab-filter" onClick={() => setSheet(true)} aria-label="絞り込み">
+          <window.IconFilter size={22} />
+        </button>
+      )}
+      <window.FilterSheet open={sheet} onClose={() => setSheet(false)} />
+      <BottomNav tab={tab} setTab={setTab} />
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="アクセントテーマ" />
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {Object.values(window.THEMES).map((th) => (
+            <button key={th.id} onClick={() => setTweak("theme", th.id)}
+              style={{
+                display: "flex", alignItems: "center", gap: 11, padding: "10px 12px",
+                borderRadius: 12, textAlign: "left", width: "100%",
+                background: t.theme === th.id ? "rgba(125,150,255,0.12)" : "rgba(255,255,255,0.5)",
+                border: t.theme === th.id ? "1.5px solid rgba(110,120,200,0.55)" : "1.5px solid rgba(0,0,0,0.06)",
+                cursor: "pointer", transition: "all .15s",
+              }}>
+              <span style={{ display: "flex", flex: "none" }}>
+                <span style={{ width: 18, height: 18, borderRadius: "6px 0 0 6px", background: th.swatch[0] }} />
+                <span style={{ width: 18, height: 18, borderRadius: "0 6px 6px 0", background: th.swatch[1] }} />
+              </span>
+              <span style={{ flex: 1 }}>
+                <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#2a2730" }}>{th.label}</span>
+                <span style={{ display: "block", fontSize: 11, color: "#86828f", marginTop: 1 }}>{th.desc}</span>
+              </span>
+              {t.theme === th.id && <span style={{ color: "#5b62c8", display: "flex" }}><window.IconCheck size={16} sw={2.4} /></span>}
+            </button>
+          ))}
+        </div>
+
+        <TweakSection label="一覧の密度" />
+        <TweakRadio label="密度" value={t.density}
+          options={["compact", "regular", "comfy"]}
+          onChange={(v) => setTweak("density", v)} />
+
+        <TweakSection label="サマリ" />
+        <TweakToggle label="カテゴリ内訳バー" value={t.showLegend}
+          onChange={(v) => setTweak("showLegend", v)} />
+      </TweaksPanel>
+    </React.Fragment>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("screenRoot")).render(<App />);
+
+/* ---- phone scale-to-fit ---- */
+function fit() {
+  const frame = document.getElementById("phoneFrame");
+  const pad = 36;
+  const s = Math.min(1, (window.innerHeight - pad) / 844, (window.innerWidth - pad) / 390);
+  frame.style.transform = "scale(" + s + ")";
+}
+window.addEventListener("resize", fit);
+fit();
+</script>
+</body>
+</html>

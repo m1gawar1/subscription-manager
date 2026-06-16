@@ -63,7 +63,12 @@
       "Bash(tar -xzf rc13b.tgz)",
       "Bash(tar -xzf rc10b.tgz package/dist/esm/definitions.d.ts -O)",
       "Bash(tar -xzf rc10b.tgz)",
-      "Bash(node -e \"const f=require\\('fs'\\);for\\(const p of ['New icon.png','resources/icon.png']\\){const b=f.readFileSync\\(p\\);const w=b.readUInt32BE\\(16\\),h=b.readUInt32BE\\(20\\);console.log\\(p,w+'x'+h\\)}\")"
+      "Bash(node -e \"const f=require\\('fs'\\);for\\(const p of ['New icon.png','resources/icon.png']\\){const b=f.readFileSync\\(p\\);const w=b.readUInt32BE\\(16\\),h=b.readUInt32BE\\(20\\);console.log\\(p,w+'x'+h\\)}\")",
+      "Bash(rtk wc *)",
+      "Bash(node -e \"const s=require\\('@capacitor/assets/node_modules/sharp'\\)||require\\('sharp'\\); s\\('design_handoff_gamaguchi_pastel/prototype/assets/app-icon.png'\\).metadata\\(\\).then\\(m=>console.log\\('new icon:',m.width+'x'+m.height,m.format,'hasAlpha',m.hasAlpha\\)\\).catch\\(e=>console.log\\('ERR',e.message\\)\\)\")",
+      "Bash(node -e \"let sharp; try{sharp=require\\('sharp'\\);console.log\\('sharp:root OK'\\)}catch\\(e\\){try{sharp=require\\('@capacitor/assets/node_modules/sharp'\\);console.log\\('sharp:nested OK'\\)}catch\\(e2\\){console.log\\('NO sharp'\\)}}; if\\(sharp\\){sharp\\('design_handoff_gamaguchi_pastel/prototype/assets/app-icon.png'\\).metadata\\(\\).then\\(m=>console.log\\('new icon',m.width+'x'+m.height,m.format,'alpha',m.hasAlpha\\)\\)}\")",
+      "Bash(node -e ' *)",
+      "Bash(rtk lint *)"
     ]
   }
 }
