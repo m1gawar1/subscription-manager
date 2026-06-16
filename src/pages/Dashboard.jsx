@@ -217,12 +217,12 @@ const Dashboard = ({ subscriptions, onAddClick, onDelete, onEdit, onTogglePause,
         {/* List Section Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '32px', marginBottom: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div className="section-title" style={{ margin: 0 }}>サブスクリプション一覧</div>
+            <div className="section-title" style={{ margin: 0, whiteSpace: 'nowrap' }}>サブスクリプション一覧</div>
             {(activeCategories.length > 0 || sortId !== 'default') && (
               <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--gold-accent)' }} />
             )}
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
             <button
               onClick={() => setIsFilterOpen(true)}
               style={{
