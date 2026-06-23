@@ -6,7 +6,7 @@ const sectionStyle = {
   marginBottom: '32px',
 };
 
-const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscriptions, onImport, isPro, onUpgradePro, onRestoreFree, onRestorePurchases, notificationHour, onNotificationHourChange, notificationMinute, onNotificationMinuteChange }) => {
+const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscriptions, onImport, isPro, onUpgradePro, onRestoreFree, onRestorePurchases, notificationHour, onNotificationHourChange, notificationMinute, onNotificationMinuteChange, defaultReminderDays, onDefaultReminderDaysChange }) => {
   const [budgetInput, setBudgetInput] = useState(budget > 0 ? budget.toString() : '');
   const [importError, setImportError] = useState('');
   const fileInputRef = useRef(null);
@@ -15,6 +15,16 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
     e.preventDefault();
     const val = parseInt(budgetInput) || 0;
     onBudgetChange(val);
+  };
+
+  // デフォルトリマインダー日数のトグル（最低1つは残す）
+  const toggleDefaultReminderDay = (day) => {
+    const current = defaultReminderDays || [];
+    const next = current.includes(day)
+      ? current.filter(d => d !== day)
+      : [...current, day].sort((a, b) => b - a);
+    if (next.length === 0) return;
+    onDefaultReminderDaysChange(next);
   };
 
   const handleExport = () => {
@@ -166,6 +176,34 @@ const Settings = ({ currentTheme, onThemeChange, budget, onBudgetChange, subscri
                 <option key={m} value={m}>{String(m).padStart(2, '0')}</option>
               ))}
             </select>
+          </div>
+        </div>
+
+        {/* デフォルトのリマインダータイミング */}
+        <div className="soft-card" style={{ margin: '12px 0 0 0', padding: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--input-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Bell size={18} color="var(--text-muted)" />
+            </div>
+            <div>
+              <div style={{ fontSize: '15px', fontWeight: '600', color: 'var(--text-main)' }}>デフォルトのリマインダー</div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>新しいサブスクを追加するときの初期値</div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            {[{ label: '7日前', value: 7 }, { label: '3日前', value: 3 }, { label: '1日前', value: 1 }, { label: '当日', value: 0 }].map(opt => {
+              const sel = (defaultReminderDays || []).includes(opt.value);
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => toggleDefaultReminderDay(opt.value)}
+                  style={{ padding: '8px 14px', borderRadius: '16px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', border: sel ? '1.5px solid var(--gold-accent)' : '1.5px solid var(--border-color)', backgroundColor: sel ? 'var(--gold-accent-light)' : 'var(--card-bg)', color: sel ? 'var(--gold-accent)' : 'var(--text-muted)' }}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

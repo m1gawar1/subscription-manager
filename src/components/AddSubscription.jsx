@@ -172,7 +172,7 @@ const PlanSelector = ({ preset, onSelect, onBack }) => {
 };
 
 // ── Step 2: 詳細入力 ────────────────────────────────
-const AddSubscription = ({ onSave, onCancel, initialData }) => {
+const AddSubscription = ({ onSave, onCancel, initialData, defaultReminderDays = [0] }) => {
   // 編集時はdetailから始める
   const [step, setStep] = useState(initialData ? 'detail' : 'service');
   const [selectedPreset, setSelectedPreset] = useState(null);
@@ -186,7 +186,7 @@ const AddSubscription = ({ onSave, onCancel, initialData }) => {
   const [billingCycle, setBillingCycle] = useState(initialData?.billingCycle || 'monthly');
   const [billingMonth, setBillingMonth] = useState(initialData?.billingMonth || new Date().getMonth() + 1);
   const [isReminderEnabled, setIsReminderEnabled] = useState(initialData?.isReminderEnabled !== false);
-  const [reminderDays, setReminderDays] = useState(initialData?.reminderDays || [0]);
+  const [reminderDays, setReminderDays] = useState(initialData?.reminderDays || defaultReminderDays);
   const [memo, setMemo] = useState(initialData?.memo || '');
   const [trialEndDate, setTrialEndDate] = useState(initialData?.trialEndDate || '');
   const [cancelDeadline, setCancelDeadline] = useState(initialData?.cancelDeadline || '');

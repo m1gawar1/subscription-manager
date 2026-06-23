@@ -113,6 +113,16 @@ function App() {
     return parseInt(localStorage.getItem('subsc_notification_minute') || '0');
   });
 
+  // 新規サブスク追加時のデフォルトリマインダー日数
+  const [defaultReminderDays, setDefaultReminderDays] = useState(() => {
+    try {
+      const saved = localStorage.getItem('subsc_default_reminder');
+      return saved ? JSON.parse(saved) : [0];
+    } catch {
+      return [0];
+    }
+  });
+
   // Fetch Exchange Rate
   useEffect(() => {
     fetch('https://open.er-api.com/v6/latest/USD')
@@ -166,6 +176,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem('subsc_notification_minute', String(notificationMinute));
   }, [notificationMinute]);
+
+  useEffect(() => {
+    localStorage.setItem('subsc_default_reminder', JSON.stringify(defaultReminderDays));
+  }, [defaultReminderDays]);
 
   // 初回起動時に通知権限リクエスト & AdMob初期化 & RevenueCat初期化
   useEffect(() => {
@@ -332,6 +346,8 @@ function App() {
                 onNotificationHourChange={setNotificationHour}
                 notificationMinute={notificationMinute}
                 onNotificationMinuteChange={setNotificationMinute}
+                defaultReminderDays={defaultReminderDays}
+                onDefaultReminderDaysChange={setDefaultReminderDays}
               />
             )}
           </div>
@@ -366,6 +382,7 @@ function App() {
             onSave={saveSubscription}
             onCancel={() => { setIsModalOpen(false); setEditingSub(null); }}
             initialData={editingSub}
+            defaultReminderDays={defaultReminderDays}
           />
         )}
 
