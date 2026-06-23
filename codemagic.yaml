@@ -100,7 +100,32 @@ workflows:
       - name: Set app version
         script: |
           cd ios/App
-          LATEST_BUILD=$(app-store-connect get-latest-testflight-build-number "$APP_APPLE_ID" 2>/dev/null || echo "0")
+          APP_ID="$APP_APPLE_ID"
+
+          # プロジェクトの現在のマーケティングバージョン（例: 1.0.2）
+          CURRENT_MV=$(grep -m1 'MARKETING_VERSION' App.xcodeproj/project.pbxproj | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?')
+
+          # App Store で公開済み(READY_FOR_SALE)の最新バージョンを取得（取得失敗時は空）
+          RELEASED_MV=$(app-store-connect list-app-store-versions "$APP_ID" --app-store-state READY_FOR_SALE 2>/dev/null \
+            | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | sort -V | tail -1)
+
+          # 公開済みバージョン >= 現在のバージョンのときだけパッチを+1（衝突回避）。
+          # それ以外（まだ未リリース／API取得失敗）は現在のバージョンを維持。
+          NEW_MV="$CURRENT_MV"
+          if [ -n "$RELEASED_MV" ]; then
+            HIGHEST=$(printf '%s\n%s\n' "$CURRENT_MV" "$RELEASED_MV" | sort -V | tail -1)
+            if [ "$HIGHEST" = "$RELEASED_MV" ]; then
+              MAJOR=$(echo "$RELEASED_MV" | cut -d. -f1)
+              MINOR=$(echo "$RELEASED_MV" | cut -d. -f2)
+              PATCH=$(echo "$RELEASED_MV" | cut -d. -f3); PATCH=${PATCH:-0}
+              NEW_MV="$MAJOR.$MINOR.$((PATCH + 1))"
+            fi
+          fi
+          echo "Marketing version: $CURRENT_MV -> $NEW_MV (released: ${RELEASED_MV:-none})"
+          agvtool new-marketing-version "$NEW_MV"
+
+          # ビルド番号は常に TestFlight 最新+1
+          LATEST_BUILD=$(app-store-connect get-latest-testflight-build-number "$APP_ID" 2>/dev/null || echo "0")
           agvtool new-version -all $(($LATEST_BUILD + 1))
 
       - name: Build iOS (App Store)
