@@ -284,7 +284,7 @@ export const PRESET_SUBSCRIPTIONS = [
   {
     id: 'claude-pro', name: 'Claude', categoryId: 'ai', domain: 'claude.ai',
     plans: [
-      { name: 'Pro', price: 20, billingCycle: 'monthly', currency: 'USD' },
+      { name: 'Pro', price: 22, billingCycle: 'monthly', currency: 'USD' },
       { name: 'Max（5倍）', price: 100, billingCycle: 'monthly', currency: 'USD' },
       { name: 'Max（20倍）', price: 200, billingCycle: 'monthly', currency: 'USD' },
     ]
