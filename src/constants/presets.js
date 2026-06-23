@@ -143,12 +143,12 @@ export const PRESET_SUBSCRIPTIONS = [
   {
     id: 'nintendo-switch-online', name: 'Nintendo Switch Online', categoryId: 'game', domain: 'nintendo.co.jp',
     plans: [
-      { name: '個人プラン（3カ月）', price: 815, billingCycle: 'quarterly', currency: 'JPY' },
-      { name: '個人プラン（月）', price: 306, billingCycle: 'monthly', currency: 'JPY' },
-      { name: '個人プラン（年）', price: 2400, billingCycle: 'yearly', currency: 'JPY' },
-      { name: '個人+追加パック（年）', price: 4900, billingCycle: 'yearly', currency: 'JPY' },
-      { name: 'ファミリープラン（年）', price: 4500, billingCycle: 'yearly', currency: 'JPY' },
-      { name: 'ファミリー+追加パック（年）', price: 8900, billingCycle: 'yearly', currency: 'JPY' },
+      { name: '個人プラン（3カ月）', price: 1000, billingCycle: 'quarterly', currency: 'JPY' },
+      { name: '個人プラン（月）', price: 400, billingCycle: 'monthly', currency: 'JPY' },
+      { name: '個人プラン（年）', price: 3000, billingCycle: 'yearly', currency: 'JPY' },
+      { name: '個人+追加パック（年）', price: 5900, billingCycle: 'yearly', currency: 'JPY' },
+      { name: 'ファミリープラン（年）', price: 5800, billingCycle: 'yearly', currency: 'JPY' },
+      { name: 'ファミリー+追加パック（年）', price: 9900, billingCycle: 'yearly', currency: 'JPY' },
     ]
   },
   {
