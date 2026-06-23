@@ -371,7 +371,7 @@ export const PRESET_SUBSCRIPTIONS = [
 
 export const getLogoUrl = (domain) => {
   if (!domain) return null;
-  // 直接URLまたはローカルパスが渡された場合はそのまま使用
-  if (domain.startsWith('http') || domain.startsWith('/')) return domain;
+  // データURL（カスタムアイコン）・直接URL・ローカルパスはそのまま使用
+  if (domain.startsWith('data:') || domain.startsWith('http') || domain.startsWith('/')) return domain;
   return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 };

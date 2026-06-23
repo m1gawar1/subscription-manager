@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { CATEGORIES } from '../constants/categories';
 import { PRESET_SUBSCRIPTIONS, getLogoUrl } from '../constants/presets';
 import { BILLING_CYCLES } from '../constants/billing';
@@ -194,6 +194,47 @@ const AddSubscription = ({ onSave, onCancel, initialData, defaultReminderDays = 
 
   const isMonthly = billingCycle === 'monthly';
 
+  // カスタムアイコン用
+  const iconFileRef = useRef(null);
+  const [iconUrlInput, setIconUrlInput] = useState('');
+
+  // 選んだ画像を128px正方形に縮小・圧縮してdomainに保存（localStorage節約）
+  const handleIconFile = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        const size = 128;
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        // 中央を正方形にクロップ
+        const min = Math.min(img.width, img.height);
+        const sx = (img.width - min) / 2;
+        const sy = (img.height - min) / 2;
+        ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size);
+        setDomain(canvas.toDataURL('image/jpeg', 0.85));
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+    e.target.value = ''; // 同じファイルを再選択できるようにリセット
+  };
+
+  // URL入力を反映
+  const applyIconUrl = () => {
+    const url = iconUrlInput.trim();
+    if (!url) return;
+    setDomain(url);
+    setIconUrlInput('');
+  };
+
+  // カスタムアイコンを削除（ファビコン/カテゴリーアイコンに戻す）
+  const clearIcon = () => setDomain('');
+
   const toggleReminderDay = (day) => {
     setReminderDays(prev =>
       prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day].sort((a, b) => b - a)
@@ -291,6 +332,28 @@ const AddSubscription = ({ onSave, onCancel, initialData, defaultReminderDays = 
             )}
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+
+              {/* アイコン設定 */}
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '8px' }}>アイコン</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
+                  <div style={{ width: '52px', height: '52px', borderRadius: '14px', backgroundColor: 'var(--input-bg)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
+                    <CategoryIcon id={categoryId} size={24} color={cat?.color || 'var(--text-muted)'} />
+                    {domain && (
+                      <img src={getLogoUrl(domain)} alt={name} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', backgroundColor: 'var(--card-bg)' }} onError={e => { e.target.style.display = 'none'; }} />
+                    )}
+                  </div>
+                  <button type="button" onClick={() => iconFileRef.current?.click()} style={{ padding: '10px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', border: '1.5px solid var(--gold-accent)', background: 'var(--gold-accent-light)', color: 'var(--gold-accent)' }}>画像を選ぶ</button>
+                  {domain && (
+                    <button type="button" onClick={clearIcon} style={{ padding: '10px 14px', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', border: '1.5px solid var(--border-color)', background: 'var(--card-bg)', color: 'var(--text-muted)' }}>削除</button>
+                  )}
+                  <input ref={iconFileRef} type="file" accept="image/*" onChange={handleIconFile} style={{ display: 'none' }} />
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <input type="url" value={iconUrlInput} onChange={e => setIconUrlInput(e.target.value)} placeholder="画像URLを貼り付け（任意）" style={{ ...inputStyle, flex: 1 }} />
+                  <button type="button" onClick={applyIconUrl} style={{ padding: '0 18px', borderRadius: '12px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', border: '1.5px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-main)', flexShrink: 0 }}>反映</button>
+                </div>
+              </div>
 
               {/* サービス名（手動入力時） */}
               {!selectedPreset && !initialData && (
